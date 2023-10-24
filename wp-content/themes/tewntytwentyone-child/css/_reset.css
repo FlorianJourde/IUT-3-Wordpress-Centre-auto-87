@@ -1,0 +1,54 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--ff-primary);
+  font-size: var(--fs-body);
+  line-height: 1;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p {
+  font-family: var(--ff-primary);
+  line-height: 1;
+}
+
+a {
+  text-decoration: none;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+.wrapper {
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  display: inherit;
+  justify-content: inherit;
+  align-items: inherit;
+  flex-direction: inherit;
+  flex-wrap: inherit;
+  gap: inherit;
+  z-index: inherit;
+}
+
+/*.uppercase {*/
+/*  text-transform: uppercase;*/
+/*}*/
+
+a:focus {
+  background: unset !important;
+  color: unset !important;
+}
+
+ul {
+  list-style-type: none;
+}

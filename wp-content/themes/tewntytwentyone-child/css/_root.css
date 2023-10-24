@@ -1,0 +1,17 @@
+:root {
+  --clr-very-dark-blue: #000734;
+  --clr-dark-green: #0c4711;
+  --clr-green: #aec90b;
+  --clr-light-grey: hsl(0, 0%, 80%);
+  --clr-very-light-grey: hsl(0, 0%, 95%);
+  --clr-grey: hsl(0, 0%, 50%);
+  --fs-big-title: 24px;
+  --fs-title: 20px;
+  --fs-smal-title: 18px;
+  --fs-body: 16px;
+  --fs-accent: 12px;
+  --ff-primary: "Gabarito", Arial, sans-serif;
+  --ff-secondary: Roboto, sans-serif;
+  /*--ff-primary: Roboto, sans-serif;*/
+  /*--ff-secondary: JetBrains Mono, sans-serif;*/
+}
