@@ -8,9 +8,13 @@ Template: twentytwentyone
 Version: 1.0.0
 */
 
-@import "css/_root.css";
-@import "css/_reset.css";
-@import "css/_header.css";
-@import "css/_main.css";
-@import "css/_footer.css";
-@import "css/_responsive.css";
+@import "assets/css/_root.css";
+@import "assets/css/_reset.css";
+@import "assets/css/_buttons.css";
+@import "assets/css/_archive.css";
+@import "assets/css/_single.css";
+@import "assets/css/_slider.css";
+@import "assets/css/_header.css";
+@import "assets/css/_main.css";
+@import "assets/css/_footer.css";
+@import "assets/css/_responsive.css";

@@ -1,0 +1,14 @@
+footer {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--clr-black);
+  padding: 20px;
+}
+
+footer .website-title, footer .website-baseline {
+  color: var(--clr-white);
+}
+
+footer .website-logo {
+  filter: invert(1) hue-rotate(180deg);
+}

@@ -13,46 +13,111 @@ get_header();
 
 ?>
 
-<div class="wrapper">
-    <h1>Single page</h1>
-</div>
+<section class="single-container box">
+    <div class="wrapper wrapper-wide">
+<!--        --><?php //var_dump(get_post()); ?>
+        <div class="single-article">
+            <div class="left-area">
+<!--                <div class="title">-->
+<!--                    <h2>Description rapide</h2>-->
+<!--                </div>-->
 
-<?php
+                    <div class="swiper">
+                        <!-- Additional required wrapper -->
+                        <div class="swiper-wrapper">
+                            <?php foreach (get_field('images') as $item) : ?>
+                                        <!-- Slides -->
+                                <div class="swiper-slide">
+                                    <img src="<?php echo $item; ?>" alt="">
+                                </div>
+            <!--                            ...-->
 
-/* Start the Loop */
-while ( have_posts() ) :
-	the_post();
+            <!--                    <img class="swiper-slide" src="--><?php //echo $item; ?><!--" alt="">-->
+                            <?php endforeach; ?>
+                        </div>
+<!--                        <div class="swiper-pagination"></div>-->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+<!--                        <div class="swiper-scrollbar"></div>-->
+                    </div>
 
-	get_template_part( 'template-parts/content/content-single' );
+                <div class="description">
+                    <h2>Description</h2>
 
-	if ( is_attachment() ) {
-		// Parent post navigation.
-		the_post_navigation(
-			array(
-				/* translators: %s: Parent post link. */
-				'prev_text' => sprintf( __( '<span class="meta-nav">Published in</span><span class="post-title">%s</span>', 'twentytwentyone' ), '%title' ),
-			)
-		);
-	}
+                    <div class="content">
 
-	// If comments are open or there is at least one comment, load up the comment template.
-	if ( comments_open() || get_comments_number() ) {
-		comments_template();
-	}
+                    <!--                <p>--><?php //echo get_the_excerpt(); ?><!--</p>-->
+                        <p><?php echo get_field('description'); ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="right-area">
+                <div class="brand">
+                    <h3>Marque</h3>
+                    <p><?php echo get_field('marque'); ?></p>
+                </div>
+                <div class="reference">
+                    <h3>Modèle</h3>
+                    <p><?php echo get_field('modele'); ?></p>
+                </div>
+                <div class="color">
+                    <h3>Couleur</h3>
+                    <p><?php echo get_field('color'); ?></p>
+                </div>
+            </div>
+        </div>
+        <div class="single-description">
+            <div class="title">
+                <h2>Caractéristiques</h2>
+            </div>
+            <div class="content">
+                <div class="brand">
+                    <h3>Marque</h3>
+                    <p><?php echo get_field('marque'); ?></p>
+                </div>
+                <div class="reference">
+                    <h3>Modèle</h3>
+                    <p><?php echo get_field('modele'); ?></p>
+                </div>
+                <div class="color">
+                    <h3>Couleur</h3>
+                    <p><?php echo get_field('color'); ?></p>
+                </div>
+            </div>
+        </div>
+<!--        <div class="single-article-technical">-->
+<!--            <div class="brand">-->
+<!--                <h3>Marque</h3>-->
+<!--                <p>--><?php //echo get_field('marque'); ?><!--</p>-->
+<!--            </div>-->
+<!--            <div class="reference">-->
+<!--                <h3>Modèle</h3>-->
+<!--                <p>--><?php //echo get_field('modele'); ?><!--</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="single-article-images">-->
+<!--        </div>-->
 
-	// Previous/next post navigation.
-	$twentytwentyone_next = is_rtl() ? twenty_twenty_one_get_icon_svg( 'ui', 'arrow_left' ) : twenty_twenty_one_get_icon_svg( 'ui', 'arrow_right' );
-	$twentytwentyone_prev = is_rtl() ? twenty_twenty_one_get_icon_svg( 'ui', 'arrow_right' ) : twenty_twenty_one_get_icon_svg( 'ui', 'arrow_left' );
+    </div>
+</section>
+<!--<section class="single-container-technical">-->
+<!--    <div class="wrapper">-->
+<!--        <h2>Descriptif technique</h2>-->
+<!--    </div>-->
+<!--</section>-->
+<!--<section class="single-container-images">-->
+<!--    <div class="wrapper">-->
+<!--        <h2>Photos</h2>-->
+<!--    </div>-->
+<!--</section>-->
 
-	$twentytwentyone_next_label     = esc_html__( 'Next post', 'twentytwentyone' );
-	$twentytwentyone_previous_label = esc_html__( 'Previous post', 'twentytwentyone' );
+<section class="cars-section-single">
+    <div class="wrapper wrapper-wide">
+        <h2>Nos dernières voitures</h2>
+        <?php get_template_part('template-parts/content/content-portfolio'); ?>
 
-	the_post_navigation(
-		array(
-			'next_text' => '<p class="meta-nav">' . $twentytwentyone_next_label . $twentytwentyone_next . '</p><p class="post-title">%title</p>',
-			'prev_text' => '<p class="meta-nav">' . $twentytwentyone_prev . $twentytwentyone_previous_label . '</p><p class="post-title">%title</p>',
-		)
-	);
-endwhile; // End of the loop.
+    </div>
+</section>
 
-get_footer();
+
+<?php get_footer(); ?>

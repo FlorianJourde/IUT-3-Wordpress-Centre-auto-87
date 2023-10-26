@@ -7,8 +7,7 @@ function custom_styles() {
 
 add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 function custom_scripts() {
-    wp_enqueue_script('custom-script', get_stylesheet_directory_uri() . '/js/_custom.js');
-    wp_enqueue_script('world-script', get_stylesheet_directory_uri() . '/js/_world.js');
+    wp_enqueue_script('slider-script', get_stylesheet_directory_uri() . '/assets/js/_slider.js');
 }
 
 add_filter('upload_mimes', 'support_mime_types');
@@ -17,9 +16,8 @@ function support_mime_types($mimes) {
     return $mimes;
 }
 
+add_action( 'init', 'custom_post_type', 0 );
 function custom_post_type() {
-
-    // On rentre les différentes dénominations de notre custom post type qui seront affichées dans l'administration
     $labels = array(
         'name'                => _x( 'Voitures', 'Post Type General Name'),
         'singular_name'       => _x( 'Voiture', 'Post Type Singular Name'),
@@ -46,10 +44,12 @@ function custom_post_type() {
         'public'              => true,
         'has_archive'         => true,
         'rewrite'			  => array( 'slug' => 'voitures'),
-
     );
 
     register_post_type( 'voitures', $args );
 }
 
-add_action( 'init', 'custom_post_type', 0 );
+//add_filter( 'excerpt_length', 'mytheme_custom_excerpt_length', 999 );
+//function mytheme_custom_excerpt_length( $length ) {
+//    return 20;
+//}

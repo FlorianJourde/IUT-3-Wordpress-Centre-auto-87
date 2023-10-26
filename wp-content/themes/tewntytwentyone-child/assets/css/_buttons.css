@@ -1,0 +1,27 @@
+#content .button-primary, #content .button-secondary, #content .button-tertiary {
+  /*text-transform: uppercase;*/
+  display: inline-flex;
+  padding: 10px 20px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--clr-transparent);
+  /*font-family: var(--ff-primary);*/
+}
+
+#content .button-red.button-primary {
+  border-color: var(--clr-transparent);
+  color: var(--clr-white);
+  background-color: var(--clr-red);
+}
+
+#content .button-red.button-secondary {
+  background-color: var(--clr-transparent);
+  border-color: var(--clr-red);
+  color: var(--clr-red);
+}
+
+#content .button-red.button-tertiary {
+  color: var(--clr-red);
+  background-color: var(--clr-transparent);
+  border-color: var(--clr-transparent);
+}

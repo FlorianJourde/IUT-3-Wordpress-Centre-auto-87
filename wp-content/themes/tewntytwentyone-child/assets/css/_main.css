@@ -1,0 +1,22 @@
+* {
+  /*outline: 1px solid var(--clr-dark-green);*/
+}
+
+.custom-font {
+  /*font-family: "Gabarito", Arial, sans-serif;*/
+}
+
+section  {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.banner {
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+  padding-bottom: 200px;
+}
+
+.banner-small h1 {
+  font-size: var(--fs-big-title);
+}

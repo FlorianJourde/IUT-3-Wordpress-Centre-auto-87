@@ -14,29 +14,23 @@ get_header();
 $description = get_the_archive_description();
 ?>
 
-<div class="wrapper">
-    <h1>Archive page</h1>
-</div>
+<section class="cars-section box">
+    <div class="wrapper wrapper-wide">
+<!--        <h1>Nos voitures</h1>-->
 
-<?php if ( have_posts() ) : ?>
 
-	<header class="page-header alignwide">
-		<?php the_archive_title( '<h1 class="page-title">', '</h1>' ); ?>
-		<?php if ( $description ) : ?>
-			<div class="archive-description"><?php echo wp_kses_post( wpautop( $description ) ); ?></div>
-		<?php endif; ?>
-	</header><!-- .page-header -->
 
-	<?php while ( have_posts() ) : ?>
-		<?php the_post(); ?>
-		<?php get_template_part( 'template-parts/content/content', get_theme_mod( 'display_excerpt_or_full_post', 'excerpt' ) ); ?>
-	<?php endwhile; ?>
+<!--        --><?php //if ( have_posts() ) :
+//        include ('')
+        get_template_part('template-parts/content/content-portfolio');
 
-	<?php twenty_twenty_one_the_posts_navigation(); ?>
+        // ?>
 
-<?php else : ?>
-	<?php get_template_part( 'template-parts/content/content-none' ); ?>
-<?php endif; ?>
+
+<!--        </div>-->
+
+    </div>
+</section>
 
 <?php
 get_footer();

@@ -19,7 +19,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<?php wp_head(); ?>
     <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;600;700;800;900&family=Poller+One&display=swap" rel="stylesheet"></head>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <div id="page" class="site">
@@ -32,8 +32,8 @@
 
 	<?php get_template_part( 'template-parts/header/site-header' ); ?>
 
+    <?php include('template-parts/banneer/banner.php'); ?>
+
 	<div id="content" class="site-content">
 		<div id="primary" class="content-area">
 			<main id="main" class="site-main">
-                <div class="wrapper">
-                </div>

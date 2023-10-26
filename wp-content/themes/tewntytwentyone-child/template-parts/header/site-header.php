@@ -13,6 +13,13 @@ $wrapper_classes .= ( true === get_theme_mod( 'display_title_and_tagline', true 
 $wrapper_classes .= has_nav_menu( 'primary' ) ? ' has-menu' : '';
 ?>
 
+<section class="upper-header">
+    <div class="wrapper">
+        <a href="mailto:recup.auto87@outlook.fr">recup.auto87@outlook.fr</a>
+        <a href="tel:+33625326065">06 25 32 60 65</a>
+    </div>
+</section>
+
 <header>
     <div class="wrapper">
         <a href="<?= get_site_url(); ?>" class="website-infos">
