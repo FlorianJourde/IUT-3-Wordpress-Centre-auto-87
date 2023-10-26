@@ -9,13 +9,16 @@ namespace Awf\Router;
 
 use Awf\Application\Application;
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Uri\Uri;
 
-class Router implements ContainerAwareInterface
+class Router
 {
-	use ContainerAwareTrait;
+	/**
+	 * The container this router is attached to
+	 *
+	 * @var Container|null
+	 */
+	protected $container = null;
 
 	/**
 	 * The routing rules for the application
@@ -29,13 +32,13 @@ class Router implements ContainerAwareInterface
 	 *
 	 * @param   Container $container The container this router is attached to
 	 *
-	 * @return  void
+	 * @return  Router
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct(Container $container)
 	{
-		$this->setContainer($container);
+		$this->container = $container;
 	}
 
 	/**

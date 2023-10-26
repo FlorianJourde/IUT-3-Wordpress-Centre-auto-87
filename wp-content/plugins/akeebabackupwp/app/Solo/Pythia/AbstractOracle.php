@@ -35,7 +35,7 @@ abstract class AbstractOracle implements OracleInterface
 	 *
 	 * @param   string  $path  The directory path to scan
 	 */
-	public function __construct(string $path)
+	public function __construct($path)
 	{
 		$this->path = $path;
 	}
@@ -45,7 +45,7 @@ abstract class AbstractOracle implements OracleInterface
 	 *
 	 * @return  boolean
 	 */
-	public function isRecognised(): bool
+	public function isRecognised()
 	{
 		return false;
 	}
@@ -55,7 +55,7 @@ abstract class AbstractOracle implements OracleInterface
 	 *
 	 * @return  string
 	 */
-	public function getName(): string
+	public function getName()
 	{
 		return $this->oracleName;
 	}
@@ -65,7 +65,7 @@ abstract class AbstractOracle implements OracleInterface
 	 *
 	 * @return  string
 	 */
-	public function getInstaller(): string
+	public function getInstaller()
 	{
 		if (empty($this->installerName))
 		{
@@ -80,7 +80,7 @@ abstract class AbstractOracle implements OracleInterface
 	 *
 	 * @return  array
 	 */
-	public function getDbInformation(): array
+	public function getDbInformation()
 	{
 		return array(
 			'driver'   => 'mysqli',
@@ -98,7 +98,7 @@ abstract class AbstractOracle implements OracleInterface
 	 *
 	 * @return array
 	 */
-	public function getExtradirs(): array
+	public function getExtradirs()
 	{
 		return array();
 	}
@@ -108,7 +108,7 @@ abstract class AbstractOracle implements OracleInterface
 	 *
 	 * @return array
 	 */
-	public function getExtraDb(): array
+	public function getExtraDb()
 	{
 		return array();
 	}
@@ -120,7 +120,7 @@ abstract class AbstractOracle implements OracleInterface
 	 *
 	 * @return  array  array($key, $value)
 	 */
-	protected function parseDefine(string $line): array
+	protected function parseDefine($line)
 	{
 		$pattern = '#define\s*\(\s*(["\'][A-Z_]*["\'])\s*,\s*(["\'].*["\'])\s*\)\s*;#u';
 		$numMatches = preg_match($pattern, $line, $matches);
@@ -151,7 +151,7 @@ abstract class AbstractOracle implements OracleInterface
 	 *
 	 * @return  null|string  Null if we can't parse $value as a string.
 	 */
-	protected function parseStringDefinition(string $value): ?string
+	protected function parseStringDefinition($value)
 	{
 		// At this point the value may be in the form 'foobar');#comment'gargh" if the original line was something like
 		// define('DB_NAME', 'foobar');#comment'gargh");

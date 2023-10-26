@@ -9,9 +9,6 @@ namespace Awf\Mvc;
 
 use Awf\Application\Application;
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
-use Awf\Exception\App;
 use Awf\Inflector\Inflector;
 use Awf\Input\Filter;
 use Awf\Input\Input;
@@ -27,10 +24,8 @@ use RuntimeException;
  * @package Awf\Mvc
  */
 #[\AllowDynamicProperties]
-class Model implements ContainerAwareInterface
+class Model
 {
-	use ContainerAwareTrait;
-
 	/**
 	 * Input variables, passed on from the controller, in an associative array
 	 *
@@ -74,95 +69,159 @@ class Model implements ContainerAwareInterface
 	protected $_state_set = false;
 
 	/**
+	 * The container attached to the model
+	 *
+	 * @var \Awf\Container\Container
+	 */
+	protected $container;
+
+	/**
 	 * A copy of the Model's configuration
 	 *
 	 * @var   array
 	 */
 	protected $config = array();
 
-	/**
-	 * A unique prefix for this model's session data, e.g. `example.items.`
-	 *
-	 * @var   null|string
-	 */
-	private $hash = null;
+	private $hash;
 
 
 	/**
 	 * Returns a new model object. Unless overridden by the $config array, it will
 	 * try to automatically populate its state from the request variables.
 	 *
-	 * @param   string|null     $appName    The application name
-	 * @param   string|null     $modelName  The model name
-	 * @param   Container|null  $container  Configuration variables to the model
+	 * By default the new model instance is created with persistent state, unless
+	 * you pass $config['modelTemporaryInstance'] = false
 	 *
-	 * @deprecated 2.0 Go through the MVCFactory in the Container instead.
+	 * @param   string    $appName   The application name
+	 * @param   string    $modelName The model name
+	 * @param   Container $container Configuration variables to the model
+	 *
 	 * @return  static
 	 *
-	 * @throws App
+	 * @throws  RuntimeException  If the Model is not found
 	 */
-	public static function getInstance(?string $appName = null, ?string $modelName = '', ?Container $container = null)
+	public static function getInstance($appName = null, $modelName = '', $container = null)
 	{
-		trigger_error(
-			sprintf(
-				'Calling %s is deprecated. Use the MVCFactory service of the container instead.',
-				__METHOD__
-			),
-			E_USER_DEPRECATED
+		if (empty($appName) && !is_object($container))
+		{
+			$app = Application::getInstance();
+			$appName = $app->getName();
+			$container = $app->getContainer();
+		}
+		elseif (empty($appName) && is_object($container))
+		{
+			$appName = $container->application_name;
+		}
+		elseif (!empty($appName) && !is_object($container))
+		{
+			$container = Application::getInstance($appName)->getContainer();
+		}
+
+		$config = isset($container['mvc_config']) ? $container['mvc_config'] : array();
+
+		if (empty($modelName))
+		{
+			$modelName = $container->input->getCmd('view', '');
+		}
+
+		// Try to load the Model class
+		$classes = array(
+			$container->applicationNamespace . '\\Model\\' . ucfirst($modelName),
+			$container->applicationNamespace . '\\Model\\' . ucfirst(Inflector::pluralize($modelName)), // For data models
+			$container->applicationNamespace . '\\Model\\DefaultModel',
 		);
 
-		return ($container ?? Application::getInstance($appName)->getContainer())
-			->mvcFactory->makeModel($modelName);
+		foreach ($classes as $className)
+		{
+			if (class_exists($className))
+			{
+				break;
+			}
+		}
+
+		if (!class_exists($className))
+		{
+			throw new RuntimeException("Model not found (app : model) = $appName : $modelName");
+		}
+
+		/** @var Model $result */
+		$result = new $className($container);
+
+		if (array_key_exists('modelTemporaryInstance', $config) && $config['modelTemporaryInstance'])
+		{
+			$result = $result
+				->getClone()
+				->savestate(0);
+		}
+
+		if (array_key_exists('modelClearState', $config) && $config['modelClearState'])
+		{
+			$result->clearState();
+		}
+
+		if (array_key_exists('modelClearInput', $config) && $config['modelClearInput'])
+		{
+			$result->clearInput();
+		}
+
+		return $result;
 	}
 
 	/**
 	 * Returns a new instance of a model, with the state reset to defaults
 	 *
-	 * @param   string|null     $appName    The application name
-	 * @param   string|null     $modelName  The model name
-	 * @param   Container|null  $container  Configuration variables to the model
+	 * @param   string    $appName   The application name
+	 * @param   string    $modelName The model name
+	 * @param   Container $container Configuration variables to the model
 	 *
-	 * @deprecated 2.0 Go through the MVCFactory in the Container instead.
 	 * @return  static
 	 *
-	 * @throws App
+	 * @throws  RuntimeException  If the Model is not found
 	 */
-	public static function getTmpInstance(?string $appName = '', ?string $modelName = '', ?Container $container = null)
+	public static function getTmpInstance($appName = '', $modelName = '', $container = null)
 	{
-		trigger_error(
-			sprintf(
-				'Calling %s is deprecated. Use the MVCFactory service of the container instead.',
-				__METHOD__
-			),
-			E_USER_DEPRECATED
-		);
+		if (empty($appName) && !is_object($container))
+		{
+			$app = Application::getInstance();
+			$appName = $app->getName();
+			$container = $app->getContainer();
+		}
+		elseif (empty($appName) && is_object($container))
+		{
+			$appName = $container->application_name;
+		}
+		elseif (!empty($appName) && !is_object($container))
+		{
+			$container = Application::getInstance($appName)->getContainer();
+		}
 
-		return ($container ?? Application::getInstance($appName)->getContainer())
-			->mvcFactory->makeTempModel($modelName);
+		$config = isset($container['mvc_config']) ? $container['mvc_config'] : array();
+
+		$config['modelTemporaryInstance'] = true;
+		$config['modelClearState'] = true;
+		$config['modelClearInput'] = true;
+
+		$container['mvc_config'] = $config;
+
+		$ret = static::getInstance($appName, $modelName, $container);
+
+		return $ret;
 	}
 
 	/**
 	 * Public class constructor
 	 *
 	 * You can use the $container['mvc_config'] array to pass some configuration values to the object:
-	 * state            stdClass|array. The state variables of the Model.
-	 * use_populate        Boolean. When true the model will set its state from populateState() instead of the request.
-	 * ignore_request    Boolean. When true getState will now automatically load state data from the request.
+	 * state			stdClass|array. The state variables of the Model.
+	 * use_populate		Boolean. When true the model will set its state from populateState() instead of the request.
+	 * ignore_request	Boolean. When true getState will now automatically load state data from the request.
 	 *
-	 * @param   Container|null  $container  The configuration variables to this model
-	 *
-	 * @throws  App
+	 * @param   Container $container The configuration variables to this model
 	 */
-	public function __construct(?Container $container = null)
+	public function __construct(\Awf\Container\Container $container = null)
 	{
-		/** @deprecated 2.0 You must provide the container */
-		if (empty($container))
+		if (!is_object($container))
 		{
-			trigger_error(
-				sprintf('The container argument is mandatory in %s', __METHOD__),
-				E_USER_DEPRECATED
-			);
-
 			$container = Application::getInstance()->getContainer();
 		}
 
@@ -170,7 +229,7 @@ class Model implements ContainerAwareInterface
 
 		$this->input = $container->input;
 
-		$this->setContainer($container);
+		$this->container = $container;
 
 		$this->config = isset($container['mvc_config']) ? $container['mvc_config'] : array();
 
@@ -217,7 +276,7 @@ class Model implements ContainerAwareInterface
 	/**
 	 * Method to get the model name
 	 *
-	 * The model name. By default, parsed using the classname or it can be set
+	 * The model name. By default parsed using the classname or it can be set
 	 * by passing a $config['name'] in the class constructor
 	 *
 	 * @return  string  The name of the model
@@ -349,7 +408,7 @@ class Model implements ContainerAwareInterface
 	{
 		if (!$this->_state_set)
 		{
-			// Protected method to automatically populate the model state.
+			// Protected method to auto-populate the model state.
 			$this->populateState();
 
 			// Set the model state set flag to true.
@@ -496,7 +555,7 @@ class Model implements ContainerAwareInterface
 	 */
 	public function savestate($newState)
 	{
-		$this->_savestate = (bool) $newState;
+		$this->_savestate = $newState ? true : false;
 
 		return $this;
 	}
@@ -512,16 +571,12 @@ class Model implements ContainerAwareInterface
 		if (is_null($this->_savestate))
 		{
 			$savestate = $this->input->getInt('savestate', -999);
-
 			if ($savestate == -999)
 			{
 				$savestate = true;
 			}
-
 			$this->savestate($savestate);
 		}
-
-		return $this;
 	}
 
 	/**

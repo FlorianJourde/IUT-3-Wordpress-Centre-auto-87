@@ -19,11 +19,6 @@ $token    = $this->container->session->getCsrfToken()->getValue();
 
 ?>
 
-@if ($this->needsMigreight)
-	@include('Main/migreight')
-@endif
-
-
 {{-- Display various possible warnings about issues which directly affect the user's experience --}}
 @include('Main/warnings')
 

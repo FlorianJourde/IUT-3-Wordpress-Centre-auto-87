@@ -8,43 +8,48 @@
 namespace Awf\Html;
 
 use Awf\Application\Application;
-use Awf\Exception\App;
+use Awf\Uri\Uri;
+use Awf\Utils\Template;
 
 /**
- * @deprecated 2.0 Use the container's html service instead
+ * Javascript behaviours abstraction class
  *
- * @method static calendar()
+ * This class is based on the JHtml package of Joomla! 3 but heavily modified
  */
 abstract class Behaviour
 {
 	/**
-	 * Handle static method calls for backwards compatibility.
+	 * Array containing information for loaded files
 	 *
-	 * @param   string  $name
-	 * @param   array   $arguments
-	 *
-	 * @deprecated 2.0 Use the container's html service instead.
-	 * @return mixed|void
-	 * @throws App
-	 *
+	 * @var    array
 	 */
-	public static function __callStatic($name, $arguments)
-	{
-		switch (strtolower($name))
-		{
-			case 'calendar':
-				trigger_error(
-					sprintf('Calling %s is deprecated. Use the container\'s html service instead.', __METHOD__),
-					E_USER_DEPRECATED
-				);
+	protected static $loaded = array();
 
-				return Application::getInstance()->getContainer()->html->get('behaviour.' . $name, ...$arguments);
+	/**
+	 * Add unobtrusive JavaScript support for a calendar control.
+	 *
+	 * @param   Application  $app  CSS and JS will be added to the document of the selected application
+	 *
+	 * @return  void
+	 */
+	public static function calendar(Application $app = null)
+	{
+		// Only load once
+		if (isset(static::$loaded[__METHOD__]))
+		{
+			return;
 		}
 
-		throw new \LogicException(
-			sprintf('The method %s::%s does not exist.', __CLASS__, $name),
-			500
-		);
-	}
+		if (!is_object($app))
+		{
+			$app = Application::getInstance();
+		}
 
-}
+		$document = $app->getDocument();
+
+		Template::addJs('media://js/datepicker/bootstrap-datepicker.js');
+		Template::addCss('media://css/datepicker.css');
+
+		static::$loaded[__METHOD__] = true;
+	}
+} 

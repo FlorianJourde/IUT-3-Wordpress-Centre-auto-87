@@ -11,6 +11,8 @@ use Akeeba\Engine\Factory;
 use Akeeba\Engine\Platform;
 use Akeeba\Engine\Util\RandomValue;
 use AkeebaBackupWPUpdater;
+use Awf\Application\Application;
+use Awf\Mvc\Model;
 use Awf\Text\Text;
 use Exception;
 use RuntimeException;
@@ -24,7 +26,7 @@ class Main extends ControllerDefault
 		$this->csrfProtection();
 
 		// Switch the active profile
-		$session          = $this->getContainer()->segment;
+		$session          = Application::getInstance()->getContainer()->segment;
 		$session->profile = $this->input->getInt('profile', 1);
 
 		// Redirect
@@ -57,7 +59,7 @@ class Main extends ControllerDefault
 		$inCMS = $this->container->segment->get('insideCMS', false);
 
 		/** @var Update $updateModel */
-		$updateModel      = $this->container->mvcFactory->makeTempModel('Update');
+		$updateModel      = Model::getTmpInstance($this->container->application_name, 'Update', $this->container);
 		$ret['hasUpdate'] = $updateModel->getUpdateInformation()->get('hasUpdate', false);
 		$ret['version']   = $updateModel->getUpdateInformation()->get('version', 'dev');
 
@@ -112,7 +114,7 @@ HTML;
 			$transient = (object) [
 				'response' => [],
 			];
-			AkeebaBackupWPUpdater::getUpdateInformation($transient);
+			AkeebaBackupWPUpdater::getupdates($transient);
 		}
 
 		// Redirect
@@ -335,22 +337,20 @@ HTML;
 		}
 
 		// Run the update scripts, if necessary
-		if ($model->postUpgradeActions(false))
+		if ($model->postUpgradeActions())
 		{
 			$url = $this->container->router->route('index.php?view=main');
 			$this->container->application->redirect($url);
 		}
 
 		// Let's make sure the temporary and output directories are set correctly and writable...
-		/** @var \Solo\Model\Wizard $wizmodel */
-		$wizmodel = $this->getContainer()->mvcFactory->makeTempModel('Wizard');
+		$wizmodel = new \Solo\Model\Wizard($this->container);
 		$wizmodel->autofixDirectories();
 
 		// Rebase Off-site Folder Inclusion filters to use site path variables
 		if (class_exists('\Solo\Model\Extradirs'))
 		{
-
-			$incFoldersModel = $this->getContainer()->mvcFactory->makeTempModel('Extradirs');
+			$incFoldersModel = new \Solo\Model\Extradirs($this->container);
 			$incFoldersModel->rebaseFiltersToSiteDirs();
 		}
 

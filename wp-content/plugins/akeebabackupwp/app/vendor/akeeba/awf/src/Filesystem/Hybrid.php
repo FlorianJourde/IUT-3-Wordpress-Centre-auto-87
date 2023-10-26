@@ -8,18 +8,13 @@
 namespace Awf\Filesystem;
 use Awf\Application\Application;
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
-use Awf\Exception\App;
 
 /**
  * Hybrid filesystem abstraction. It uses direct file writing. When it detects that the write failed, it switches to
  * (S)FTP
  */
-class Hybrid implements FilesystemInterface, ContainerAwareInterface
+class Hybrid implements FilesystemInterface
 {
-	use ContainerAwareTrait;
-
 	/**
 	 * The File adapter
 	 *
@@ -37,25 +32,17 @@ class Hybrid implements FilesystemInterface, ContainerAwareInterface
 	/**
 	 * Public constructor
 	 *
-	 * @param   array           $options    Configuration options for the filesystem abstraction object
-	 * @param   Container|null  $container  Application container
+	 * @param   array       $options    Configuration options for the filesystem abstraction object
+     * @param   Container   $container  Application container
 	 *
-	 * @throws  App
+	 * @throws  \RuntimeException
 	 */
-	public function __construct(array $options, ?Container $container = null)
+	public function __construct(array $options, Container $container = null)
 	{
-		/** @deprecated 2.0 The container argument will become mandatory */
-		if (empty($container))
-		{
-			trigger_error(
-				sprintf('The container argument is mandatory in %s', __METHOD__),
-				E_USER_DEPRECATED
-			);
-
-			$container = Application::getInstance()->getContainer();
-		}
-
-		$this->setContainer($container);
+        if(!is_object($container))
+        {
+            $container = Application::getInstance()->getContainer();
+        }
 
 		$this->fileAdapter = new File($options, $container);
 

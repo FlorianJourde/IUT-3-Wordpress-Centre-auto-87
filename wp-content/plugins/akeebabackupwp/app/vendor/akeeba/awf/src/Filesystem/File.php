@@ -8,17 +8,16 @@
 namespace Awf\Filesystem;
 
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 
 /**
  * The File adapter of the filesystem abstraction layer.
  *
  * This adapter is used for direct filesystem writes, without using (S)FTP
  */
-class File implements FilesystemInterface, ContainerAwareInterface
+class File implements FilesystemInterface
 {
-	use ContainerAwareTrait;
+    /** @var  Container Application container */
+    protected $container;
 
 	/**
 	 * Public constructor
@@ -26,11 +25,11 @@ class File implements FilesystemInterface, ContainerAwareInterface
 	 * @param   array       $options  Ignored by this class
      * @param   Container   $container  Ignored by this class
 	 *
-	 * @return  void
+	 * @return  File
 	 */
 	public function __construct(array $options, Container $container = null)
 	{
-		$this->setContainer($container);
+		// No further operation necessary
 	}
 
 	/**

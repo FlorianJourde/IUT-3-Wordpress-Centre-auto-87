@@ -9,7 +9,6 @@ namespace Solo\Model;
 
 use Akeeba\Engine\Factory;
 use Akeeba\Engine\Platform;
-use Awf\Container\Container;
 use Awf\Mvc\Model;
 use Awf\Pagination\Pagination;
 use Awf\Text\Text;
@@ -20,7 +19,7 @@ class Manage extends Model
 	/** @var   Pagination  The pagination model for this data */
 	protected $pagination = null;
 
-	public function __construct(?Container $container = null)
+	public function __construct(\Awf\Container\Container $container = null)
 	{
 		parent::__construct($container);
 
@@ -269,7 +268,7 @@ class Manage extends Model
 			$limit      = $this->getState('limit');
 
 			// Create the pagination object
-			$this->pagination = new Pagination($total, $limitStart, $limit, 10, $this->container);
+			$this->pagination = new Pagination($total, $limitStart, $limit, 10, $this->container->application);
 		}
 
 		return $this->pagination;

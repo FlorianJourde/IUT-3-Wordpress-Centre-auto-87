@@ -9,24 +9,27 @@ namespace Awf\User;
 
 use Awf\Application\Application;
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Database\Driver;
 use Awf\Text\Text;
 
 /**
  * The User Manager class allows you to load, save, log in and log out users
  */
-class Manager implements ManagerInterface, ContainerAwareInterface
+class Manager implements ManagerInterface
 {
-	use ContainerAwareTrait;
-
 	/**
 	 * An array of the instances we have already created
 	 *
 	 * @var  array[ManagerInterface]
 	 */
 	protected static $instances = array();
+
+	/**
+	 * The container this instance of User Manager is attached to
+	 *
+	 * @var  Container
+	 */
+	protected $container;
 
 	/**
 	 * The name of the table where user accounts are stored
@@ -69,23 +72,17 @@ class Manager implements ManagerInterface, ContainerAwareInterface
 	 *
 	 * @param   Container   $container
 	 */
-	public function __construct(?Container $container = null)
+	public function __construct(Container $container = null)
 	{
-		/** @deprecated 2.0 Container is now mandatory */
-		if (empty($container))
+		if (!is_object($container))
 		{
-			trigger_error(
-				sprintf('The container argument is mandatory in %s', __METHOD__),
-				E_USER_DEPRECATED
-			);
-
 			$container = Application::getInstance()->getContainer();
 		}
 
 		$this->user_table = $container->appConfig->get('user_table', '#__users');
 		$this->user_class = $container->appConfig->get('user_class', '\\Awf\\User\\User');
 
-		$this->setContainer($container);
+		$this->container = $container;
 	}
 
 	/**
@@ -133,12 +130,6 @@ class Manager implements ManagerInterface, ContainerAwareInterface
 				foreach ($this->privileges as $name => $privilegeClass)
 				{
 					$privilegeObject = new $privilegeClass();
-
-					if ($privilegeObject instanceof ContainerAwareInterface)
-					{
-						$privilegeObject->setContainer($this->container);
-					}
-
 					$user->attachPrivilegePlugin($name, $privilegeObject);
 				}
 			}
@@ -149,12 +140,6 @@ class Manager implements ManagerInterface, ContainerAwareInterface
 				foreach ($this->authentications as $name => $authenticationClass)
 				{
 					$authenticationObject = new $authenticationClass();
-
-					if ($authenticationObject instanceof ContainerAwareInterface)
-					{
-						$authenticationObject->setContainer($this->container);
-					}
-
 					$user->attachAuthenticationPlugin($name, $authenticationObject);
 				}
 			}

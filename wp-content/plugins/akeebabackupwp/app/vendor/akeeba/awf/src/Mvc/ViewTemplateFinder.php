@@ -8,20 +8,19 @@
 namespace Awf\Mvc;
 
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Inflector\Inflector;
 use Awf\Utils\Path;
 
 /**
  * Locates the appropriate template file for a view
  */
-class ViewTemplateFinder implements ContainerAwareInterface
+class ViewTemplateFinder
 {
-	use ContainerAwareTrait;
-
 	/** @var  View  The view we are attached to */
 	protected $view;
+
+	/** @var  Container  The container of the view, for quick reference */
+	protected $container;
 
 	/** @var  array  The layout template extensions to look for */
 	protected $extensions = array('.blade.php', '.php');
@@ -57,7 +56,7 @@ class ViewTemplateFinder implements ContainerAwareInterface
 	function __construct(View $view, array $config = array())
 	{
 		$this->view = $view;
-		$this->setContainer($view->getContainer());
+		$this->container = $view->getContainer();
 
 		if (isset($config['extensions']))
 		{

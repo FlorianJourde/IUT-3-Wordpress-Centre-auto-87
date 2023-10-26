@@ -5,8 +5,6 @@
  * @license   GNU General Public License version 3, or later
  */
 
-defined('AKEEBASOLO') || die;
-
 use Awf\Text\Text; ?>
 
 <html lang="en">

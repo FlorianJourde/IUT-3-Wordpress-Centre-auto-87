@@ -610,9 +610,7 @@ class Fsfilters extends Model
 				break;
 
 			case 'tab':
-				$ret_array = [
-					'list' => $this->get_filters($action->root)
-				];
+				$ret_array = $this->get_filters($action->root);
 				break;
 
 			// Reset filters

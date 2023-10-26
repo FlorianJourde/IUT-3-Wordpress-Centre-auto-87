@@ -85,7 +85,7 @@ class Html extends View
 		$model = $this->getModel();
 
 		// Load the Status Helper
-		$helper = Status::getInstance($this->container);
+		$helper = Status::getInstance();
 
 		// Determine default description
 		$default_description = $this->getDefaultDescription();
@@ -137,7 +137,7 @@ class Html extends View
 
 		// Push the list of profiles
 		/** @var Main $cpanelModel */
-		$cpanelModel       = $this->container->mvcFactory->makeModel('Main');
+		$cpanelModel       = Model::getInstance($this->container->application_name, 'Main', $this->container);
 		$this->profileList = $cpanelModel->getProfileList();
 
 		if (!$this->hasCriticalErrors)
@@ -146,16 +146,15 @@ class Html extends View
 		}
 
 		// Push language strings to Javascript
-		$doc = $this->container->application->getDocument();
-		$doc->lang('COM_AKEEBA_BACKUP_TEXT_LASTRESPONSE');
-		$doc->lang('COM_AKEEBA_BACKUP_TEXT_BACKUPSTARTED');
-		$doc->lang('COM_AKEEBA_BACKUP_TEXT_BACKUPFINISHED');
-		$doc->lang('COM_AKEEBA_BACKUP_TEXT_BACKUPHALT');
-		$doc->lang('COM_AKEEBA_BACKUP_TEXT_BACKUPRESUME');
-		$doc->lang('COM_AKEEBA_BACKUP_TEXT_BACKUPHALT_DESC');
-		$doc->lang('COM_AKEEBA_BACKUP_TEXT_BACKUPFAILED');
-		$doc->lang('COM_AKEEBA_BACKUP_TEXT_BACKUPWARNING');
-		$doc->lang('COM_AKEEBA_BACKUP_TEXT_AVGWARNING');
+		Text::script('COM_AKEEBA_BACKUP_TEXT_LASTRESPONSE');
+		Text::script('COM_AKEEBA_BACKUP_TEXT_BACKUPSTARTED');
+		Text::script('COM_AKEEBA_BACKUP_TEXT_BACKUPFINISHED');
+		Text::script('COM_AKEEBA_BACKUP_TEXT_BACKUPHALT');
+		Text::script('COM_AKEEBA_BACKUP_TEXT_BACKUPRESUME');
+		Text::script('COM_AKEEBA_BACKUP_TEXT_BACKUPHALT_DESC');
+		Text::script('COM_AKEEBA_BACKUP_TEXT_BACKUPFAILED');
+		Text::script('COM_AKEEBA_BACKUP_TEXT_BACKUPWARNING');
+		Text::script('COM_AKEEBA_BACKUP_TEXT_AVGWARNING');
 
 		$document = $this->container->application->getDocument();
 		$router   = $this->getContainer()->router;

@@ -95,13 +95,13 @@
 		"description": "COM_AKEEBA_CONFIG_ADVANCED_SBPP_DESC"
 	},
 	"akeeba.tuning.settimelimit": {
-		"default": "1",
+		"default": "0",
 		"type": "bool",
 		"title": "COM_AKEEBA_CONFIG_ADVANCED_SETTIMELIMIT_LABEL",
 		"description": "COM_AKEEBA_CONFIG_ADVANCED_SETTIMELIMIT_LABEL"
 	},
 	"akeeba.tuning.setmemlimit": {
-		"default": "1",
+		"default": "0",
 		"type": "bool",
 		"title": "COM_AKEEBA_CONFIG_ADVANCED_SETMEMLIMIT_LABEL",
 		"description": "COM_AKEEBA_CONFIG_ADVANCED_SETMEMLIMIT_DESC"

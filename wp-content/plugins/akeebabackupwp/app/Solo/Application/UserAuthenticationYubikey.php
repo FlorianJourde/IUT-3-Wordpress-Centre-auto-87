@@ -9,15 +9,11 @@ namespace Solo\Application;
 
 use Akeeba\Engine\Platform;
 use Awf\Application\Application;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Download\Download;
 use Awf\Uri\Uri;
 
-class UserAuthenticationYubikey extends UserAuthenticationOtep implements ContainerAwareInterface
+class UserAuthenticationYubikey extends UserAuthenticationOtep
 {
-	use ContainerAwareTrait;
-
 	/**
 	 * Is this user authenticated by this object? The $params array contains at least one key, 'password'.
 	 *
@@ -118,10 +114,10 @@ class UserAuthenticationYubikey extends UserAuthenticationOtep implements Contai
 			];
 		}
 
-		$http = new Download($this->getContainer());
+		$http = new Download();
 		$http->setAdapterOptions($options);
 
-		$token = $this->getContainer()->session->getCsrfToken()->getValue();
+		$token = Application::getInstance()->getContainer()->session->getCsrfToken()->getValue();
 		$nonce = md5($token . uniqid(rand()));
 		$response = '';
 

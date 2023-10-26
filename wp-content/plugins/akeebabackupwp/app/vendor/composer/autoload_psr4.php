@@ -11,7 +11,4 @@ return array(
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
     'Awf\\' => array($vendorDir . '/akeeba/awf/src'),
-    'Akeeba\\S3\\' => array($vendorDir . '/akeeba/s3/src'),
-    'Akeeba\\Engine\\Test\\' => array($vendorDir . '/akeeba/engine/Test'),
-    'Akeeba\\Engine\\' => array($vendorDir . '/akeeba/engine/engine'),
 );

@@ -12,26 +12,16 @@ use Akeeba\Engine\Platform;
 use Awf\Application\TransparentAuthentication;
 use Awf\Text\Text;
 use Awf\Uri\Uri;
-use Solo\Application\UserAuthenticationGoogle;
-use Solo\Application\UserAuthenticationPassword;
-use Solo\Application\UserAuthenticationYubikey;
-use Solo\Application\UserPrivileges;
-use Solo\Helper\Html\FEFSelect as FEFSelectHtmlHelper;
-use Solo\Helper\Html\Setup as SetupHtmlHelper;
 use Solo\Helper\SecretWord;
 
 class Application extends \Awf\Application\Application
 {
-	private static $loadedLanguages = false;
+	const secretKeyRelativePath = '/engine/secretkey.php';
 
 	public function initialise()
 	{
-		// Register additional HTML Helpers
-		$this->getContainer()->html->registerHelperClass(SetupHtmlHelper::class);
-		$this->getContainer()->html->registerHelperClass(FEFSelectHtmlHelper::class);
-
 		// Let AWF know that the prefix for our system JavaScript is 'akeeba.System.'
-		$this->getContainer()->html->grid->setJavascriptPrefix('akeeba.System.');
+		\Awf\Html\Grid::$javascriptPrefix = 'akeeba.System.';
 
 		// This line must appear before the user manager initializes, or it won't find the users table!
 		$this->container->appConfig->set('user_table', '#__ak_users');
@@ -59,8 +49,11 @@ class Application extends \Awf\Application\Application
 			// Apply the timezone
 			$this->applyTimezonePreference();
 
+			// Load Akeeba Engine's settings encryption preferences
+			$this->loadEngineEncryptionKey();
+
 			// Enforce encryption of the front-end Secret Word
-			SecretWord::enforceEncryption('frontend_secret_word', $this->container);
+			SecretWord::enforceEncryption('frontend_secret_word');
 
 			// Load Akeeba Engine's configuration
 			$this->loadBackupProfile();
@@ -135,7 +128,7 @@ class Application extends \Awf\Application\Application
 		// Calculate a hash for the current user agent and IP address
 		$ip         = \Awf\Utils\Ip::getUserIP();
 		$user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-		$uniqueData = $ip . $user_agent . APATH_BASE;
+		$uniqueData = $ip . $user_agent . $this->container->basePath . Application::secretKeyRelativePath;
 		$hash_algos = function_exists('hash_algos') ? hash_algos() : [];
 
 		// Prefer SHA-512...
@@ -323,20 +316,13 @@ class Application extends \Awf\Application\Application
 	 */
 	private function loadLanguages()
 	{
-		if (self::$loadedLanguages)
-		{
-			return;
-		}
-
-		self::$loadedLanguages = true;
-
 		// Load the language files
-		Text::loadLanguage('en-GB', $this->container, '.ini', true, $this->container->languagePath . '/akeebabackup');
+		Text::loadLanguage(null, 'akeebabackup', '.com_akeebabackup.ini', false, $this->container->languagePath);
+		Text::loadLanguage('en-GB', 'akeebabackup', '.com_akeebabackup.ini', false, $this->container->languagePath);
 
-		if (Text::detectLanguage($this->container, '.ini', $this->container->languagePath . '/akeebabackup') !== 'en-GB')
-		{
-			Text::loadLanguage(null, $this->container, '.ini', true, $this->container->languagePath . '/akeebabackup');
-		}
+		// Load the extra language files
+		Text::loadLanguage(null, 'akeeba', '.com_akeeba.ini', false, $this->container->languagePath);
+		Text::loadLanguage('en-GB', 'akeeba', '.com_akeeba.ini', false, $this->container->languagePath);
 	}
 
 	/**
@@ -382,6 +368,21 @@ class Application extends \Awf\Application\Application
 
 			@date_default_timezone_set($serverTimezone);
 		}
+	}
+
+	/**
+	 * @return void
+	 */
+	private function loadEngineEncryptionKey()
+	{
+		$secretKeyFile = $this->container->basePath . static::secretKeyRelativePath;
+
+		if (@file_exists($secretKeyFile))
+		{
+			require_once $secretKeyFile;
+		}
+
+		Factory::getSecureSettings()->setKeyFilename('secretkey.php');
 	}
 
 	/**
@@ -436,8 +437,8 @@ class Application extends \Awf\Application\Application
 	 */
 	private function attachPrivileges($manager)
 	{
-		$manager->registerPrivilegePlugin('akeeba', UserPrivileges::class);
-		$manager->registerAuthenticationPlugin('password', UserAuthenticationPassword::class);
+		$manager->registerPrivilegePlugin('akeeba', '\\Solo\\Application\\UserPrivileges');
+		$manager->registerAuthenticationPlugin('password', '\\Solo\\Application\\UserAuthenticationPassword');
 	}
 
 	/**
@@ -449,8 +450,8 @@ class Application extends \Awf\Application\Application
 	{
 		if (!defined('AKEEBADEBUG'))
 		{
-			$manager->registerAuthenticationPlugin('yubikey', UserAuthenticationYubikey::class);
-			$manager->registerAuthenticationPlugin('google', UserAuthenticationGoogle::class);
+			$manager->registerAuthenticationPlugin('yubikey', '\\Solo\\Application\\UserAuthenticationYubikey');
+			$manager->registerAuthenticationPlugin('google', '\\Solo\\Application\\UserAuthenticationGoogle');
 		}
 	}
 

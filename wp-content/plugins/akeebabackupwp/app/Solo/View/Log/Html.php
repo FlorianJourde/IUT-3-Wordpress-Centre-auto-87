@@ -87,7 +87,7 @@ class Html extends View
 		}
 
 		// Load the Javascript
-		Template::addJs('media://js/solo/log.min.js', $this->container->application);
+		Template::addJs('media://js/solo/log.min.js');
 
 		$document = $this->container->application->getDocument();
 		$src      = $this->container->router->route('index.php?view=Log&task=iframe&format=raw&tag=' . urlencode($this->tag));

@@ -7,13 +7,14 @@
 
 namespace Awf\Event;
 
+use Awf\Application\Application;
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
+use Awf\Exception\App;
 
-class Dispatcher implements Observable, ContainerAwareInterface
+class Dispatcher implements Observable
 {
-	use ContainerAwareTrait;
+	/** @var   Container  The container this event dispatcher is attached to */
+	protected $container = null;
 
 	/** @var   array  The observers attached to the dispatcher */
 	protected $observers = array();
@@ -31,7 +32,7 @@ class Dispatcher implements Observable, ContainerAwareInterface
 	 */
 	public function __construct(Container $container)
 	{
-		$this->setContainer($container);
+		$this->container = $container;
 	}
 
 	/**
@@ -51,6 +52,16 @@ class Dispatcher implements Observable, ContainerAwareInterface
 		}
 
 		return static::$instances[$appName];
+	}
+
+	/**
+	 * Returns the application this event dispatcher is attached to
+	 *
+	 * @return  Container
+	 */
+	public function getContainer()
+	{
+		return $this->container;
 	}
 
 	/**

@@ -8,8 +8,6 @@
 namespace Awf\Filesystem;
 use Awf\Application\Application;
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 
 final class Factory
 {
@@ -29,20 +27,14 @@ final class Factory
 	 * Get a filesystem abstraction adapter based on the configuration of the provided application object
 	 *
 	 * @param   Container  $container  The application which provides the configuration
-	 * @param   boolean    $hybrid     Should I return a hybrid adapter?
+	 * @param   boolean      $hybrid       Should I return a hybrid adapter?
 	 *
 	 * @return  FilesystemInterface  The filesystem abstraction adapter
 	 */
-	public static function getAdapter(?Container $container = null, bool $hybrid = false)
+	public static function getAdapter(Container $container = null, $hybrid = false)
 	{
-		/** @deprecated 2.0 The container argument will become mandatory */
-		if (empty($container))
+		if (!is_object($container))
 		{
-			trigger_error(
-				sprintf('The container argument is mandatory in %s', __METHOD__),
-				E_USER_DEPRECATED
-			);
-
 			$container = Application::getInstance()->getContainer();
 		}
 

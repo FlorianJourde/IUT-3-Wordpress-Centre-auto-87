@@ -9,8 +9,6 @@ namespace Awf\Mailer;
 
 use Awf\Application\Application;
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Text\Text;
 use PHPMailer\PHPMailer\PHPMailer;
 use RuntimeException;
@@ -20,9 +18,8 @@ use RuntimeException;
  *
  * This file is a heavily modified version of the JMail class found in Joomla! 3.
  */
-class Mailer extends PHPMailer implements ContainerAwareInterface
+class Mailer extends PHPMailer
 {
-	use ContainerAwareTrait;
 
 	/**
 	 * @var    array[Mailer]  Mailer instances
@@ -34,9 +31,19 @@ class Mailer extends PHPMailer implements ContainerAwareInterface
 	 */
 	public $CharSet = 'utf-8';
 
-	public function __construct(?Container $container = null)
+	/**
+	 * The container this mailer is attached to
+	 *
+	 * @var   Container
+	 */
+	protected $container;
+
+	public function __construct($container = null)
 	{
-		$container = $container ?? Application::getInstance()->getContainer();
+		if (!is_object($container))
+		{
+			$container = Application::getInstance()->getContainer();
+		}
 
 		parent::__construct();
 
@@ -53,7 +60,7 @@ class Mailer extends PHPMailer implements ContainerAwareInterface
 		$mailer     = $config->get('mail.mailer');
 
 		$this->SetFrom($mailfrom, $fromname);
-		$this->setContainer($container);
+		$this->container = $container;
 
 		switch ($mailer)
 		{

@@ -194,7 +194,7 @@ class Wizard extends Model
 		 *
 		 * @var Configuration $model
 		 */
-		$model = $this->getContainer()->mvcFactory->makeTempModel('Configuration');
+		$model = new Configuration($this->container);
 
 		// Do I have to fall back to the default output directory?
 		$outputDirectory = $fixOut ? '[DEFAULT_OUTPUT]' : $outputDirectory;
@@ -570,12 +570,12 @@ class Wizard extends Model
 		}
 	}
 
-    /**
-     * Run a specific step via AJAX
-     *
-     * @return array
-     */
-	public function runAjax(): array
+	/**
+	 * Run a specific step via AJAX
+	 *
+	 * @return  boolean
+	 */
+	public function runAjax()
 	{
 		$act = $this->getState('act');
 
@@ -585,7 +585,7 @@ class Wizard extends Model
 		}
 		else
 		{
-			$result = ['status' => false];
+			$result = false;
 		}
 
 		return $result;
@@ -594,9 +594,9 @@ class Wizard extends Model
 	/**
 	 * Just returns true. Used to ping the engine.
 	 *
-	 * @return  array{status: bool}
+	 * @return  boolean
 	 */
-	private function ping(): array
+	private function ping()
 	{
 		$profile_id = Platform::getInstance()->get_active_profile();
 		$config = Factory::getConfiguration();
@@ -612,15 +612,13 @@ class Wizard extends Model
 
 		Platform::getInstance()->save_configuration($profile_id);
 
-        return ['status' => true];
+		return true;
 	}
 
 	/**
 	 * Try different values of minimum execution time
-     *
-     * @return  array{status: bool}
 	 */
-	private function minexec(): array
+	private function minexec()
 	{
 		$seconds = $this->input->get('seconds', '0.5', 'float');
 
@@ -633,15 +631,15 @@ class Wizard extends Model
 			sleep($seconds);
 		}
 
-        return ['status' => true];
+		return true;
 	}
 
 	/**
 	 * Saves the AJAX preference and the minimum execution time
 	 *
-	 * @return  array{status: bool}
+	 * @return  boolean
 	 */
-	private function applyminexec(): array
+	private function applyminexec()
 	{
 		// Get the user parameters
 		$minexec = $this->input->get('minecxec', 2.0, 'float');
@@ -657,58 +655,58 @@ class Wizard extends Model
 		$timer->enforce_min_exec_time(false);
 
 		// Done!
-		return ['status' => true];
+		return true;
 	}
 
 	/**
 	 * Try to make the directories writable or provide a set of writable directories
 	 *
-	 * @return  array{status: bool}
+	 * @return  boolean
 	 */
-	private function directories(): array
+	private function directories()
 	{
 		$timer = Factory::getTimer();
 		$result = $this->autofixDirectories();
 		$timer->enforce_min_exec_time(false);
 
-        return ['status' => $result];
+		return $result;
 	}
 
 	/**
 	 * Analyze the database and apply optimized database dump settings
 	 *
-	 * @return  array{status: bool}
+	 * @return  boolean
 	 */
-	private function database(): array
+	private function database()
 	{
 		$timer = Factory::getTimer();
 		$this->analyzeDatabase();
 		$timer->enforce_min_exec_time(false);
 
-        return ['status' => true];
+		return true;
 	}
 
 	/**
 	 * Try to apply a specific maximum execution time setting
 	 *
-	 * @return  array{status: bool}
+	 * @return  boolean
 	 */
-	private function maxexec(): array
+	private function maxexec()
 	{
 		$seconds = $this->input->get('seconds', 30, 'int');
 		$timer = Factory::getTimer();
 		$result = $this->doNothing($seconds);
 		$timer->enforce_min_exec_time(false);
 
-        return ['status' => $result];
+		return $result;
 	}
 
 	/**
 	 * Save a specific maximum execution time preference to the database
 	 *
-	 * @return  array{status: bool}
+	 * @return  boolean
 	 */
-	private function applymaxexec(): array
+	private function applymaxexec()
 	{
 		// Get the user parameters
 		$maxexec = $this->input->get('seconds', 2, 'int');
@@ -728,16 +726,16 @@ class Wizard extends Model
 		$timer->enforce_min_exec_time(false);
 
 		// Done!
-        return ['status' => true];
+		return true;
 	}
 
 	/**
 	 * Creates a dummy file of a given size. Remember to give the filesize
 	 * query parameter in bytes!
 	 *
-	 * @return  array{status: bool, value: integer}
+	 * @return  integer  Part size in bytes
 	 */
-	public function partsize(): array
+	public function partsize()
 	{
 		$timer = Factory::getTimer();
 		$blocks = $this->input->get('blocks', 1, 'int');
@@ -762,10 +760,7 @@ class Wizard extends Model
 		// Enforce the min exec time
 		$timer->enforce_min_exec_time(false);
 
-		return [
-            'status' => true,
-            'value' => $result
-        ];
+		return $result;
 	}
 
 	/**
@@ -773,7 +768,7 @@ class Wizard extends Model
 	 *
 	 * @return  array
 	 */
-	public function pythia(): array
+	public function pythia()
 	{
 		$folder = $this->input->get('folder', '', 'raw');
 
@@ -788,6 +783,7 @@ class Wizard extends Model
 		}
 
 		// Call the oracle
-        return (new Pythia())->getCmsInfo($folder);
+		$pythia = new Pythia($this->container->application);
+		return $pythia->getCmsInfo($folder);
 	}
 } 

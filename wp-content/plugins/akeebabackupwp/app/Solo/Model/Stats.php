@@ -105,10 +105,10 @@ class Stats extends Model
         $at_minor = isset($at_parts[1]) ? $at_parts[1] : '';
         $at_revision = isset($at_parts[2]) ? $at_parts[2] : '';
 
-        [$php_major, $php_minor, $php_revision] = explode('.', phpversion());
+        list($php_major, $php_minor, $php_revision) = explode('.', phpversion());
         $php_qualifier = strpos($php_revision, '~') !== false ? substr($php_revision, strpos($php_revision, '~')) : '';
 
-        [$db_major, $db_minor, $db_revision] = explode('.', $db->getVersion());
+        list($db_major, $db_minor, $db_revision) = explode('.', $db->getVersion());
         $db_qualifier = strpos($db_revision, '~') !== false ? substr($db_revision, strpos($db_revision, '~')) : '';
 
 		switch ($db->getDriverType())
@@ -263,7 +263,7 @@ class Stats extends Model
      */
     public function getRandomData($bytes = 32)
     {
-        if (extension_loaded('openssl') && (version_compare(PHP_VERSION, '5.3.4') >= 0 || substr(PHP_OS, 0, 3) == 'WIN'))
+        if (extension_loaded('openssl') && (version_compare(PHP_VERSION, '5.3.4') >= 0 || IS_WIN))
         {
             $strong = false;
             $randBytes = openssl_random_pseudo_bytes($bytes, $strong);
@@ -272,6 +272,11 @@ class Stats extends Model
             {
                 return $randBytes;
             }
+        }
+
+        if (extension_loaded('mcrypt'))
+        {
+            return mcrypt_create_iv($bytes, MCRYPT_DEV_URANDOM);
         }
 
         return $this->genRandomBytes($bytes);

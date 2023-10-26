@@ -8,11 +8,8 @@
 namespace Awf\Document;
 
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Document\Menu\MenuManager;
 use Awf\Document\Toolbar\Toolbar;
-use Awf\Text\Text;
 
 /**
  * Class Document
@@ -21,34 +18,33 @@ use Awf\Text\Text;
  *
  * @package Awf\Document
  */
-abstract class Document implements ContainerAwareInterface
+abstract class Document
 {
-	use ContainerAwareTrait;
-
-	/** @var   array  Cache of all document instances known to us */
-	private static $instances = [];
 
 	/** @var   string  The output data buffer */
 	protected $buffer = '';
 
 	/** @var   array  An array of all externally defined JavaScript files */
-	protected $scripts = [];
+	protected $scripts = array();
 
 	/** @var   array  An array of all inline JavaScript scripts */
-	protected $scriptDeclarations = [];
+	protected $scriptDeclarations = array();
 
 	/** @var   array  An array of all external CSS files */
-	protected $styles = [];
+	protected $styles = array();
 
 	/** @var   array  An array of all inline CSS styles */
-	protected $styleDeclarations = [];
+	protected $styleDeclarations = array();
 
 	/**
 	 * Array of scripts options
 	 *
 	 * @var    array
 	 */
-	protected $scriptOptions = [];
+	protected $scriptOptions = array();
+
+	/** @var   array  Cache of all document instances known to us */
+	private static $instances = array();
 
 	/** @var   MenuManager  The menu manager for this document */
 	protected $menu;
@@ -56,18 +52,21 @@ abstract class Document implements ContainerAwareInterface
 	/** @var   Toolbar  The toolbar for this document */
 	protected $toolbar;
 
+	/** @var   Container  The container this menu manager is attached to */
+	protected $container;
+
 	/** @var   string  The MIME type of the request */
 	protected $mimeType = 'text/html';
 
 	/** @var   array  Optional HTTP headers to send right before rendering */
-	protected $HTTPHeaders = [];
+	protected $HTTPHeaders = array();
 
 	/** @var   null|string  The base name of the returned document. If set, the browser will initiate a download instead of displaying content inline. */
 	protected $name = null;
 
 	public function __construct(Container $container)
 	{
-		$viewPath     = $container->basePath . '/View';
+		$viewPath = $container->basePath . '/View';
 		$viewPath_alt = $container->basePath . '/views';
 
 		$this->menu = new MenuManager($container);
@@ -76,15 +75,15 @@ abstract class Document implements ContainerAwareInterface
 
 		$this->toolbar = new Toolbar($container);
 
-		$this->setContainer($container);
+		$this->container = $container;
 	}
 
 	/**
 	 * Return the static instance of the document
 	 *
-	 * @param   string     $type         The document type (html or json)
-	 * @param   Container  $container    The application to which the document is attached
-	 * @param   string     $classPrefix  The prefix of the document class to use
+	 * @param   string    $type        The document type (html or json)
+	 * @param   Container $container   The application to which the document is attached
+	 * @param   string    $classPrefix The prefix of the document class to use
 	 *
 	 * @return  \Awf\Document\Document
 	 */
@@ -106,26 +105,17 @@ abstract class Document implements ContainerAwareInterface
 	}
 
 	/**
-	 * Translate a string into the current language and stores it in the JavaScript language store.
+	 * Sets the buffer (contains the main content of the HTML page or the entire JSON response)
 	 *
-	 * @param   string   $string                The Text key.
-	 * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
-	 * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
+	 * @param   string $buffer
 	 *
-	 * @return  void
-	 * @since   1.1.0
+	 * @return  \Awf\Document\Document
 	 */
-	public function lang(string $string, bool $jsSafe = false, bool $interpretBackSlashes = true)
+	public function setBuffer($buffer)
 	{
-		// Translate the string.
-		$translated = Text::_($string, $jsSafe, $interpretBackSlashes);
+		$this->buffer = $buffer;
 
-		// Merge an entry into the 'akeeba.text' script option
-		$this->addScriptOptions(
-			'akeeba.text', [
-			strtoupper($string) => $translated,
-		], true
-		);
+		return $this;
 	}
 
 	/**
@@ -136,20 +126,6 @@ abstract class Document implements ContainerAwareInterface
 	public function getBuffer()
 	{
 		return $this->buffer;
-	}
-
-	/**
-	 * Sets the buffer (contains the main content of the HTML page or the entire JSON response)
-	 *
-	 * @param   string  $buffer
-	 *
-	 * @return  \Awf\Document\Document
-	 */
-	public function setBuffer($buffer)
-	{
-		$this->buffer = $buffer;
-
-		return $this;
 	}
 
 	/**
@@ -176,8 +152,8 @@ abstract class Document implements ContainerAwareInterface
 	/**
 	 * Adds an inline script to the page's header
 	 *
-	 * @param   string  $content  The contents of the script (without the script tag)
-	 * @param   string  $type     (optional) The MIME type of the script data
+	 * @param   string $content The contents of the script (without the script tag)
+	 * @param   string $type    (optional) The MIME type of the script data
 	 *
 	 * @return  \Awf\Document\Document
 	 */
@@ -208,7 +184,7 @@ abstract class Document implements ContainerAwareInterface
 	{
 		if (empty($this->scriptOptions[$key]))
 		{
-			$this->scriptOptions[$key] = [];
+			$this->scriptOptions[$key] = array();
 		}
 
 		if ($merge && is_array($options))
@@ -234,7 +210,7 @@ abstract class Document implements ContainerAwareInterface
 	{
 		if ($key)
 		{
-			return (empty($this->scriptOptions[$key])) ? [] : $this->scriptOptions[$key];
+			return (empty($this->scriptOptions[$key])) ? array() : $this->scriptOptions[$key];
 		}
 		else
 		{
@@ -245,17 +221,17 @@ abstract class Document implements ContainerAwareInterface
 	/**
 	 * Adds an external stylesheet to the page
 	 *
-	 * @param   string   $url     The URL of the stylesheet file
-	 * @param   boolean  $before  (optional) Should I add this before the template's scripts?
-	 * @param   string   $type    (optional) The MIME type of the stylesheet file
-	 * @param   string   $media   (optional) The media target of the stylesheet file
+	 * @param   string  $url    The URL of the stylesheet file
+	 * @param   boolean $before (optional) Should I add this before the template's scripts?
+	 * @param   string  $type   (optional) The MIME type of the stylesheet file
+	 * @param   string  $media  (optional) The media target of the stylesheet file
 	 *
 	 * @return  \Awf\Document\Document
 	 */
 	public function addStyleSheet($url, $before = false, $type = 'text/css', $media = null)
 	{
-		$this->styles[$url]['mime']   = $type;
-		$this->styles[$url]['media']  = $media;
+		$this->styles[$url]['mime'] = $type;
+		$this->styles[$url]['media'] = $media;
 		$this->styles[$url]['before'] = $before;
 
 		return $this;
@@ -264,8 +240,8 @@ abstract class Document implements ContainerAwareInterface
 	/**
 	 * Adds an inline stylesheet to the page's header
 	 *
-	 * @param   string  $content  The contents of the stylesheet (without the style tag)
-	 * @param   string  $type     (optional) The MIME type of the stylesheet data
+	 * @param   string $content The contents of the stylesheet (without the style tag)
+	 * @param   string $type    (optional) The MIME type of the stylesheet data
 	 *
 	 * @return  \Awf\Document\Document
 	 */
@@ -362,6 +338,26 @@ abstract class Document implements ContainerAwareInterface
 	}
 
 	/**
+	 * Returns a reference to our Container object
+	 *
+	 * @return \Awf\Container\Container
+	 */
+	public function getContainer()
+	{
+		return $this->container;
+	}
+
+	/**
+	 * Set the MIME type of the document
+	 *
+	 * @param   string $mimeType
+	 */
+	public function setMimeType($mimeType)
+	{
+		$this->mimeType = $mimeType;
+	}
+
+	/**
 	 * Get the MIME type of the document
 	 *
 	 * @return  string
@@ -372,21 +368,11 @@ abstract class Document implements ContainerAwareInterface
 	}
 
 	/**
-	 * Set the MIME type of the document
-	 *
-	 * @param   string  $mimeType
-	 */
-	public function setMimeType($mimeType)
-	{
-		$this->mimeType = $mimeType;
-	}
-
-	/**
 	 * Add an HTTP header
 	 *
-	 * @param   string   $header     The HTTP header to add, e.g. Content-Type
-	 * @param   string   $content    The content of the HTTP header, e.g. text/plain
-	 * @param   boolean  $overwrite  Should I overwrite an existing header?
+	 * @param   string  $header    The HTTP header to add, e.g. Content-Type
+	 * @param   string  $content   The content of the HTTP header, e.g. text/plain
+	 * @param   boolean $overwrite Should I overwrite an existing header?
 	 *
 	 * @return  void
 	 */
@@ -403,7 +389,7 @@ abstract class Document implements ContainerAwareInterface
 	/**
 	 * Remove an HTTP header if set
 	 *
-	 * @param   string  $header  The header to remove, e.g. Content-Type
+	 * @param   string $header The header to remove, e.g. Content-Type
 	 *
 	 * @return  void
 	 */
@@ -418,8 +404,8 @@ abstract class Document implements ContainerAwareInterface
 	/**
 	 * Get the contents of an HTTP header defined in the document
 	 *
-	 * @param   string  $header   The HTTP header to return
-	 * @param   string  $default  The default value if it's not already set
+	 * @param   string $header  The HTTP header to return
+	 * @param   string $default The default value if it's not already set
 	 *
 	 * @return  string  The HTTP header's value
 	 */
@@ -469,6 +455,18 @@ abstract class Document implements ContainerAwareInterface
 	}
 
 	/**
+	 * Set the document's name
+	 *
+	 * @param   null|string $name
+	 *
+	 * @return  void
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+
+	/**
 	 * Get the document's name
 	 *
 	 * @return  null|string
@@ -476,17 +474,5 @@ abstract class Document implements ContainerAwareInterface
 	public function getName()
 	{
 		return $this->name;
-	}
-
-	/**
-	 * Set the document's name
-	 *
-	 * @param   null|string  $name
-	 *
-	 * @return  void
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
 	}
 }

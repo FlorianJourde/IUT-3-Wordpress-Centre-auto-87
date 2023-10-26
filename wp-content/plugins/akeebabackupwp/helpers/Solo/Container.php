@@ -13,7 +13,7 @@ use Solo\Session\SegmentFactory;
 use Solo\Session\WordPressTokenFactory;
 
 /**
- * Dependency injection container for Akeeba Backup for WordPress
+ * Dependency injection container for Solo
  *
  * @property-read  string  $iconBaseName  The base name for logo icon files
  */
@@ -23,8 +23,11 @@ class Container extends \Awf\Container\Container
 	{
 		$this->iconBaseName = 'abwp';
 
-		$values['application_name']     = $values['application_name'] ?? 'Solo';
-		$values['applicationNamespace'] = $values['applicationNamespace'] ?? '\\Solo';
+		// Set the application name (must be Solo, used in the PHP namespaces)
+		if (!isset($values['application_name']))
+		{
+			$values['application_name'] = 'Solo';
+		}
 
 		// Set up a segment name unique to this installation
 		if (!isset($values['session_segment_name']))
@@ -50,10 +53,10 @@ class Container extends \Awf\Container\Container
 		}
 
 		/**
-		 * Provide our custom session manager emulation service inside WordPress. Outside of WordPress we have to use
-		 * the regular AWF session manager, otherwise the CLI script fails (since it runs outside of WordPress).
+		 * Provide our custom session manager emulation service inside WordPress. Outside WordPress we have to use the
+		 * regular AWF session manager, otherwise the CLI script fails (since it runs outside of WordPress).
 		 */
-		$values['session'] = function (Container $c)
+		$this['session'] = function ()
 		{
 			$tokenFactory = defined('WPINC') ? new WordPressTokenFactory() : new CsrfTokenFactory();
 
@@ -64,7 +67,7 @@ class Container extends \Awf\Container\Container
 		};
 
 		// Application Session Segment service
-		$values['segment'] = function (Container $c)
+		$this['segment'] = function (Container $c)
 		{
 			return $c->session->newSegment($c->session_segment_name);
 		};

@@ -56,7 +56,7 @@ class Raw extends View
 
 		// Pagination
 		$displayedLinks = 10;
-		$this->pagination = new Pagination($this->itemsCount, $this->lists->limitStart, $this->lists->limit, $displayedLinks, $this->container);
+		$this->pagination = new Pagination($this->itemsCount, $this->lists->limitStart, $this->lists->limit, $displayedLinks, $this->container->application);
 
 		return true;
 	}

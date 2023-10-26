@@ -5,23 +5,20 @@
  * @license   GNU General Public License version 3, or later
  */
 
+use Awf\Application\Application;
 use Awf\Exception\App as AWFAppException;
+use Awf\Mvc\Model;
 use Awf\Registry\Registry;
 use Awf\Text\Text;
+use Solo\Container;
 use Solo\Exception\Update\ConnectionError;
 use Solo\Exception\Update\PlatformError;
 use Solo\Exception\Update\StabilityError;
 use Solo\Exception\Update\UpdateError;
 
 /**
- * Integration with WordPress' Plugins Updater.
- *
- * We convey the update information of our plugin to WordPress. The extent of WordPress' involvement in the update
- * installation is that of a glorified `wget` and `unzip` combo.
- *
- * WE CAN NOT AND DO NOT TRUST WORDPRESS TO RUN POST-UPGRADE CODE.
- *
- * Instead, the post-upgrade code runs “magically” whenever we call `\AkeebaBackupWP::loadAkeebaBackupContainer`.
+ * This class will take care of bridging WordPress update system and Akeeba Backup package, fetching the info from the
+ * plugin and passing back to WordPress.
  */
 abstract class AkeebaBackupWPUpdater
 {
@@ -29,12 +26,7 @@ abstract class AkeebaBackupWPUpdater
 	 * Private static variable keys that belong to our frozen state, stored in a site transient.
 	 */
 	const STATE_KEYS = [
-		'needsDownloadID',
-		'connectionError',
-		'platformError',
-		'downloadLink',
-		'cantUseWpUpdate',
-		'stabilityError',
+		'needsDownloadID', 'connectionError', 'platformError', 'downloadLink', 'cantUseWpUpdate', 'stabilityError',
 	];
 
 	/** @var bool Do I need the Download ID? */
@@ -56,59 +48,37 @@ abstract class AkeebaBackupWPUpdater
 	protected static $stabilityError = false;
 
 	/**
-	 * Force WordPress to reload update information
-	 *
-	 * @return  void
-	 * @since   8.1.0
-	 */
-	public static function forceReload(): void
-	{
-		delete_transient('update_plugins');
-		delete_transient('akeebabackupwp_pluginupdate_frozenstate');
-	}
-
-	/**
-	 * Report update information to WordPress.
-	 *
-	 * Handles the `pre_set_site_transient_update_plugins` filter
-	 *
 	 * Retrieve the update information from Akeeba Backup for WordPress' update cache and report them back to WordPress
 	 * in a format it understands.
 	 *
 	 * The returned information is cached by WordPress and used by checkinfo() to render the Akeeba Backup for WordPress
 	 * update information in WordPress' Plugins page.
 	 *
-	 * DO NOT TYPE HINT!
-	 *
-	 * @param   stdClass  $value
-	 * @param   string    $transientName
+	 * @param   stdClass  $transient
 	 *
 	 * @return  stdClass
 	 * @throws  AWFAppException
-	 * @see     https://developer.wordpress.org/reference/hooks/pre_set_site_transient_transient/
 	 */
-	public static function getUpdateInformation($value = null, $transientName = null)
+	public static function getupdates($transient)
 	{
 		global $wp_version;
 		global $akeebaBackupWordPressLoadPlatform;
 
-		if ($transientName !== 'update_plugins' || empty($value) || !is_object($value)
-		    || (is_multisite()
-		        && !is_network_admin()))
+		if (is_multisite() && !is_network_admin())
 		{
-			return $value;
+			return $transient;
 		}
 
 		/**
 		 * On WordPress < 4.3 we can't use the integrated update system since the hook we're using to apply our Download
-		 * ID is not available. Instead, we warn the user and tell them to use our own update system.
+		 * ID is not available. Instead we warn the user and tell them to use our own update system.
 		 */
 		if (version_compare($wp_version, '4.3', 'lt'))
 		{
 			static::$cantUseWpUpdate = true;
 			self::freezeState();
 
-			return $value;
+			return $transient;
 		}
 
 		/**
@@ -122,7 +92,7 @@ abstract class AkeebaBackupWPUpdater
 		{
 			self::freezeState();
 
-			return $value;
+			return $transient;
 		}
 
 		// Do I have to notify the user that the Download ID is missing?
@@ -159,19 +129,19 @@ abstract class AkeebaBackupWPUpdater
 
 		if (!$updateInfo)
 		{
-			return $value;
+			return $transient;
 		}
 
-		if (!$value || !isset($value->response))
+		if (!$transient || !isset($transient->response))
 		{
 			// Double check that we actually have an object to interact with. Since the $transient data is pulled from the database
 			// and could be manipulated by other plugins, we might have an unexpected value here
-			if (!$value)
+			if (!$transient)
 			{
-				$value = new stdClass();
+				$transient = new stdClass();
 			}
 
-			$value->response = [];
+			$transient->response = [];
 		}
 
 		$dirSlug = self::getPluginSlug();
@@ -189,13 +159,13 @@ abstract class AkeebaBackupWPUpdater
 
 		if ($updateInfo->get('hasUpdate', false))
 		{
-			$value->response                                   = $value->response ?? [];
-			$value->response[$dirSlug . '/akeebabackupwp.php'] = $obj;
+			$transient->response = $transient->response ?? [];
+			$transient->response[$dirSlug . '/akeebabackupwp.php'] = $obj;
 		}
 		else
 		{
-			$value->no_update                                   = $value->no_update ?? [];
-			$value->no_update[$dirSlug . '/akeebabackupwp.php'] = $obj;
+			$transient->no_update = $transient->no_update ?? [];
+			$transient->no_update[$dirSlug . '/akeebabackupwp.php'] = $obj;
 		}
 
 		/**
@@ -205,48 +175,31 @@ abstract class AkeebaBackupWPUpdater
 		 */
 		static::$downloadLink = $updateInfo->get('link');
 
-		return $value;
+		return $transient;
 	}
 
 	/**
 	 * Used to render "View version x.x.x details" link from the plugins page.
-	 *
-	 * Handles the `plugins_api` filter.
-	 *
 	 * We hook to this event to redirect the connection from the WordPress directory to our site for updates
 	 *
-	 * DO NOT TYPE HINT!
+	 * @param $cur_info
+	 * @param $action
+	 * @param $arg
 	 *
-	 * @param   false|object|array  $result  The result object or array. Default false.
-	 * @param   string              $action  The type of information being requested from the Plugin Installation API.
-	 * @param   object|array        $arg     Plugin API arguments.
-	 *
-	 * @return  false|object|array
-	 *
-	 * @see https://developer.wordpress.org/reference/hooks/plugins_api/
+	 * @return object
 	 */
-	public static function pluginInformationPage($result = false, $action = '', $arg = null)
+	public static function checkinfo($cur_info, $action, $arg)
 	{
-		if (!in_array($action ?: '', ['query_plugins', 'plugin_information']))
-		{
-			return $result;
-		}
-
-		if (!is_object($arg))
-		{
-			return $result;
-		}
-
 		$dirSlug = self::getPluginSlug();
 
 		if (!isset($arg->slug))
 		{
-			return $result;
+			return $cur_info;
 		}
 
 		if ($arg->slug !== $dirSlug)
 		{
-			return $result;
+			return $cur_info;
 		}
 
 		try
@@ -270,33 +223,8 @@ abstract class AkeebaBackupWPUpdater
 		 */
 		if (!$updateInfo)
 		{
-			return $result;
+			return $cur_info;
 		}
-
-		$platform         = function_exists('classicpress_version') ? 'classicpress' : 'wordpress';
-		$platforms        = $updateInfo->get('platforms');
-		$platformVersions = $platforms->{$platform} ?? [];
-		$minPlatformVersion = array_reduce(
-			$platformVersions,
-			fn($carry, $version) => empty($carry)
-				? str_replace('+', '', $version)
-				: (
-					version_compare($carry, str_replace('+', '', $version), 'gt')
-						? str_replace('+', '', $version)
-						: $carry
-				),
-			''
-		);
-		$minPlatformVersion = $minPlatformVersion ?: get_bloginfo('version');
-
-		$releaseNotes = $updateInfo->get(
-			'releaseNotes',
-			sprintf(
-				"For downloads and release notes please visit the <a href='%s' target='_blank'>the download page of version %s</a> on the plugin's site.",
-				$updateInfo->get('infoUrl'),
-				$updateInfo->get('version')
-			)
-		);
 
 		/**
 		 * This is the information WordPress is using to render the Akeeba Backup for WordPress row in its Plugins page.
@@ -306,14 +234,14 @@ abstract class AkeebaBackupWPUpdater
 			'name'          => '',
 			'slug'          => $dirSlug,
 			'author'        => 'Akeeba Ltd.',
-			'homepage'      => 'https://www.akeeba.com/products/akeeba-backup-wordpress.html',
+			'homepage'      => 'https://www.akeeba.com',
 			'last_updated'  => $updateInfo->get('date'),
 			'version'       => $updateInfo->get('version'),
 			'download_link' => $updateInfo->get('link'),
-			'requires'      => $minPlatformVersion,
-			//'tested'        => get_bloginfo('version'),
+			'requires'      => '5.2',
+			'tested'        => get_bloginfo('version'),
 			'sections'      => [
-				'release_notes' => $releaseNotes,
+				'release_notes' => $updateInfo->get('releasenotes'),
 			],
 			'banners'       => [
 				'low'  => plugins_url() . '/' . $dirSlug . '/app/media/image/wordpressupdate_banner.jpg',
@@ -325,27 +253,15 @@ abstract class AkeebaBackupWPUpdater
 	}
 
 	/**
-	 * Throws an error if the Download ID is missing when the user tries to install an update.
-	 *
-	 * Handles the `upgrader_pre_download` filter.
-	 *
-	 * DO NOT TYPE HINT!
-	 *
-	 * @param   bool              $bailout
-	 * @param   null|string       $package
-	 * @param   null|WP_Upgrader  $upgrader
+	 * @param   bool         $bailout
+	 * @param   string       $package
+	 * @param   WP_Upgrader  $upgrader
 	 *
 	 * @return WP_Error|false    An error if anything goes wrong or is missing, either case FALSE to keep the update
 	 *                           process going
-	 * @see https://developer.wordpress.org/reference/hooks/upgrader_pre_download/
 	 */
-	public static function addDownloadID($bailout = false, $package = null, $upgrader = null)
+	public static function addDownloadID($bailout, $package, $upgrader)
 	{
-		if (!is_string($package))
-		{
-			return false;
-		}
-
 		// Process only our download links
 		if ($package != static::$downloadLink)
 		{
@@ -355,9 +271,7 @@ abstract class AkeebaBackupWPUpdater
 		// Do we need the Download ID (ie Pro version)?
 		if (static::needsDownloadID())
 		{
-			return new WP_Error(
-				403, 'Please insert your Download ID inside Akeeba Backup to fetch the updates for the Pro version'
-			);
+			return new WP_Error(403, 'Please insert your Download ID inside Akeeba Backup to fetch the updates for the Pro version');
 		}
 
 		// Our updater automatically sets the Download ID in the link, so there's no need to change anything inside the URL
@@ -365,44 +279,53 @@ abstract class AkeebaBackupWPUpdater
 	}
 
 	/**
-	 * Helper function to display some custom text AFTER the row regarding our update.
+	 * Helper function to change some update options on the fly. By default WordPress will delete the entire folder
+	 * and abort if the folder already exists; by tweaking the options we can force WordPress to extract on top of the
+	 * existing folder without deleting it first.
 	 *
-	 * Handles the `after_plugin_row_akeebaebackupwp/akeebabackupwp.php` filter
+	 * @param   array  $options  Options to be used while upgrading our plugin
+	 *
+	 * @return    array    Updated options
+	 */
+	public static function packageOptions($options)
+	{
+		if (isset($options['hook_extra']) && isset($options['hook_extra']['plugin']))
+		{
+			// If this is our package, let's tell WordPress to extract on top of the existing folder,
+			// without deleting anything
+			if (stripos($options['hook_extra']['plugin'], 'akeebabackupwp.php') !== false)
+			{
+				$options['clear_destination']           = false;
+				$options['abort_if_destination_exists'] = false;
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Helper function to display some custom text AFTER the row regarding our update.
 	 *
 	 * This is typically used to communicate problems preventing the update information from being retrieved or used,
 	 * meaning updates for our plugin are essentially broken.
 	 *
-	 * DO NOT TYPEHINT!
-	 *
-	 * @param   string  $plugin_file  Path to the plugin file relative to the plugins directory.
-	 * @param   array   $plugin_data  An array of plugin data.
-	 * @param   string  $status       Status filter currently applied to the plugin list.
-	 *
-	 * @see   https://developer.wordpress.org/reference/hooks/after_plugin_row_plugin_file/
+	 * @param $plugin_file
+	 * @param $plugin_data
+	 * @param $status
 	 */
-	public static function updateMessage($plugin_file = '', $plugin_data = [], $status = '')
+	public static function updateMessage($plugin_file, $plugin_data, $status)
 	{
 		self::thawState();
 
 		// Load enough of our plugin to display translated strings
 		try
 		{
-			$container = \AkeebaBackupWP::loadAkeebaBackupContainer();
+			$container = static::loadAkeebaBackup();
+			Text::loadLanguage(null, 'akeebabackup', '.com_akeebabackup.ini', false, $container->languagePath);
+			Text::loadLanguage('en-GB', 'akeebabackup', '.com_akeebabackup.ini', false, $container->languagePath);
 
-			if (!$container)
-			{
-				return;
-			}
-
-			// Load the language files
-			Text::loadLanguage('en-GB', $container, '.ini', true, $container->languagePath . '/akeebabackup');
-
-			if (Text::detectLanguage($container, '.ini', $container->languagePath . '/akeebabackup') !== 'en-GB')
-			{
-				Text::loadLanguage(null, $container, '.ini', true, $container->languagePath . '/akeebabackup');
-			}
 		}
-		catch (Throwable $e)
+		catch (Exception $e)
 		{
 			return;
 		}
@@ -446,9 +369,9 @@ abstract class AkeebaBackupWPUpdater
 		elseif (static::$stabilityError)
 		{
 			/**
-			 * There is an update available, but it's less stable than the minimum stability preference.
+			 * There is an update available but it's less stable than the minimum stability preference.
 			 *
-			 * For example: a Beta is available, but we are asked to only report stable versions.
+			 * For example: a Beta is available but we are asked to only report stable versions.
 			 *
 			 * We deliberately don't show a warning. The whole point of the stability preference is to stop buggering
 			 * the poor user during our pre-release runs (alphas, betas and occasional RC). In this case we just pretend
@@ -481,6 +404,66 @@ HTML;
 		}
 	}
 
+	/**
+	 * Includes all the required pieces to load Akeeba Backup from within a standard WordPress page
+	 *
+	 * @return Container|false
+	 *
+	 * @throws AWFAppException
+	 */
+	public static function loadAkeebaBackup()
+	{
+		static $localContainer;
+
+		// Do not run the whole logic if we already have a valid Container
+		if ($localContainer)
+		{
+			return $localContainer;
+		}
+
+		defined('AKEEBASOLO') || define('AKEEBASOLO', 1);
+
+		@include_once __DIR__ . '/../app/version.php';
+		
+		global $akeebaBackupWordPressLoadPlatform;
+		$akeebaBackupWordPressLoadPlatform = false;
+
+		if (!file_exists(__DIR__ . '/../helpers/integration.php'))
+		{
+			return false;
+		}
+
+		/** @var Container $container */
+		$container = require __DIR__ . '/../helpers/integration.php';
+
+		// Ok, really don't know why but this function gets called TWICE. It seems to completely ignore the first result
+		// (even if we report that there's an update) and calls it again. This means that the require_once above will be ignored.
+		// I can't simply return the current $transient because it doesn't contain the updated info.
+		// So I'll save a previous copy of the container and then use it later.
+		if (!$localContainer)
+		{
+			$localContainer = $container;
+		}
+
+		if (!$localContainer)
+		{
+			return false;
+		}
+
+		// Get all info saved inside the configuration
+		$dirSlug = self::getPluginSlug();
+		$container->appConfig->loadConfiguration();
+		$container->basePath = WP_PLUGIN_DIR . '/' . $dirSlug . '/app/Solo';
+
+		// Require the application for the first time by passing all values. In this way we prime the internal cache and
+		// we will be covered on cases where we fetch the application from the getInstance method instead of using the container
+		$application = Application::getInstance('Solo', $container);
+
+		// Set the update platform
+		$application->setupUpdatePlatform();
+
+		return $localContainer;
+	}
 
 	/**
 	 * Fetches the update information from the remote server
@@ -499,7 +482,7 @@ HTML;
 			return $updates;
 		}
 
-		$container = \AkeebaBackupWP::loadAkeebaBackupContainer();
+		$container = static::loadAkeebaBackup();
 
 		if (!$container)
 		{
@@ -507,7 +490,7 @@ HTML;
 		}
 
 		/** @var \Solo\Model\Update $updateModel */
-		$updateModel = $container->mvcFactory->makeModel('Update');
+		$updateModel = Model::getInstance($container->application_name, 'Update', $container);
 		$updateModel->load(true);
 
 		// No updates? Let's stop here
@@ -538,19 +521,9 @@ HTML;
 		return $updateInfo;
 	}
 
-	/**
-	 * Does the user need to entere a new Download ID?
-	 *
-	 * @return bool
-	 */
-	private static function needsDownloadID(): bool
+	private static function needsDownloadID()
 	{
-		$container = \AkeebaBackupWP::loadAkeebaBackupContainer();
-
-		if (!$container)
-		{
-			return false;
-		}
+		$container = static::loadAkeebaBackup();
 
 		// With the core version we're always good to go
 		if (!AKEEBABACKUP_PRO)
@@ -570,11 +543,11 @@ HTML;
 	}
 
 	/**
-	 * Freeze the update warnings state.
+	 * Freeze the update warnings state in carbonite
 	 *
-	 * We create an array with the update warnings flags and save it as a site transient.
+	 * Just joking. We create an array with the update warnings flags and save it as a site transient.
 	 */
-	private static function freezeState(): void
+	private static function freezeState()
 	{
 		$frozenState = [];
 
@@ -594,7 +567,7 @@ HTML;
 	 *
 	 * We read the site transient and restore the update warnings flags from it, if it's set.
 	 */
-	private static function thawState(): void
+	private static function thawState()
 	{
 		$frozenState = get_site_transient('akeebabackupwp_pluginupdate_frozenstate');
 
@@ -613,11 +586,9 @@ HTML;
 	}
 
 	/**
-	 * Returns the subdirectory of the main WP_CONTENT_DIR/plugins folder where our plugin is installed.
-	 *
-	 * @return string
+	 * @return mixed|string
 	 */
-	private static function getPluginSlug(): string
+	private static function getPluginSlug()
 	{
 		$pluginsUrl   = plugins_url('', realpath(__DIR__ . '/../akeebabackupwp.php'))
 			?: realpath(__DIR__ . '/..');
@@ -631,8 +602,9 @@ HTML;
 
 		$fullDir  = __DIR__;
 		$dirParts = explode(DIRECTORY_SEPARATOR, $fullDir, 3);
-		$dirSlug  = $dirParts[1] ?? 'akeebabackupwp';
+		$dirSlug  = $dirParts[1] ?? 'akeebabackup';
 
 		return $dirSlug;
 	}
+
 }

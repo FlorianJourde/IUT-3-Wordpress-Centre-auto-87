@@ -52,8 +52,7 @@ class Html extends View
 
 	public function onBeforeDownload()
 	{
-		$doc = $this->container->application->getDocument();
-		$doc->lang('SOLO_UPDATE_ERR_INVALIDDOWNLOADID');
+		Text::script('SOLO_UPDATE_ERR_INVALIDDOWNLOADID');
 
 		$token       = $this->getContainer()->session->getCsrfToken()->getValue();
 		$router      = $this->getContainer()->router;

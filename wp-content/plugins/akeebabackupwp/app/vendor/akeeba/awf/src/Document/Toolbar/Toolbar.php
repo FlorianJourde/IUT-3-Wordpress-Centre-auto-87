@@ -8,8 +8,6 @@
 namespace Awf\Document\Toolbar;
 
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Document\Menu\Item;
 
 /**
@@ -20,10 +18,8 @@ use Awf\Document\Menu\Item;
  *
  * @package   Awf\Document\Toolbar
  */
-class Toolbar implements ContainerAwareInterface
+class Toolbar
 {
-	use ContainerAwareTrait;
-
 	/**
 	 * The title of the page
 	 *
@@ -39,13 +35,20 @@ class Toolbar implements ContainerAwareInterface
 	private $buttons = array();
 
 	/**
+	 * The container we are attached to
+	 *
+	 * @var   Container
+	 */
+	private $container;
+
+	/**
 	 * Public constructor
 	 *
 	 * @param Container $container The container we are attached to
 	 */
 	public function __construct(Container $container)
 	{
-		$this->setContainer($container);
+		$this->container = $container;
 	}
 
 	/**

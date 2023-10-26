@@ -80,7 +80,7 @@ class Backup extends Model
 		try
 		{
 			/** @var Main $mainModel */
-			$mainModel = $this->container->mvcFactory->makeModel('Main');
+			$mainModel = Model::getInstance($this->container->application_name, 'Main', $this->container);
 			$mainModel->checkAndFixDatabase();
 		}
 		catch (Exception $e)
@@ -126,14 +126,13 @@ class Backup extends Model
 		Platform::getInstance()->load_configuration();
 
 		// Autofix the output directory
-		/** @var Wizard $confWizModel */
-		$confWizModel = $this->getContainer()->mvcFactory->makeTempModel('Wizard');
+		$confWizModel = new Wizard($this->container);
 		$confWizModel->autofixDirectories();
 
 		// Rebase Off-site Folder Inclusion filters to use site path variables
 		if (class_exists('\Solo\Model\Extradirs'))
 		{
-			$incFoldersModel = $this->getContainer()->mvcFactory->makeTempModel('Extradirs');
+			$incFoldersModel = new Extradirs($this->container);
 			$incFoldersModel->rebaseFiltersToSiteDirs();
 		}
 
@@ -151,8 +150,6 @@ class Backup extends Model
 
 			$config->setProtectedKeys($protectedKeys);
 		}
-
-		Platform::getInstance()->apply_quirk_definitions();
 
 		// Check if there are critical issues preventing the backup
 		if (!Factory::getConfigurationChecks()->getShortStatus())
@@ -212,7 +209,7 @@ class Backup extends Model
 		 * installing updates and taking backups automatically, without visiting the Control Panel except in rare cases.
 		 */
 		/** @var Main $cpModel */
-		$cpModel = $this->container->mvcFactory->makeTempModel('Main');
+		$cpModel = Model::getTmpInstance($this->container->application_name, 'Main', $this->container);
 		$cpModel->convertLogFiles(3);
 
 
@@ -290,7 +287,7 @@ class Backup extends Model
 		$profile = max(0, (int) $this->getState('profile', 0)) ?: $this->getLastBackupProfile($tag, $backupId);
 
 		// Set the active profile
-		$session = $this->getContainer()->segment;
+		$session = Application::getInstance()->getContainer()->segment;
 		$session->set('profile', $profile);
 
 		if (!defined('AKEEBA_PROFILE'))

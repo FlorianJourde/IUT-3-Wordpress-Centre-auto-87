@@ -10,6 +10,7 @@ namespace Solo\Model;
 use Akeeba\Engine\Factory;
 use Akeeba\Engine\Platform;
 use Awf\Container\Container;
+use Awf\Date\Date;
 use Awf\Mvc\DataModel;
 use Awf\Text\Text;
 use Solo\Dependencies\Cron\CronExpression;
@@ -161,7 +162,7 @@ class Cron extends DataModel
 
 			$pendingTask->save([
 				'last_exit'      => self::TASK_RUNNING,
-				'last_run_start' => $this->container->dateFactory()->toSql(false, $this->container->db),
+				'last_run_start' => (new Date())->toSql(),
 			]);
 		}
 		catch (\Exception $e)
@@ -218,7 +219,7 @@ class Cron extends DataModel
 		{
 			$db->lockTable('#__ak_schedules');
 			$pendingTask->save([
-				'last_run_end' => $this->container->dateFactory()->toSql(false, $this->container->db),
+				'last_run_end' => (new Date())->toSql(),
 			]);
 			$db->unlockTables();
 
@@ -236,7 +237,7 @@ class Cron extends DataModel
 	{
 		$db         = $this->getDbo();
 		$threshold  = max(3, (int) $this->container->appConfig->get('cron_stuck_threshold', 3));
-		$cutoffTime = $this->container->dateFactory()->sub(new \DateInterval('PT' . $threshold . 'M'));
+		$cutoffTime = (new Date())->sub(new \DateInterval('PT' . $threshold . 'M'));
 
 		$query = $db->getQuery(true)
 			->update($db->qn('#__ak_schedules'))
@@ -247,7 +248,7 @@ class Cron extends DataModel
 			])
 			->where([
 				$db->qn('last_exit') . ' = ' . self::TASK_RUNNING,
-				$db->qn('last_run_start') . ' <= ' . $db->quote($cutoffTime->toSql(false, $this->container->db)),
+				$db->qn('last_run_start') . ' <= ' . $db->quote($cutoffTime->toSql()),
 			]);
 
 		$db->setQuery($query)->execute();
@@ -304,20 +305,8 @@ class Cron extends DataModel
 
 			try
 			{
-				$tz = $this->container->appConfig->get('forced_backup_timezone', 'UTC') ?: 'AKEEBA/DEFAULT';
-
-				if ($tz === 'AKEEBA/DEFAULT')
-				{
-					$tz = function_exists('wp_timezone_string') ? (wp_timezone_string() ?: 'UTC') : 'UTC';
-				}
-
-				/**
-				 * CRITICAL! Do not remove the dummy line.
-				 *
-				 * If an invalid timezone is configured, the following line will raise an exception which will be caught by
-				 * the try/catch block, thus falling back to the safe default of `UTC`.
-				 */
-				new \DateTimeZone($tz);
+				$tz = $this->container->appConfig->get('forced_backup_timezone', 'UTC');
+				$tz = ($tz === 'AKEEBA/DEFAULT') ? 'UTC' : $tz;
 			}
 			catch (\Exception $e)
 			{
@@ -337,7 +326,7 @@ class Cron extends DataModel
 			$now->setTimezone($tz);
 
 			$previousRun          = $cronExpression->getPreviousRunDate($now, 0, false, $tz->getName())->format(DATE_W3C);
-			$this->last_run_start = $this->container->dateFactory($previousRun)->toSql(false, $this->container->db);
+			$this->last_run_start = (new Date($previousRun))->toSql();
 			$this->last_run_end   = null;
 			$this->last_exit      = self::TASK_INITIAL_SCHEDULE;
 		}
@@ -408,20 +397,8 @@ class Cron extends DataModel
 
 			try
 			{
-				$tz = $this->container->appConfig->get('forced_backup_timezone', 'UTC') ?: 'AKEEBA/DEFAULT';
-
-				if ($tz === 'AKEEBA/DEFAULT')
-				{
-					$tz = function_exists('wp_timezone_string') ? (wp_timezone_string() ?: 'UTC') : 'UTC';
-				}
-
-				/**
-				 * CRITICAL! Do not remove the dummy line.
-				 *
-				 * If an invalid timezone is configured, the following line will raise an exception which will be caught by
-				 * the try/catch block, thus falling back to the safe default of `UTC`.
-				 */
-				new \DateTimeZone($tz);
+				$tz = $this->container->appConfig->get('forced_backup_timezone', 'UTC');
+				$tz = ($tz === 'AKEEBA/DEFAULT') ? 'UTC' : $tz;
 			}
 			catch (\Exception $e)
 			{
@@ -469,7 +446,7 @@ class Cron extends DataModel
 		define('AKEEBA_BACKUP_ORIGIN', 'wpcron');
 
 		/** @var Backup $model */
-		$model = $this->container->mvcFactory->makeTempModel('Backup');
+		$model = self::getTmpInstance($this->container->application_name, 'Backup', $this->container);
 
 		/**
 		 * DO NOT REMOVE!
@@ -507,7 +484,7 @@ class Cron extends DataModel
 		define('AKEEBA_BACKUP_ORIGIN', 'wpcron');
 
 		/** @var Backup $model */
-		$model = $this->container->mvcFactory->makeTempModel('Backup');
+		$model = self::getTmpInstance($this->container->application_name, 'Backup', $this->container);
 
 		Platform::getInstance()->load_configuration(AKEEBA_PROFILE);
 

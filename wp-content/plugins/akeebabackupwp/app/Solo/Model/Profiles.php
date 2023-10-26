@@ -7,6 +7,7 @@
 
 namespace Solo\Model;
 
+use Akeeba\Engine\Factory;
 use Akeeba\Engine\Platform;
 use Awf\Container\Container;
 use Awf\Mvc\DataModel;
@@ -20,7 +21,7 @@ class Profiles extends DataModel
 	 *
 	 * @param   Container  $container  Configuration parameters
 	 */
-	public function __construct(?Container $container = null)
+	public function __construct(\Awf\Container\Container $container = null)
 	{
 		$this->tableName = '#__ak_profiles';
 		$this->idFieldName = 'id';

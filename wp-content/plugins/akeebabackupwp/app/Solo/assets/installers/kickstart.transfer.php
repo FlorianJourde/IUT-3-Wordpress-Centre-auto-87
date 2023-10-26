@@ -251,25 +251,20 @@ class AKFeatureTransfer
 	 */
 	private function memoryToBytes($setting)
 	{
-		$val  = trim($setting);
-		$last = strtolower(substr($val, -1));
+		$val = trim($setting);
+		$last = strtolower($val{strlen($val) - 1});
 
 		if (is_numeric($last))
 		{
 			return $setting;
 		}
 
-		$val = substr($val, 0, -1);
-
 		switch ($last)
 		{
-			/** @noinspection PhpMissingBreakStatementInspection */
 			case 't':
 				$val *= 1024;
-			/** @noinspection PhpMissingBreakStatementInspection */
 			case 'g':
 				$val *= 1024;
-			/** @noinspection PhpMissingBreakStatementInspection */
 			case 'm':
 				$val *= 1024;
 			case 'k':

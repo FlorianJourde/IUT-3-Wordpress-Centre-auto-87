@@ -100,8 +100,7 @@ class Html extends View
 		$this->subfolders            = $model->getState('subfolders');
 		$this->breadcrumbs           = $model->getState('breadcrumbs');
 
-		$doc = $this->container->application->getDocument();
-		$doc->lang('COM_AKEEBA_CONFIG_UI_ROOTDIR');
+		Text::script('COM_AKEEBA_CONFIG_UI_ROOTDIR');
 
 		return true;
 	}

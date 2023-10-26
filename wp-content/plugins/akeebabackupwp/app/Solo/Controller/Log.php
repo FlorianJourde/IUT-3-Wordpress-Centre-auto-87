@@ -30,7 +30,7 @@ class Log extends ControllerDefault
 
 		if (!empty($profile_id) && is_numeric($profile_id) && ($profile_id > 0))
 		{
-			$this->getContainer()->segment->profile = $profile_id;
+			\Awf\Application\Application::getInstance()->getContainer()->segment->profile = $profile_id;
 		}
 
 		// Execute the controller

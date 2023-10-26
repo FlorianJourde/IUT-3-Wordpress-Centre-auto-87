@@ -9,16 +9,12 @@ namespace Awf\Mvc\DataModel;
 
 
 use Awf\Application\Application;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Database\Query;
 use Awf\Mvc\DataModel;
 use Awf\Mvc\DataModel\Collection;
 
-abstract class Relation implements ContainerAwareInterface
+abstract class Relation
 {
-	use ContainerAwareTrait;
-
 	/** @var   DataModel  The data model we are attached to */
 	protected $parentModel = null;
 
@@ -55,17 +51,16 @@ abstract class Relation implements ContainerAwareInterface
 	/**
 	 * Public constructor. Initialises the relation.
 	 *
-	 * @param   DataModel    $parentModel        The data model we are attached to
-	 * @param   string       $foreignModelClass  The class name of the foreign key's model
-	 * @param   string|null  $localKey           The local table key for this relation
-	 * @param   string|null  $foreignKey         The foreign key for this relation
-	 * @param   string|null  $pivotTable         For many-to-many relations, the pivot (glue) table
-	 * @param   string|null  $pivotLocalKey      For many-to-many relations, the pivot table's column storing the local key
-	 * @param   string|null  $pivotForeignKey    For many-to-many relations, the pivot table's column storing the foreign key
+	 * @param   DataModel $parentModel       The data model we are attached to
+	 * @param   string    $foreignModelClass The class name of the foreign key's model
+	 * @param   string    $localKey          The local table key for this relation
+	 * @param   string    $foreignKey        The foreign key for this relation
+	 * @param   string    $pivotTable        For many-to-many relations, the pivot (glue) table
+	 * @param   string    $pivotLocalKey     For many-to-many relations, the pivot table's column storing the local key
+	 * @param   string    $pivotForeignKey   For many-to-many relations, the pivot table's column storing the foreign key
 	 */
-	public function __construct(DataModel $parentModel, string $foreignModelClass, ?string $localKey = null, ?string $foreignKey = null, ?string $pivotTable = null, ?string $pivotLocalKey = null, ?string $pivotForeignKey = null)
+	public function __construct(DataModel $parentModel, $foreignModelClass, $localKey = null, $foreignKey = null, $pivotTable = null, $pivotLocalKey = null, $pivotForeignKey = null)
 	{
-		$this->setContainer($parentModel->getContainer());
 		$this->parentModel = $parentModel;
 		$this->foreignModelClass = $foreignModelClass;
 		$this->localKey = $localKey;
@@ -122,12 +117,12 @@ abstract class Relation implements ContainerAwareInterface
 	 * supposed to return anything, just modify $foreignModel's state directly. For example, you may want to do:
 	 * $foreignModel->setState('foo', 'bar')
 	 *
-	 * @param   callable|null  $callback  The callback to run on the remote model.
-	 * @param Collection       $dataCollection
+	 * @param callable   $callback The callback to run on the remote model.
+	 * @param Collection $dataCollection
 	 *
 	 * @return Collection|DataModel
 	 */
-	public function getData(?callable $callback = null, Collection $dataCollection = null)
+	public function getData($callback = null, Collection $dataCollection = null)
 	{
 		if (is_null($this->data))
 		{
@@ -137,7 +132,7 @@ abstract class Relation implements ContainerAwareInterface
 			// Get a model instance
 			$container = Application::getInstance($this->foreignModelApp)->getContainer();
 			/** @var DataModel $foreignModel */
-			$foreignModel = $container->mvcFactory->makeTempModel($this->foreignModelName)
+			$foreignModel = DataModel::getTmpInstance($this->foreignModelApp, $this->foreignModelName, $container)
 				->setIgnoreRequest(true);
 
 			$filtered = $this->filterForeignModel($foreignModel, $dataCollection);

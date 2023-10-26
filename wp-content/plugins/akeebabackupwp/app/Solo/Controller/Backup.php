@@ -128,7 +128,7 @@ class Backup extends ControllerDefault
 		// Change and reload the profile if necessary
 		if ($profile != $current_profile)
 		{
-			$session = $this->getContainer()->segment;
+			$session = \Awf\Application\Application::getInstance()->getContainer()->segment;
 			$session->profile = $profile;
 
 			/**

@@ -13,10 +13,9 @@ interface CompilerInterface
 	 * Are the results of this compiler engine cacheable? If the engine makes use of the forcedParams it must return
 	 * false.
 	 *
-	 * @return  bool
-	 * @since   1.0.0
+	 * @return  mixed
 	 */
-	public function isCacheable(): bool;
+	public function isCacheable();
 
 	/**
 	 * Compile a view template into PHP and HTML
@@ -24,16 +23,14 @@ interface CompilerInterface
 	 * @param   string  $path         The absolute filesystem path of the view template
 	 * @param   array   $forceParams  Any parameters to force (only for engines returning raw HTML)
 	 *
-	 * @return  mixed
-	 * @since   1.0.0
+	 * @return mixed
 	 */
-	public function compile(string $path, array $forceParams = array()): string;
+	public function compile($path, array $forceParams = array());
 
 	/**
 	 * Returns the file extension supported by this compiler
 	 *
 	 * @return  string
-	 * @since   1.0.0
 	 */
-	public function getFileExtension(): string;
+	public function getFileExtension();
 }

@@ -30,7 +30,7 @@ class Joomla extends AbstractOracle
 	 *
 	 * @return  boolean
 	 */
-	public function isRecognised(): bool
+	public function isRecognised()
 	{
 		if (!@file_exists($this->path . '/configuration.php'))
 		{
@@ -55,7 +55,7 @@ class Joomla extends AbstractOracle
 	 *
 	 * @return  array
 	 */
-	public function getDbInformation(): array
+	public function getDbInformation()
 	{
 		$ret = array(
 			'driver'	=> 'mysqli',
@@ -87,7 +87,7 @@ class Joomla extends AbstractOracle
 				$line = rtrim($line, ';');
 				$line = ltrim($line, '$');
 				$line = trim($line);
-				[$key, $value] = explode('=', $line);
+				list($key, $value) = explode('=', $line);
 				$key = trim($key);
 				$value = trim($value);
 

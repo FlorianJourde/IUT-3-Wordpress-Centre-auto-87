@@ -23,10 +23,9 @@ if (defined('WP_DEBUG') && WP_DEBUG && !defined('AKEEBADEBUG'))
 }
 
 // Do not change these paths unless you know what you're doing
-define('APATH_BASE', realpath(__DIR__ . '/../app'));
-define('APATH_ROOT', APATH_BASE);
+define('APATH_BASE',          realpath(__DIR__ . '/../app'));
+define('APATH_ROOT',          APATH_BASE);
 
-define('APATH_SITE', APATH_BASE);
-define('APATH_THEMES', __DIR__ . '/templates');
-define('APATH_TRANSLATION', APATH_BASE . '/languages');
-define('APATH_TMP', APATH_BASE . '/tmp');
+define('APATH_SITE',          APATH_BASE);
+define('APATH_THEMES',        __DIR__ . '/templates');
+define('APATH_TRANSLATION',   APATH_BASE . '/languages');

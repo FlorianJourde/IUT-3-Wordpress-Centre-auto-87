@@ -8,17 +8,14 @@
 namespace Awf\Document\Menu;
 
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 
 /**
  * Class MenuManager
  *
  * @package Awf\Document\Menu
  */
-class MenuManager implements ContainerAwareInterface
+class MenuManager
 {
-	use ContainerAwareTrait;
 
 	/**
 	 * The array holding the Item objects
@@ -34,9 +31,16 @@ class MenuManager implements ContainerAwareInterface
 	 */
 	private $menuEnabledStatus = array();
 
+	/**
+	 * The Application this menu manager belongs to
+	 *
+	 * @var   Container
+	 */
+	private $container;
+
 	public function __construct(Container &$container)
 	{
-		$this->setContainer($container);
+		$this->container = $container;
 	}
 
 	/**

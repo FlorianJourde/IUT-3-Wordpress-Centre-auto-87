@@ -9,9 +9,8 @@ namespace Awf\Mvc;
 
 use Awf\Application\Application;
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Exception\App;
+use Awf\Inflector\Inflector;
 use Awf\Input\Input;
 use Awf\Text\Text;
 use Exception;
@@ -25,17 +24,8 @@ use RuntimeException;
  * @package Awf\Mvc
  */
 #[\AllowDynamicProperties]
-class Controller implements ContainerAwareInterface
+class Controller
 {
-	use ContainerAwareTrait;
-
-	/**
-	 * Instance container.
-	 *
-	 * @var    Controller
-	 */
-	protected static $instance;
-
 	/**
 	 * The name of the controller
 	 *
@@ -107,6 +97,13 @@ class Controller implements ContainerAwareInterface
 	protected $input;
 
 	/**
+	 * Instance container.
+	 *
+	 * @var    Controller
+	 */
+	protected static $instance;
+
+	/**
 	 * The current view name; you can override it in the configuration
 	 *
 	 * @var string
@@ -125,7 +122,7 @@ class Controller implements ContainerAwareInterface
 	 *
 	 * @var array
 	 */
-	protected $config = [];
+	protected $config = array();
 
 	/**
 	 * Overrides the name of the view's default model
@@ -146,14 +143,93 @@ class Controller implements ContainerAwareInterface
 	 *
 	 * @var   array[Model]
 	 */
-	protected $modelInstances = [];
+	protected $modelInstances = array();
 
 	/**
 	 * An array of View instances known to this Controller
 	 *
 	 * @var   array[View]
 	 */
-	protected $viewInstances = [];
+	protected $viewInstances = array();
+
+	/**
+	 * The container attached to this Controller
+	 *
+	 * @var Container
+	 */
+	protected $container = null;
+
+	/**
+	 * Creates an instance of a controller object.
+	 *
+	 * @param   string    $appName    The application name [optional] Default: the default application
+	 * @param   string    $controller The controller name [optional] Default: based on the "view" input parameter
+	 * @param   Container $container  The DI container [optional] Default: the application container of the $appName application
+	 *
+	 * @return  Controller  A Controller instance
+	 *
+	 * @throws  RuntimeException  When you are referring to a controller class which doesn't exist
+	 */
+	public static function &getInstance($appName = null, $controller = null, $container = null)
+	{
+		if (empty($appName) && !is_object($container))
+		{
+			$app = Application::getInstance();
+			$appName = $app->getName();
+			$container = $app->getContainer();
+		}
+		elseif (empty($appName) && is_object($container))
+		{
+			$appName = $container->application_name;
+		}
+		elseif (!empty($appName) && !is_object($container))
+		{
+			$container = Application::getInstance($appName)->getContainer();
+		}
+
+		$input = $container->input;
+
+		if (empty($controller))
+		{
+			$controller = $input->getCmd('view', '');
+		}
+
+		// Get the class base name, e.g. \Foobar\Controller\
+		$classBaseName = $container->applicationNamespace . '\\Controller\\';
+
+		// Get the class name suffixes, in the order to be searched for
+		$classSuffixes = array(
+			// The requested controller
+			$controller,
+			// Singularised controller (for DB-aware triads)
+			Inflector::singularize($controller),
+			// Pluralised controller (for DB-aware triads)
+			Inflector::pluralize($controller),
+			// Fallback to the default controller
+			'DefaultController'
+		);
+
+		// Look for the best classname match
+		foreach ($classSuffixes as $suffix)
+		{
+			$className = $classBaseName . ucfirst($suffix);
+
+			if (class_exists($className))
+			{
+				// The class is loaded. We have a match!
+				break;
+			}
+		}
+
+		if (!class_exists($className))
+		{
+			throw new RuntimeException("Controller not found (app : controller) = $appName : $controller");
+		}
+
+		$instance = new $className($container);
+
+		return $instance;
+	}
 
 	/**
 	 * Public constructor of the Controller class
@@ -162,41 +238,42 @@ class Controller implements ContainerAwareInterface
 	 *
 	 * @throws  App
 	 */
-	public function __construct(?Container $container = null)
+	public function __construct(Container $container = null)
 	{
 		// Initialise
-		$this->methods     = [];
-		$this->message     = null;
+		$this->methods = array();
+		$this->message = null;
 		$this->messageType = 'info';
-		$this->paths       = [];
-		$this->redirect    = null;
-		$this->taskMap     = [];
+		$this->paths = array();
+		$this->redirect = null;
+		$this->taskMap = array();
 
-		/** @deprecated 2.0 You must provide the container */
-		if (empty($container))
+		if (!is_object($container))
 		{
-			trigger_error(
-				sprintf('The container argument is mandatory in %s', __METHOD__),
-				E_USER_DEPRECATED
-			);
-
 			$container = Application::getInstance()->getContainer();
 		}
 
 		$container->eventDispatcher->trigger('onControllerBeforeConstruct', [$this, $container]);
 
-		$config = $container['mvc_config'] ?? [];
+		if (isset($container['mvc_config']))
+		{
+			$config = $container['mvc_config'];
+		}
+		else
+		{
+			$config = array();
+		}
 
 		// Get local copies of things included in the container
 		$this->input = $container->input;
 
-		$this->setContainer($container);
+		$this->container = $container;
 
 		// Determine the methods to exclude from the base class.
 		$xMethods = get_class_methods('\\Awf\\Mvc\\Controller');
 
 		// Get the public methods in this class using reflection.
-		$r        = new \ReflectionClass($this);
+		$r = new \ReflectionClass($this);
 		$rMethods = $r->getMethods(\ReflectionMethod::IS_PUBLIC);
 
 		foreach ($rMethods as $rMethod)
@@ -214,7 +291,7 @@ class Controller implements ContainerAwareInterface
 		}
 
 		// Get the default values for the component and view names
-		$this->view   = $this->getName();
+		$this->view = $this->getName();
 		$this->layout = $this->input->getCmd('layout', null);
 
 		// If the default task is set, register it as such
@@ -255,37 +332,10 @@ class Controller implements ContainerAwareInterface
 	}
 
 	/**
-	 * Creates an instance of a controller object.
-	 *
-	 * @param   string|null     $appName     The application name [optional] Default: the default application
-	 * @param   string|null     $controller  The controller name [optional] Default: based on the "view" input parameter
-	 * @param   Container|null  $container   The DI container [optional] Default: the application container of the $appName
-	 *                                  application
-	 *
-	 * @return  Controller  A Controller instance
-	 *
-	 * @throws  RuntimeException  When you are referring to a controller class which doesn't exist
-	 * @deprecated 2.0 Go through the MVCFactory in the container instead
-	 */
-	public static function getInstance(?string $appName = null, ?string $controller = null, ?Container $container = null)
-	{
-		trigger_error(
-			sprintf(
-				'Calling %s is deprecated. Use the MVCFactory service of the container instead.',
-				__METHOD__
-			),
-			E_USER_DEPRECATED
-		);
-
-		return ($container ?? Application::getInstance($appName)->getContainer())
-			->mvcFactory->makeController($controller);
-	}
-
-	/**
 	 * Executes a given controller task. The onBefore<task> and onAfter<task>
 	 * methods are called automatically if they exist.
 	 *
-	 * @param   string  $task  The task to execute, e.g. "browse"
+	 * @param   string $task The task to execute, e.g. "browse"
 	 *
 	 * @return  null|bool  False on execution failure
 	 *
@@ -381,8 +431,7 @@ class Controller implements ContainerAwareInterface
 			}
 		}
 
-		$results = $this->container->eventDispatcher->trigger('onControllerAfter' . ucfirst($task), [$this, $ret])
-			?: [];
+		$results = $this->container->eventDispatcher->trigger('onControllerAfter' . ucfirst($task), [$this, $ret]) ?: [];
 
 		if (in_array(false, $results, true))
 		{
@@ -455,15 +504,15 @@ class Controller implements ContainerAwareInterface
 	/**
 	 * Returns a named Model object
 	 *
-	 * @param   string  $name    The Model name. If null we'll use the modelName
+	 * @param   string $name     The Model name. If null we'll use the modelName
 	 *                           variable or, if it's empty, the same name as
 	 *                           the Controller
-	 * @param   array   $config  Configuration parameters to the Model. If skipped
+	 * @param   array  $config   Configuration parameters to the Model. If skipped
 	 *                           we will use $this->config
 	 *
 	 * @return  Model  The instance of the Model known to this Controller
 	 */
-	public function getModel($name = null, $config = [])
+	public function getModel($name = null, $config = array())
 	{
 		if (!empty($name))
 		{
@@ -480,24 +529,28 @@ class Controller implements ContainerAwareInterface
 
 		if (!array_key_exists($modelName, $this->modelInstances))
 		{
-			$mvcConfig                     = $this->container['mvc_config'] ?? [];
-			$config                        = $config ?: $this->config;
-			$this->container['mvc_config'] = $config;
+			$appName = $this->container->application->getName();
+
+			if (empty($config))
+			{
+				$config = $this->config;
+			}
 
 			if (empty($name))
 			{
-				// Default model instances must have state management enabled
-				$this->modelInstances[$modelName] = $this->container->mvcFactory->makeModel($modelName);
+				$config['modelTemporaryInstance'] = true;
 			}
 			else
 			{
 				// Other classes are loaded with persistent state disabled and their state/input blanked out
-				$this->modelInstances[$modelName] = $this->container->mvcFactory->makeModel($modelName)
-					->clearState()
-					->clearInput();
+				$config['modelTemporaryInstance'] = false;
+				$config['modelClearState'] = true;
+				$config['modelClearInput'] = true;
 			}
 
-			$this->container['mvc_config'] = $mvcConfig;
+			$this->container['mvc_config'] = $config;
+
+			$this->modelInstances[$modelName] = Model::getInstance($appName, $modelName, $this->container);
 		}
 
 		return $this->modelInstances[$modelName];
@@ -506,15 +559,15 @@ class Controller implements ContainerAwareInterface
 	/**
 	 * Returns a named View object
 	 *
-	 * @param   string  $name    The Model name. If null we'll use the modelName
+	 * @param   string $name     The Model name. If null we'll use the modelName
 	 *                           variable or, if it's empty, the same name as
 	 *                           the Controller
-	 * @param   array   $config  Configuration parameters to the Model. If skipped
+	 * @param   array  $config   Configuration parameters to the Model. If skipped
 	 *                           we will use $this->config
 	 *
 	 * @return  View  The instance of the Model known to this Controller
 	 */
-	public function getView($name = null, $config = [])
+	public function getView($name = null, $config = array())
 	{
 		if (!empty($name))
 		{
@@ -542,29 +595,16 @@ class Controller implements ContainerAwareInterface
 
 			$this->container['mvc_config'] = $config;
 
-			$this->viewInstances[$viewName] = $this->container->mvcFactory->makeView($viewName, $viewType);
+			$this->viewInstances[$viewName] = View::getInstance($appName, $viewName, $viewType, $this->container);
 		}
 
 		return $this->viewInstances[$viewName];
 	}
 
 	/**
-	 * Pushes a named view to the Controller
-	 *
-	 * @param   string  $viewName  The name of the View
-	 * @param   View    $view      The actual View object to push
-	 *
-	 * @return  void
-	 */
-	public function setView($viewName, View &$view)
-	{
-		$this->viewInstances[$viewName] = $view;
-	}
-
-	/**
 	 * Set the name of the view to be used by this Controller
 	 *
-	 * @param   string  $viewName  The name of the view
+	 * @param   string $viewName The name of the view
 	 *
 	 * @return  void
 	 */
@@ -576,7 +616,7 @@ class Controller implements ContainerAwareInterface
 	/**
 	 * Set the name of the model to be used by this Controller
 	 *
-	 * @param   string  $modelName  The name of the model
+	 * @param   string $modelName The name of the model
 	 *
 	 * @return  void
 	 */
@@ -588,14 +628,27 @@ class Controller implements ContainerAwareInterface
 	/**
 	 * Pushes a named model to the Controller
 	 *
-	 * @param   string  $modelName  The name of the Model
-	 * @param   Model   $model      The actual Model object to push
+	 * @param   string $modelName The name of the Model
+	 * @param   Model  $model     The actual Model object to push
 	 *
 	 * @return  void
 	 */
 	public function setModel($modelName, Model &$model)
 	{
 		$this->modelInstances[strtolower($modelName)] = $model;
+	}
+
+	/**
+	 * Pushes a named view to the Controller
+	 *
+	 * @param   string $viewName The name of the View
+	 * @param   View   $view     The actual View object to push
+	 *
+	 * @return  void
+	 */
+	public function setView($viewName, View &$view)
+	{
+		$this->viewInstances[$viewName] = $view;
 	}
 
 	/**
@@ -650,13 +703,12 @@ class Controller implements ContainerAwareInterface
 	 *
 	 * @return  boolean  False if no redirect exists.
 	 */
-	public function redirect(): bool
+	public function redirect()
 	{
 		if ($this->redirect)
 		{
-			$this->container->application->redirect($this->redirect, $this->message, $this->messageType);
-
-			return true;
+			$app = Application::getInstance();
+			$app->redirect($this->redirect, $this->message, $this->messageType);
 		}
 
 		return false;
@@ -665,7 +717,7 @@ class Controller implements ContainerAwareInterface
 	/**
 	 * Register the default task to perform if a mapping is not found.
 	 *
-	 * @param   string  $method  The name of the method in the derived class to perform if a named task is not found.
+	 * @param   string $method The name of the method in the derived class to perform if a named task is not found.
 	 *
 	 * @return  Controller  This object to support chaining.
 	 */
@@ -679,8 +731,8 @@ class Controller implements ContainerAwareInterface
 	/**
 	 * Register (map) a task to a method in the class.
 	 *
-	 * @param   string  $task    The task.
-	 * @param   string  $method  The name of the method in the derived class to perform for this task.
+	 * @param   string $task   The task.
+	 * @param   string $method The name of the method in the derived class to perform for this task.
 	 *
 	 * @return  Controller  This object to support chaining.
 	 */
@@ -697,7 +749,7 @@ class Controller implements ContainerAwareInterface
 	/**
 	 * Unregister (unmap) a task in the class.
 	 *
-	 * @param   string  $task  The task.
+	 * @param   string $task The task.
 	 *
 	 * @return  Controller  This object to support chaining.
 	 */
@@ -711,15 +763,15 @@ class Controller implements ContainerAwareInterface
 	/**
 	 * Sets the internal message that is passed with a redirect
 	 *
-	 * @param   string  $text  Message to display on redirect.
-	 * @param   string  $type  Message type. Optional, defaults to 'message'.
+	 * @param   string $text Message to display on redirect.
+	 * @param   string $type Message type. Optional, defaults to 'message'.
 	 *
 	 * @return  string  Previous message
 	 */
 	public function setMessage($text, $type = 'message')
 	{
-		$previous          = $this->message;
-		$this->message     = $text;
+		$previous = $this->message;
+		$this->message = $text;
 		$this->messageType = $type;
 
 		return $previous;
@@ -728,11 +780,9 @@ class Controller implements ContainerAwareInterface
 	/**
 	 * Set a URL for browser redirection.
 	 *
-	 * @param   string  $url   URL to redirect to.
-	 * @param   string  $msg   Message to display on redirect. Optional, defaults to value set internally by
-	 *                         controller, if any.
-	 * @param   string  $type  Message type. Optional, defaults to 'message' or the type set by a previous call to
-	 *                         setMessage.
+	 * @param   string $url  URL to redirect to.
+	 * @param   string $msg  Message to display on redirect. Optional, defaults to value set internally by controller, if any.
+	 * @param   string $type Message type. Optional, defaults to 'message' or the type set by a previous call to setMessage.
 	 *
 	 * @return  Controller   This object to support chaining.
 	 */
@@ -766,7 +816,7 @@ class Controller implements ContainerAwareInterface
 	 * Provides CSRF protection through the forced use of a secure token. If the token doesn't match the one in the
 	 * session we die() immediately.
 	 *
-	 * @param   bool  $useCMS  If a token is not found, should we try to use CMS functions?
+	 * @param 	bool	$useCMS	If a token is not found, should we try to use CMS functions?
 	 *
 	 * @return  void
 	 *
@@ -774,9 +824,9 @@ class Controller implements ContainerAwareInterface
 	 */
 	protected function csrfProtection($useCMS = false)
 	{
-		$inCMS      = $this->container->segment->get('insideCMS', false);
+		$inCMS 		= $this->container->segment->get('insideCMS', false);
 		$tokenValue = $this->container->session->getCsrfToken()->getValue();
-		$token      = $this->input->get('token', '', 'raw');
+		$token 		= $this->input->get('token', '', 'raw');
 
 		if ($token == $tokenValue)
 		{
@@ -784,7 +834,7 @@ class Controller implements ContainerAwareInterface
 		}
 		else
 		{
-			$altToken     = $this->input->get($tokenValue, 0, 'int');
+			$altToken = $this->input->get($tokenValue, 0, 'int');
 			$isValidToken = $altToken == 1;
 		}
 

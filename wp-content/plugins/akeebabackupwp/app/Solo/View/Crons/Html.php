@@ -160,21 +160,10 @@ class Html extends BaseHtml
 	 */
 	protected function formatDateTime(\DateTime $dateTime)
 	{
+		$tz      = $this->container->appConfig->get('forced_backup_timezone', 'UTC');
+
 		try
 		{
-			$tz = $this->container->appConfig->get('forced_backup_timezone', 'UTC') ?: 'AKEEBA/DEFAULT';
-
-			if ($tz === 'AKEEBA/DEFAULT')
-			{
-				$tz = function_exists('wp_timezone_string') ? (wp_timezone_string() ?: 'UTC') : 'UTC';
-			}
-
-			/**
-			 * CRITICAL! Do not remove the dummy line.
-			 *
-			 * If an invalid timezone is configured, the following line will raise an exception which will be caught by
-			 * the try/catch block, thus falling back to the safe default of `UTC`.
-			 */
 			$tzObject = new \DateTimeZone($tz);
 		}
 		catch (\Exception $e)
@@ -208,19 +197,6 @@ class Html extends BaseHtml
 		try
 		{
 			$tz = $this->container->appConfig->get('forced_backup_timezone', 'UTC');
-
-			if ($tz === 'AKEEBA/DEFAULT')
-			{
-				$tz = function_exists('wp_timezone_string') ? (wp_timezone_string() ?: 'UTC') : 'UTC';
-			}
-
-			/**
-			 * CRITICAL! Do not remove the dummy line.
-			 *
-			 * If an invalid timezone is configured, the following line will raise an exception which will be caught by
-			 * the try/catch block, thus falling back to the safe default of `UTC`.
-			 */
-			new \DateTimeZone($tz);
 		}
 		catch (\Exception $e)
 		{
@@ -234,26 +210,14 @@ class Html extends BaseHtml
 	{
 		try
 		{
-			$tz = $this->container->appConfig->get('forced_backup_timezone', 'UTC') ?: 'AKEEBA/DEFAULT';
+			$tz       = $this->container->appConfig->get('forced_backup_timezone', 'UTC');
+			$tzObject = new \DateTimeZone($tz);
 
-			if ($tz === 'AKEEBA/DEFAULT')
-			{
-				$tz = function_exists('wp_timezone_string') ? (wp_timezone_string() ?: 'UTC') : 'UTC';
-			}
-
-			/**
-			 * CRITICAL! Do not remove the dummy line.
-			 *
-			 * If an invalid timezone is configured, the following line will raise an exception which will be caught by
-			 * the try/catch block, thus falling back to the safe default of `UTC`.
-			 */
-			new \DateTimeZone($tz);
+			return $tz ?: 'UTC';
 		}
 		catch (\Exception $e)
 		{
-			$tz = 'UTC';
+			return 'UTC';
 		}
-
-		return $tz;
 	}
 }

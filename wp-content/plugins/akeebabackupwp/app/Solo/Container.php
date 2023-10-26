@@ -7,42 +7,45 @@
 
 namespace Solo;
 
+use Awf\Database\Driver;
+
 /**
  * Dependency injection container for Solo
  *
- * @property-read  string $iconBaseName  The base name for logo icon files
+ * @property-read  string  $iconBaseName  The base name for logo icon files
  */
 class Container extends \Awf\Container\Container
 {
-	public function __construct(array $values = [])
+	public function __construct(array $values = array())
 	{
 		$this->iconBaseName = 'solo';
 
-		$values['application_name']     = $values['application_name'] ?? 'Solo';
-		$values['applicationNamespace'] = $values['applicationNamespace'] ?? '\\Solo';
+		if (!isset($values['application_name']))
+		{
+			$values['application_name'] = 'Solo';
+		}
 
-		$values['session_segment_name'] = $values['session_segment_name'] ?? call_user_func(
-			function () use ($values) {
-				$installationId = 'default';
+		if (!isset($values['session_segment_name']))
+		{
+			$installationId = 'default';
 
-				if (function_exists('base64_encode'))
-				{
-					$installationId = base64_encode(__DIR__);
-				}
-
-				if (function_exists('md5'))
-				{
-					$installationId = md5(__DIR__);
-				}
-
-				if (function_exists('sha1'))
-				{
-					$installationId = sha1(__DIR__);
-				}
-
-				return $values['application_name'] . '_' . $installationId;
+			if (function_exists('base64_encode'))
+			{
+				$installationId = base64_encode(__DIR__);
 			}
-		);
+
+			if (function_exists('md5'))
+			{
+				$installationId = md5(__DIR__);
+			}
+
+			if (function_exists('sha1'))
+			{
+				$installationId = sha1(__DIR__);
+			}
+
+			$values['session_segment_name'] = $values['application_name'] . '_' . $installationId;
+		}
 
 		parent::__construct($values);
 	}

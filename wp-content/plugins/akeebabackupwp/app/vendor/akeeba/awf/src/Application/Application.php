@@ -8,11 +8,8 @@
 namespace Awf\Application;
 
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Document\Document;
 use Awf\Exception;
-use Awf\Exception\App;
 use Awf\Text\Text;
 use Awf\Uri\Uri;
 
@@ -24,15 +21,16 @@ use Awf\Uri\Uri;
  *
  * @package Awf\Application
  */
-abstract class Application implements ContainerAwareInterface
+abstract class Application
 {
-	use ContainerAwareTrait;
-
 	/** @var   array  An array of application instances */
 	protected static $instances = array();
 
 	/** @var   array  The application message queue */
 	public $messageQueue = array();
+
+	/** @var   Container  The DI container for this application */
+	protected $container = null;
 
 	/** @var   string  The name (alias) of the application */
 	protected $name = null;
@@ -53,13 +51,18 @@ abstract class Application implements ContainerAwareInterface
 	 *
 	 * @return  void
 	 */
-	public function __construct(?Container $container = null)
+	public function __construct(Container $container = null)
 	{
 		// Start keeping time
 		$this->startTime = microtime(true);
 
 		// Create or attach the DI container
-		$this->setContainer($container ?? new Container());
+		if (!is_object($container) || !($container instanceof Container))
+		{
+			$container = new Container();
+		}
+
+		$this->container = $container;
 
 		// Set the application name
 		if (empty($container['application_name']))
@@ -69,26 +72,56 @@ abstract class Application implements ContainerAwareInterface
 
 		$this->name = $container->application_name;
 
-		// Self-register the application with the static helper
-		if (method_exists($this, 'setInstance'))
+		// Set up the filesystem path
+		if (empty($container['filesystemBase']))
 		{
-			self::setInstance($this->name, $this);
+			$container->filesystemBase = APATH_BASE;
+		}
+
+		// Set up the base path
+		if (empty($container['basePath']))
+		{
+			$container->basePath = (defined('APATH_BASE') ? APATH_BASE : $container->filesystemBase) . '/' . ucfirst($this->name);
+		}
+
+		// Set up the template path
+		if (empty($container['templatePath']))
+		{
+			$container->templatePath = defined('APATH_THEMES') ? APATH_THEMES : $container->filesystemBase . '/templates';
+		}
+
+		// Set up the temporary path
+		if (empty($container['temporaryPath']))
+		{
+			$container->temporaryPath = defined('APATH_TMP') ? APATH_TMP : $container->filesystemBase . '/tmp';
+		}
+
+		// Set up the language path
+		if (empty($container['languagePath']))
+		{
+			$container->languagePath = defined('APATH_TRANSLATION') ? APATH_TRANSLATION : $container->filesystemBase . '/languages';
+		}
+
+		// Set up the language path
+		if (empty($container['sqlPath']))
+		{
+			$container->sqlPath = defined('APATH_ROOT') ? (APATH_ROOT . '/installation/sql') : $container->filesystemBase . '/installation/sql';
 		}
 
 		// Start the session
 		$this->container->session->start();
 
 		// Forcibly create the session segment
-		/** @noinspection PhpUnusedLocalVariableInspection */
 		$segment = $this->container->segment;
 
 		// Set up the template
 		$this->setTemplate();
 
 		// Load the translation strings
+		Text::addIniProcessCallback([$this, 'processLanguageIniFile']);
 		$languagePath = $container->languagePath;
-		Text::loadLanguage(null, $this->container, '.ini', true, $languagePath, [$this, 'processLanguageIniFile']);
-		Text::loadLanguage('en-GB', $this->container, '.ini', false, $languagePath, [$this, 'processLanguageIniFile']);
+		Text::loadLanguage(null, $this->name, '.ini', true, $languagePath);
+		Text::loadLanguage('en-GB', $this->name, '.ini', false, $languagePath);
 	}
 
 	/**
@@ -118,75 +151,66 @@ abstract class Application implements ContainerAwareInterface
 	/**
 	 * Gets an instance of the application
 	 *
-	 * @param   null            $name       The name of the application (folder name)
-	 * @param   Container|null  $container  The DI container to use for the instance (if the instance is not already set)
+	 * @param   string    $name      The name of the application (folder name)
+	 * @param   Container $container The DI container to use for the instance (if the instance is not already set)
 	 *
 	 * @return  Application
 	 *
-	 * @throws  App
-	 * @deprecated 2.0 Go through the Container instead
+	 * @throws  Exception\App
 	 */
-	public static function getInstance($name = null, ?Container $container = null)
+	public static function getInstance($name = null, Container $container = null)
 	{
-		trigger_error(
-			sprintf('Calling %s is deprecated. Go through the Container instead.', __METHOD__),
-			E_USER_DEPRECATED
-		);
-
-		// If we have an application name I have to check if I know about it.
-		if (!empty($name))
+		if (empty($name) && !empty(self::$instances))
 		{
-			if (isset(self::$instances[$name]))
+			$keys = array_keys(self::$instances);
+			$name = array_shift($keys);
+		}
+		elseif (empty($name))
+		{
+			$name = 'unnamed';
+		}
+
+		$name = strtolower($name);
+
+		if (!array_key_exists($name, self::$instances))
+		{
+			$className = $container->applicationNamespace . '\\Application';
+
+			if (!class_exists($className, true))
 			{
-				// Yes, I have this application object. Return it.
-				return self::$instances[$name];
+				$className = '\\' . ucfirst($name) . '\\Application';
 			}
 
-			// I don't know about the named application, but I can get it from the container and NOW I know about it.
-			if ($container instanceof Container)
-			{
-				self::$instances[$name] = $container->application;
 
-				return self::$instances[$name];
+			if (!class_exists($className))
+			{
+				$filePath = __DIR__ . '/../../' . $name . '/application.php';
+				$result = @include_once($filePath);
+
+				if (!class_exists($className, false))
+				{
+					$className = 'Application';
+				}
+
+				if (!class_exists($className, false))
+				{
+					$result = false;
+				}
+			}
+			else
+			{
+				$result = true;
 			}
 
-			// Sorry, I have no idea what you are asking.
-			throw new Exception\App(sprintf("Unknown or uninitialized application '%s'.", $name));
+			if ($result === false)
+			{
+				throw new Exception\App("The application '$name' was not found on this server");
+			}
+
+			self::$instances[$name] = new $className($container);
 		}
 
-		// No name provided, but there is a container object. Alright! Return the app object from the container.
-		if ($container instanceof Container)
-		{
-			self::setInstance($container->application_name, $container->application);
-
-			return $container->application;
-		}
-
-		// No name and no container. If I don't have any known applications I have no idea what to do.
-		if (empty(self::$instances))
-		{
-			throw new Exception\App('We do not know of any AWF applications.');
-		}
-
-		$instanceKeys     = array_keys(self::$instances);
-		$firstInstanceKey = array_shift($instanceKeys);
-
-		return self::$instances[$firstInstanceKey];
-	}
-
-	/**
-	 * Set an application object which can be used with getApplication().
-	 *
-	 * @param   string       $name         The application name
-	 * @param   Application  $application  The application object
-	 *
-	 * @deprecated 2.0.0 Always go through the Container to get the Application object
-	 * @return     void
-	 * @since      1.1.0
-	 */
-	public static function setInstance(string $name, self $application): void
-	{
-		self::$instances[$name] = $application;
+		return self::$instances[$name];
 	}
 
 	/**
@@ -447,7 +471,7 @@ abstract class Application implements ContainerAwareInterface
 	}
 
 	/**
-	 * Sets the template name. It must be a directory inside the configured templatePath.
+	 * Sets the template name. It must be a directory inside APATH_THEMES.
 	 *
 	 * @param   string $template The template name
 	 *
@@ -499,5 +523,15 @@ abstract class Application implements ContainerAwareInterface
 	public function processLanguageIniFile($filename, $strings)
 	{
 		return true;
+	}
+
+	/**
+	 * Returns an instance of the DI container of the application
+	 *
+	 * @return \Awf\Container\Container
+	 */
+	public function &getContainer()
+	{
+		return $this->container;
 	}
 }

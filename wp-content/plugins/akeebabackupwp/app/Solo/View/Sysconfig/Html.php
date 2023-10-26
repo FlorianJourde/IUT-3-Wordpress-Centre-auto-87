@@ -20,7 +20,7 @@ class Html extends View
 	public function onBeforeMain()
 	{
 		/** @var Main $mainModel */
-		$mainModel         = $this->container->mvcFactory->makeTempModel('Main');
+		$mainModel         = Model::getTmpInstance($this->container->application_name, 'Main', $this->container);
 		$this->profileList = $mainModel->getProfileList();
 
 		$document = $this->container->application->getDocument();
@@ -77,12 +77,11 @@ JS;
 		$this->getContainer()->application->getDocument()->addScriptDeclaration($js);
 
 		// JavaScript language strings
-		$doc = $this->container->application->getDocument();
-		$doc->lang('SOLO_COMMON_LBL_ROOT');
-		$doc->lang('COM_AKEEBA_CONFIG_DIRECTFTP_TEST_OK');
-		$doc->lang('COM_AKEEBA_CONFIG_DIRECTFTP_TEST_FAIL');
-		$doc->lang('COM_AKEEBA_CONFIG_DIRECTSFTP_TEST_OK');
-		$doc->lang('COM_AKEEBA_CONFIG_DIRECTSFTP_TEST_FAIL');
+		Text::script('SOLO_COMMON_LBL_ROOT');
+		Text::script('COM_AKEEBA_CONFIG_DIRECTFTP_TEST_OK');
+		Text::script('COM_AKEEBA_CONFIG_DIRECTFTP_TEST_FAIL');
+		Text::script('COM_AKEEBA_CONFIG_DIRECTSFTP_TEST_OK');
+		Text::script('COM_AKEEBA_CONFIG_DIRECTSFTP_TEST_FAIL');
 
 		return true;
 	}

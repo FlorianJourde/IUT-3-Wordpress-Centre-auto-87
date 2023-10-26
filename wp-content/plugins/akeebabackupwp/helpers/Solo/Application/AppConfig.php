@@ -116,19 +116,19 @@ class AppConfig extends Configuration
 		$this->loadConfigData();
 
 		// Set up additional data from defines.
-		if (defined('AKEEBABACKUPWP_SITEURL'))
+		if (defined('AKEEBA_SOLO_WP_SITEURL'))
 		{
-			$this->set('live_site', AKEEBABACKUPWP_SITEURL);
+			$this->set('live_site', AKEEBA_SOLO_WP_SITEURL);
 		}
 
-		if (defined('AKEEBABACKUPWP_URL'))
+		if (defined('AKEEBA_SOLO_WP_URL'))
 		{
-			$this->set('base_url', AKEEBABACKUPWP_URL);
+			$this->set('base_url', AKEEBA_SOLO_WP_URL);
 		}
 
-		if (defined('AKEEBABACKUPWP_ROOTURL'))
+		if (defined('AKEEBA_SOLO_WP_ROOTURL'))
 		{
-			$this->set('cms_url', AKEEBABACKUPWP_ROOTURL);
+			$this->set('cms_url', AKEEBA_SOLO_WP_ROOTURL);
 		}
 
 		// First of all, let's try to fetch it from WordPress

@@ -9,12 +9,12 @@ namespace Solo\View\Main;
 
 use Akeeba\Engine\Factory;
 use Akeeba\Engine\Platform;
+use Awf\Mvc\Model;
 use Awf\Mvc\View;
 use Awf\Utils\Template;
 use RuntimeException;
 use Solo\Helper\Status;
 use Solo\Model\Main;
-use Solo\Model\Migreight;
 use Solo\Model\Stats;
 
 class Html extends View
@@ -172,19 +172,11 @@ class Html extends View
 	 */
 	public $hasOutputDirectorySecurityFiles = false;
 
-	/**
-	 * Do I need to migrate backup profiles and archives? (Only under WordPress)
-	 *
-	 * @var   bool
-	 * @since 8.1.0
-	 */
-	public $needsMigreight = false;
-
 	public function onBeforeMain()
 	{
 		/** @var Main $model */
 		$model        = $this->getModel();
-		$statusHelper = Status::getInstance($this->container);
+		$statusHelper = Status::getInstance();
 		$session      = $this->container->segment;
 
 		$this->profile                         = Platform::getInstance()->get_active_profile();
@@ -214,7 +206,7 @@ class Html extends View
 		}
 
 		/** @var Stats $statsModel */
-		$statsModel        = $this->container->mvcFactory->makeTempModel('Stats');
+		$statsModel        = Model::getTmpInstance($this->container->application_name, 'Stats', $this->container);
 		$this->statsIframe = $statsModel->collectStatistics(true);
 
 		// Load the Javascript for this page
@@ -230,15 +222,6 @@ class Html extends View
 		$document->addScriptOptions('akeeba.ControlPanel.hasSecurityFiles', (bool) $this->hasOutputDirectorySecurityFiles);
 		$document->addScriptOptions('akeeba.ControlPanel.cloudFlareURN', 'CLOUDFLARE::' . Template::parsePath('media://js/solo/system.js', false, $this->getContainer()->application));
 		$document->addScriptOptions('akeeba.ControlPanel.updateInfoURL', $router->route('index.php?view=main&format=raw&task=getUpdateInformation&' . $this->getContainer()->session->getCsrfToken()->getValue() . '=1'));
-
-		if ($this->container->segment->get('insideCMS', false))
-		{
-			/** @var Migreight $migreightModel */
-			$migreightModel = $this->getModel('Migreight');
-			$this->needsMigreight = count($migreightModel->getAffectedProfiles())
-				|| count($migreightModel->getArchiveFolderMap());
-
-		}
 
 		return true;
 	}

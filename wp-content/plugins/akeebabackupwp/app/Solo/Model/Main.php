@@ -13,6 +13,7 @@ use Akeeba\Engine\Util\Complexify;
 use Akeeba\Engine\Util\RandomValue;
 use Awf\Database\Installer;
 use Awf\Download\Download;
+use Awf\Html\Select;
 use Awf\Mvc\Model;
 use Awf\Timer\Timer;
 use Awf\Uri\Uri;
@@ -103,7 +104,7 @@ class Main extends Model
 					$description = '#' . $profile['value'] . '. ' . $description;
 				}
 
-				$ret[] = $this->getContainer()->html->select->option( $profile['value'], $description);
+				$ret[] = Select::option($profile['value'], $description);
 			}
 		}
 
@@ -180,17 +181,7 @@ class Main extends Model
 	 */
 	public function checkEngineSettingsEncryption()
 	{
-		$secretKeyFile = APATH_BASE . '/Solo/secretkey.php';
-
-		// Different secretkey.php path when using WordPress
-		if (defined('ABSPATH'))
-		{
-			$secretKeyFile = rtrim(
-				                 (defined('WP_CONTENT_DIR') ? WP_CONTENT_DIR : (rtrim(ABSPATH, '/') . '/wp-content')),
-				                 '/'
-			                 ) . '/akeebabackup_secretkey.php';
-		}
-
+		$secretKeyFile = $this->container->basePath . Application::secretKeyRelativePath;
 		// We have to look inside the application config, not  the platform options
 		$encryptionEnabled = $this->container->appConfig->get('useencryption', -1);
 		$fileExists        = @file_exists($secretKeyFile);
@@ -464,7 +455,7 @@ ENDBODY;
 	 *
 	 * @return bool True if we took any actions, false otherwise
 	 */
-	public function postUpgradeActions(bool $schemaUpgrade = false)
+	public function postUpgradeActions()
 	{
 		// Check the last update_version stored in the database
 		$db = $this->container->db;
@@ -489,20 +480,8 @@ ENDBODY;
 			return false;
 		}
 
-		// Do we have to try and update the database schema?
-		if ($schemaUpgrade)
-		{
-			try
-			{
-				$this->checkAndFixDatabase(false);
-			}
-			catch (\Throwable $e)
-			{
-			}
-		}
-
 		// Load and execute the PostUpgradeScript class
-		if (class_exists(PostUpgradeScript::class))
+		if (class_exists('\\Solo\\PostUpgradeScript'))
 		{
 			$upgradeScript = new PostUpgradeScript($this->container);
 			$upgradeScript->execute();
@@ -560,7 +539,7 @@ ENDBODY;
 		$profiles = $db->loadColumn();
 
 		// Save the current profile number
-		$session    = $this->getContainer()->segment;
+		$session    = \Awf\Application\Application::getInstance()->getContainer()->segment;
 		$oldProfile = $session->profile;
 
 		// Update all profiles
@@ -1169,7 +1148,7 @@ ENDBODY;
 			$fileContents .= sprintf("define('%s', '%s');\n", $define, str_replace("'", "\\'", $value));
 		}
 
-		$target     = AKEEBABACKUPWP_PATH . '/helpers/private/wp-config.php';
+		$target     = AKEEBA_SOLOWP_PATH . '/helpers/private/wp-config.php';
 		$needsWrite = true;
 
 		if (@file_exists($target))
@@ -1312,7 +1291,7 @@ ENDBODY;
 		}
 
 		// Decrypt the Secret Word settings in the database
-		SecretWord::enforceDecrypted('frontend_secret_word', null, $this->container);
+		SecretWord::enforceDecrypted('frontend_secret_word');
 
 		// Finally, remove the key file
 		$fs = $this->container->fileSystem;

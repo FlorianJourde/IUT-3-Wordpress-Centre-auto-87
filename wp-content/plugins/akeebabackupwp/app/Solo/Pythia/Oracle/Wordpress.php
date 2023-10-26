@@ -32,7 +32,7 @@ class Wordpress extends AbstractOracle
 	 *
 	 * @return  boolean
 	 */
-	public function isRecognised(): bool
+	public function isRecognised()
 	{
 		if (!@file_exists($this->path . '/wp-config.php') && !@file_exists($this->path . '/../wp-config.php'))
 		{
@@ -57,7 +57,7 @@ class Wordpress extends AbstractOracle
 		return true;
 	}
 
-	public function setLoadWPConfig(bool $value): void
+	public function setLoadWPConfig($value)
 	{
 		$this->loadWPConfig = ($value == true);
 	}
@@ -67,7 +67,7 @@ class Wordpress extends AbstractOracle
 	 *
 	 * @return  array
 	 */
-	public function getDbInformation(): array
+	public function getDbInformation()
 	{
 		$ret = [
 			'driver'     => 'mysqli',
@@ -117,9 +117,9 @@ class Wordpress extends AbstractOracle
 	 *
 	 * @return  array
 	 */
-	protected function parseWithTokenizer(?string $fileContents): array
+	protected function parseWithTokenizer($fileContents)
 	{
-		$tokens = token_get_all($fileContents ?? '');
+		$tokens = token_get_all($fileContents);
 
 		$commentTokens = [T_COMMENT];
 
@@ -169,9 +169,9 @@ class Wordpress extends AbstractOracle
 	 *
 	 * @return  array
 	 */
-	protected function parseWithoutTokenizer(?string $fileContents): array
+	protected function parseWithoutTokenizer($fileContents)
 	{
-		$fileContents = explode("\n", $fileContents ?? '');
+		$fileContents = explode("\n", $fileContents);
 		$fileContents = array_map('trim', $fileContents);
 		$ret          = [];
 
@@ -249,7 +249,7 @@ class Wordpress extends AbstractOracle
 	 *
 	 * @return array
 	 */
-	protected function parseByInclusion(?string $fileContents): array
+	protected function parseByInclusion($fileContents)
 	{
 		if (!Buffer::canRegisterWrapper())
 		{
@@ -266,14 +266,12 @@ class Wordpress extends AbstractOracle
 		}
 
 		// Convert the file into individual lines
-		$lines = explode("\n", $fileContents ?? '');
+		$lines = explode("\n", $fileContents);
 
 		// Replace __DIR__ and __FILE__ with their equivalents
-		$absPath = defined('ABSPATH') ? constant('ABSPATH') : $this->path;
-
 		$replacements = [
-			'__DIR__'  => "'" . $absPath . "'",
-			'__FILE__' => "'" . $absPath . "/wp-config.php'",
+			'__DIR__'  => "'" . ABSPATH . "'",
+			'__FILE__' => "'" . ABSPATH . "/wp-config.php'",
 		];
 		$lines        = array_map(function ($line) use ($replacements) {
 			return str_replace(array_keys($replacements), array_values($replacements), $line);

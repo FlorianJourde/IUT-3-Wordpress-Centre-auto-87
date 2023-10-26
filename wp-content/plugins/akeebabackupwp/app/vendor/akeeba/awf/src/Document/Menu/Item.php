@@ -8,8 +8,6 @@
 namespace Awf\Document\Menu;
 
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Router\Router;
 use Awf\Uri\Uri;
 
@@ -20,9 +18,8 @@ use Awf\Uri\Uri;
  *
  * @package Awf\Document\Menu
  */
-class Item implements ContainerAwareInterface
+class Item
 {
-	use ContainerAwareTrait;
 
 	/**
 	 * The name of this menu item
@@ -110,6 +107,13 @@ class Item implements ContainerAwareInterface
 	private $children = array();
 
 	/**
+	 * The container this menu item belongs to
+	 *
+	 * @var \Awf\Container\Container|null
+	 */
+	private $container = null;
+
+	/**
 	 * Public constructor
 	 *
 	 * @param   array     $options   The configuration parameters of this menu item
@@ -119,7 +123,7 @@ class Item implements ContainerAwareInterface
 	 */
 	public function __construct(array $options, Container $container)
 	{
-		$this->setContainer($container);
+		$this->container = $container;
 
 		foreach ($options as $k => $v)
 		{

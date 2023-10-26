@@ -15,7 +15,7 @@ include __DIR__ . '/php/menu.php';
 
 $this->outputHTTPHeaders();
 $darkMode = $this->getContainer()->appConfig->get('darkmode', -1);
-$lang      = Text::detectLanguage($this->container);
+$lang      = Text::detectLanguage();
 $lang      = empty($lang) ? 'en-GB' : $lang;
 $langParts = explode('-', $lang, 2);
 

@@ -84,21 +84,19 @@ class Html extends View
 					$roots[] = $dir_definition[0];
 				}
 
-				$options[] = $this->getContainer()->html->select->option( $dir_definition[0], $dir_definition[0]);
+				$options[] = Select::option($dir_definition[0], $dir_definition[0]);
 			}
 		}
 
-		$siteRoot          = $roots[0];
-		$attributes        = ['onchange' => "akeeba.Fsfilters.activeRootChanged();"];
-		$this->root_select = $this->getContainer()->html->select->genericList(
-			$options, 'root', $attributes, 'value', 'text', $siteRoot, 'active_root'
-		);
+		$siteRoot         = $roots[0];
+		$attributes        = 'onchange="akeeba.Fsfilters.activeRootChanged();"';
+		$this->root_select = Select::genericList($options, 'root', $attributes, 'value', 'text', $siteRoot, 'active_root');
 		$this->roots       = $roots;
 		$document          = $this->container->application->getDocument();
 
 		// Add script options
 		$document->addScriptOptions('akeeba.System.params.AjaxURL', $router->route('index.php?view=Fsfilters&task=ajax'));
-		$document->addScriptOptions('akeeba.Fsfilters.loadingGif', Template::parsePath('media://image/loading.gif', false, $this->getContainer()->application));
+		$document->addScriptOptions('akeeba.Fsfilters.loadingGif', Template::parsePath('media://image/loading.gif'));
 
 		switch ($task)
 		{
@@ -116,27 +114,24 @@ class Html extends View
 				$this->setLayout('tabular');
 
 				// Get a JSON representation of the tabular filter data
-				$document->addScriptOptions('akeeba.FileFilters.guiData', [
-					'list' => $model->get_filters($siteRoot)
-				]);
+				$document->addScriptOptions('akeeba.FileFilters.guiData', $model->get_filters($siteRoot));
 				$document->addScriptOptions('akeeba.FileFilters.viewType', "tabular");
 
 				break;
 		}
 
-		$doc = $this->container->application->getDocument();
-		$doc->lang('COM_AKEEBA_FILEFILTERS_LABEL_UIROOT');
-		$doc->lang('COM_AKEEBA_FILEFILTERS_LABEL_UIERRORFILTER');
-		$doc->lang('COM_AKEEBA_FILEFILTERS_TYPE_DIRECTORIES');
-		$doc->lang('COM_AKEEBA_FILEFILTERS_TYPE_SKIPFILES');
-		$doc->lang('COM_AKEEBA_FILEFILTERS_TYPE_SKIPDIRS');
-		$doc->lang('COM_AKEEBA_FILEFILTERS_TYPE_FILES');
-		$doc->lang('COM_AKEEBA_FILEFILTERS_TYPE_DIRECTORIES_ALL');
-		$doc->lang('COM_AKEEBA_FILEFILTERS_TYPE_SKIPFILES_ALL');
-		$doc->lang('COM_AKEEBA_FILEFILTERS_TYPE_SKIPDIRS_ALL');
-		$doc->lang('COM_AKEEBA_FILEFILTERS_TYPE_FILES_ALL');
-		$doc->lang('COM_AKEEBA_FILEFILTERS_TYPE_APPLYTOALLDIRS');
-		$doc->lang('COM_AKEEBA_FILEFILTERS_TYPE_APPLYTOALLFILES');
+		Text::script('COM_AKEEBA_FILEFILTERS_LABEL_UIROOT');
+		Text::script('COM_AKEEBA_FILEFILTERS_LABEL_UIERRORFILTER');
+		Text::script('COM_AKEEBA_FILEFILTERS_TYPE_DIRECTORIES');
+		Text::script('COM_AKEEBA_FILEFILTERS_TYPE_SKIPFILES');
+		Text::script('COM_AKEEBA_FILEFILTERS_TYPE_SKIPDIRS');
+		Text::script('COM_AKEEBA_FILEFILTERS_TYPE_FILES');
+		Text::script('COM_AKEEBA_FILEFILTERS_TYPE_DIRECTORIES_ALL');
+		Text::script('COM_AKEEBA_FILEFILTERS_TYPE_SKIPFILES_ALL');
+		Text::script('COM_AKEEBA_FILEFILTERS_TYPE_SKIPDIRS_ALL');
+		Text::script('COM_AKEEBA_FILEFILTERS_TYPE_FILES_ALL');
+		Text::script('COM_AKEEBA_FILEFILTERS_TYPE_APPLYTOALLDIRS');
+		Text::script('COM_AKEEBA_FILEFILTERS_TYPE_APPLYTOALLFILES');
 
 		$this->getProfileIdAndName();
 

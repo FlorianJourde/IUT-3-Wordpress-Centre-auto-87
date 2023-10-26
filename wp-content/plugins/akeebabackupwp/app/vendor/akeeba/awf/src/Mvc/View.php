@@ -9,9 +9,6 @@ namespace Awf\Mvc;
 
 use Awf\Application\Application;
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
-use Awf\Exception\App;
 use Awf\Input\Input;
 use Awf\Mvc\Engine\EngineInterface;
 use Awf\Text\Text;
@@ -19,7 +16,6 @@ use Awf\Uri\Uri;
 use ErrorException;
 use Exception;
 use RuntimeException;
-use Throwable;
 
 /**
  * Class View
@@ -29,10 +25,8 @@ use Throwable;
  * @package Awf\Mvc
  */
 #[\AllowDynamicProperties]
-class View implements ContainerAwareInterface
+class View
 {
-	use ContainerAwareTrait;
-
 	/**
 	 * Current or most recently performed task.
 	 * Currently public, it should be reduced to protected in the future
@@ -120,6 +114,13 @@ class View implements ContainerAwareInterface
 	protected $input = null;
 
 	/**
+	 * The container attached to this view
+	 *
+	 * @var   Container
+	 */
+	protected $container;
+
+	/**
 	 * Aliases of view templates. For example:
 	 *
 	 * array('userProfile' => 'users/profile')
@@ -203,26 +204,21 @@ class View implements ContainerAwareInterface
 	/**
 	 * Constructor
 	 *
-	 * @param   Container|null  $container  The DI Container.<br/>
-	 *                                      Inside it you can have an 'mvc_config' array with the following options:<br/>
-	 *                                      name: the name (optional) of the view (defaults to the view class name
-	 *                                      suffix).<br/> escape: the name (optional) of the function to use for escaping
-	 *                                      strings<br/> template_path: the path (optional) of the layout directory
-	 *                                      (defaults to base_path + /views/ + view name<br/> layout: the layout (optional)
-	 *                                      to use to display the view<br/>
+	 * @param   Container  $container  A named configuration array for object construction.<br/>
+	 *                                 Inside it you can have an 'mvc_config' array with the following options:<br/>
+	 *                                 name: the name (optional) of the view (defaults to the view class name
+	 *                                 suffix).<br/> escape: the name (optional) of the function to use for escaping
+	 *                                 strings<br/> template_path: the path (optional) of the layout directory
+	 *                                 (defaults to base_path + /views/ + view name<br/> layout: the layout (optional)
+	 *                                 to use to display the view<br/>
 	 *
-	 * @throws  App
+	 * @return  View
 	 */
-	public function __construct(?Container $container = null)
+	public function __construct($container = null)
 	{
-		/** @deprecated 2.0 You must provide the container */
-		if (empty($container))
+		// Make sure we have a container
+		if (!is_object($container))
 		{
-			trigger_error(
-				sprintf('The container argument is mandatory in %s', __METHOD__),
-				E_USER_DEPRECATED
-			);
-
 			$container = Application::getInstance()->getContainer();
 		}
 
@@ -231,7 +227,7 @@ class View implements ContainerAwareInterface
 		// Cache some useful references in the class
 		$this->input = $container->input;
 
-		$this->setContainer($container);
+		$this->container = $container;
 
 		$this->config = isset($container['mvc_config']) ? $container['mvc_config'] : [];
 
@@ -321,29 +317,67 @@ class View implements ContainerAwareInterface
 	/**
 	 * Returns an instance of a view class
 	 *
-	 * @param   string|null     $appName    The application name [optional] Default: from container or default app if no
-	 *                                      container is provided
-	 * @param   string|null     $viewName   The view name [optional] Default: the "view" input parameter
-	 * @param   string|null     $viewType   The view type [optional] Default: the "format" input parameter or, if not
-	 *                                      defined, "html"
-	 * @param   Container|null  $container  The container to be attached to the view
+	 * @param   null       $appName    The application name [optional] Default: from container or default app if no
+	 *                                 container is provided
+	 * @param   null       $viewName   The view name [optional] Default: the "view" input parameter
+	 * @param   null       $viewType   The view type [optional] Default: the "format" input parameter or, if not
+	 *                                 defined, "html"
+	 * @param   Container  $container  The container to be attached to the view
 	 *
-	 * @deprecated 2.0 Use the MVCFactory in the Container instead
-	 * @return  self
-	 * @throws  App
+	 * @return mixed
 	 */
-	public static function getInstance(?string $appName = null, ?string $viewName = null, ?string $viewType = null, ?Container $container = null)
+	public static function &getInstance($appName = null, $viewName = null, $viewType = null, $container = null)
 	{
-		trigger_error(
-			sprintf(
-				'Calling %s is deprecated. Use the MVCFactory service of the container instead.',
-				__METHOD__
-			),
-			E_USER_DEPRECATED
-		);
+		if (empty($appName) && !is_object($container))
+		{
+			$app       = Application::getInstance();
+			$appName   = $app->getName();
+			$container = $app->getContainer();
+		}
+		elseif (empty($appName) && is_object($container))
+		{
+			$appName = $container->application_name;
+		}
+		elseif (!empty($appName) && !is_object($container))
+		{
+			$container = Application::getInstance($appName)->getContainer();
+		}
 
-		return ($container ?? Application::getInstance($appName)->getContainer())
-			->mvcFactory->makeView($viewName, $viewType);
+		$input = $container->input;
+
+		if (empty($viewName))
+		{
+			$viewName = $input->getCmd('view', '');
+		}
+
+		if (empty($viewType))
+		{
+			$viewType = $input->getCmd('format', 'html');
+		}
+
+		$classNames = [
+			$container->applicationNamespace . '\\View\\' . ucfirst($viewName) . '\\' . ucfirst($viewType),
+			$container->applicationNamespace . '\\View\\' . ucfirst($viewName) . '\\DefaultView',
+			$container->applicationNamespace . '\\View\\Default\\' . ucfirst($viewType),
+			$container->applicationNamespace . '\\View\\DefaultView',
+		];
+
+		foreach ($classNames as $className)
+		{
+			if (class_exists($className))
+			{
+				break;
+			}
+		}
+
+		if (!class_exists($className))
+		{
+			throw new RuntimeException("View not found (app : view : type) = $appName : $viewName : $viewType");
+		}
+
+		$object = new $className($container);
+
+		return $object;
 	}
 
 	/**
@@ -474,10 +508,16 @@ class View implements ContainerAwareInterface
 
 		if (!array_key_exists($modelName, $this->modelInstances))
 		{
-			$mvcConfig                        = $this->container['mvc_config'] ?? [];
-			$this->container['mvc_config']    = ($config ?: $this->config);
-			$this->modelInstances[$modelName] = $this->container->mvcFactory->makeModel($modelName);
-			$this->container['mvc_config']    = $mvcConfig;
+			$appName = $this->container->application->getName();
+
+			if (empty($config))
+			{
+				$config = $this->config;
+			}
+
+			$this->container['mvc_config'] = $config;
+
+			$this->modelInstances[$modelName] = Model::getInstance($appName, $modelName, $this->container);
 		}
 
 		return $this->modelInstances[$modelName];
@@ -1007,6 +1047,16 @@ class View implements ContainerAwareInterface
 		class_exists($className);
 	}
 
+	/**
+	 * Returns a reference to the container attached to this View
+	 *
+	 * @return Container
+	 */
+	public function &getContainer()
+	{
+		return $this->container;
+	}
+
 	public function getTask()
 	{
 		return $this->task;
@@ -1224,7 +1274,7 @@ class View implements ContainerAwareInterface
 		{
 			$this->includeTemplateFile($forceParams);
 		}
-		catch (Throwable $e)
+		catch (Exception $e)
 		{
 			$this->handleViewException($e, $obLevel);
 		}
@@ -1235,43 +1285,22 @@ class View implements ContainerAwareInterface
 	/**
 	 * Handle a view exception.
 	 *
-	 * @param   Throwable  $e        The exception to handle
+	 * @param   Exception  $e        The exception to handle
 	 * @param   int        $obLevel  The target output buffering level
 	 *
 	 * @return  void
 	 *
 	 * @throws  $e
 	 */
-	protected function handleViewException(Throwable $e, $obLevel)
+	protected function handleViewException(Exception $e, $obLevel)
 	{
 		while (ob_get_level() > $obLevel)
 		{
 			ob_end_clean();
 		}
 
-		// Add a message about the view template
-		$realBasePath = realpath($this->container->filesystemBase);
-		$includedPath = str_replace($realBasePath, 'ROOT', realpath($this->_tempFilePath['content']));
-		$originalPath = str_replace($realBasePath, 'ROOT', realpath($this->_tempFilePath['original']));
+		$message = $e->getMessage() . ' (View template: ' . realpath($this->_tempFilePath['content']) . ')';
 
-		if ($includedPath === $originalPath)
-		{
-			// Straight-up PHP file inclusion
-			$message = sprintf(' %s[View template: %s line %d]', PHP_EOL, $includedPath, $e->getLine());
-		}
-		else
-		{
-			// Compiled template file
-			$message = sprintf(' %s[View template: %s line %d, compiled from %s]', PHP_EOL, $includedPath, $e->getLine(), $originalPath);
-		}
-
-		// Ommit duplicate messages
-		if (strpos($e->getMessage(), $message) !== false)
-		{
-			$message = '';
-		}
-
-		$message      = $e->getMessage() . $message;
 		$newException = new ErrorException($message, 0, 1, $e->getFile(), $e->getLine(), $e);
 
 		throw $newException;

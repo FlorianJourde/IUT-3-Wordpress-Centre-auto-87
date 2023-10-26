@@ -7,48 +7,80 @@
 
 namespace Awf\Html;
 
-use Awf\Application\Application;
-use Awf\Exception\App;
-
 /**
- * @deprecated 2.0 Use the container's html service instead
+ * An abstraction around Bootstrap collapsible panels (accordions)
  *
- * @method static start($id)
- * @method static end()
- * @method static panel($title, $id, $accordionId, $panelStyle = 'default', $open = false)
+ * @see http://getbootstrap.com/javascript/#collapse
+ *
+ * Use:
+ *      echo Accordion::start('myAccordion');
+ *      echo Accordion::panel('My first panel', 'panel-first', 'myAccordion');
+ *      echo "Some HTML for the first panel contents";
+ *      echo Accordion::panel('My second panel', 'panel-second', 'myAccordion');
+ *      echo "Some HTML for the second panel contents";
+ *      echo Accordion::end();
  */
-abstract class Accordion
+class Accordion
 {
 	/**
-	 * Handle static method calls for backwards compatibility.
+	 * Opens the current accordion group
 	 *
-	 * @param   string  $name
-	 * @param   array   $arguments
+	 * @param   string  $id  The ID of the accordion
 	 *
-	 * @deprecated 2.0 Use the container's html service instead.
-	 * @return mixed|void
-	 * @throws App
-	 *
+	 * @return string
 	 */
-	public static function __callStatic($name, $arguments)
+	public static function start($id)
 	{
-		switch (strtolower($name))
-		{
-			case 'start':
-			case 'end':
-			case 'panel':
-				trigger_error(
-					sprintf('Calling %s is deprecated. Use the container\'s html service instead.', __METHOD__),
-					E_USER_DEPRECATED
-				);
+		return <<< HTML
+<div class="panel-group" id="$id">
+	<div style="display: none"><div><div>
+HTML;
 
-				return Application::getInstance()->getContainer()->html->get('accordion.' . $name, ...$arguments);
-		}
-
-		throw new \LogicException(
-			sprintf('The method %s::%s does not exist.', __CLASS__, $name),
-			500
-		);
 	}
 
-}
+	/**
+	 * Close the current accordion group
+	 *
+	 * @return  string  HTML to close the accordion group
+	 */
+	public static function end()
+	{
+		return <<< HTML
+			</div>
+		</div>
+	</div>
+</div>
+HTML;
+
+	}
+
+	/**
+	 * @param   string   $title         The title HTML of this panel
+	 * @param   string   $id            The ID of this panel
+	 * @param   string   $accordionId   The ID of the accordion this panel belongs to
+	 * @param   string   $panelStyle    The style of this panel (default, warning, info, success, danger)
+	 * @param   boolean  $open          Is this panel open in the accordion?
+	 */
+	public static function panel($title, $id, $accordionId, $panelStyle = 'default', $open = false)
+	{
+		// Open a new panel inside the accordion
+		$in = $open ? 'in' : '';
+
+		echo <<< HTML
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-$panelStyle">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#$accordionId" href="#$id">
+					$title
+				</a>
+			</h4>
+		</div>
+		<div id="$id" class="panel-collapse collapse $in">
+			<div class="panel-body">
+HTML;
+
+	}
+} 

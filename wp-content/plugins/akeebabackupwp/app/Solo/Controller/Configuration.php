@@ -158,9 +158,7 @@ class Configuration extends ControllerDefault
 
 		@ob_end_clean();
 
-		echo '#"\#\"#' . json_encode([
-                'status' => $result
-            ]) . '#"\#\"#';
+		echo '#"\#\"#' . json_encode($result) . '#"\#\"#';
 
 		flush();
 		$this->container->application->close();
@@ -198,9 +196,7 @@ class Configuration extends ControllerDefault
 
 		@ob_end_clean();
 
-		echo '#"\#\"#' . json_encode([
-                'status' => $result
-            ]) . '#"\#\"#';
+		echo '#"\#\"#' . json_encode($result) . '#"\#\"#';
 
 		flush();
 		$this->container->application->close();
@@ -241,16 +237,9 @@ class Configuration extends ControllerDefault
 		$model->setState('method', $this->input->getVar('method', '', 'raw'));
 		$model->setState('params', $this->input->get('params', array(), 'array'));
 
-        $result = $model->dpeCustomAPICall();
-
-        if (is_array($result) && $this->isNumericIndexedArray($result))
-        {
-            $result = ['list' => $result];
-        }
-
 		@ob_end_clean();
 
-		echo '#"\#\"#' . json_encode($result) . '#"\#\"#';
+		echo '#"\#\"#' . json_encode($model->dpeCustomAPICall()) . '#"\#\"#';
 
 		flush();
 
@@ -279,15 +268,4 @@ class Configuration extends ControllerDefault
 
 		$this->container->application->close();
 	}
-
-    private function isNumericIndexedArray(array $result)
-    {
-        return array_reduce(
-            array_keys($result),
-            function (bool $carry, $key) {
-                return $carry || (is_numeric($key) && intval($key) == $key);
-            },
-            false
-        );
-    }
 }

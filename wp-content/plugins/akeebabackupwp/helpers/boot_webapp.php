@@ -10,33 +10,41 @@
 /**
  * Make sure we are being called from WordPress itself
  */
-
-use Awf\Application\Application;
-
 defined('WPINC') or die;
 
 defined('AKEEBASOLO') or define('AKEEBASOLO', 1);
 
 // A trick to prevent raw views from rendering the entire WP back-end interface
-if (defined('AKEEBABACKUPWP_OBFLAG'))
+if (defined('AKEEBA_SOLOWP_OBFLAG'))
 {
 	@ob_get_clean();
 }
 
-/** @var \Solo\Container $container Comes from \AkeebaBackupWP::bootApplication */
+global $akeebaBackupWordPressLoadPlatform;
+$akeebaBackupWordPressLoadPlatform = true;
+/** @var \Solo\Container $container */
+$container = require 'integration.php';
 
 if ($container->input->get->getBool('_ak_reset_session', false))
 {
 	$container->session->clear();
 }
 
-try
+/**
+ * @param   \Awf\Application\Application  $application
+ */
+function akeebaBackupWPMainApplicationLoop($application)
 {
-	$application = $container->application;
-
+	// Initialise the application
 	$application->initialise();
+
+	// Route the URL: parses the URL through routing rules, replacing the data in the app's input
 	$application->route();
+
+	// Dispatch the application
 	$application->dispatch();
+
+	// Render the output
 	$application->render();
 
 	// Persist messages if they exist.
@@ -47,20 +55,28 @@ try
 
 	$application->getContainer()->session->commit();
 
-	if (defined('AKEEBABACKUPWP_OBFLAG'))
+	if (defined('AKEEBA_SOLOWP_OBFLAG'))
 	{
 		@ob_start();
 	}
 }
-catch (Throwable $exc)
+
+/**
+ * @param   Exception|Throwable           $exc
+ * @param   \Awf\Application\Application  $application
+ */
+function akeebaBackupWPErrorHandler($exc, $application)
 {
 	$filename = null;
 
-	if ($application instanceof Application)
+	if (is_object($application) && ($application instanceof \Awf\Application\Application))
 	{
 		$template = $application->getTemplate();
-		$filename = APATH_THEMES . '/' . $template . '/error.php';
-		$filename = @file_exists($filename) ? $filename : null;
+
+		if (file_exists(APATH_THEMES . '/' . $template . '/error.php'))
+		{
+			$filename = APATH_THEMES . '/' . $template . '/error.php';
+		}
 	}
 
 	if (is_null($filename))
@@ -76,4 +92,33 @@ catch (Throwable $exc)
 	}
 
 	include $filename;
+}
+
+if (version_compare(PHP_VERSION, '7.0.0', 'ge'))
+{
+	try
+	{
+		// Create the application
+		$application = $container->application;
+
+		akeebaBackupWPMainApplicationLoop($application);
+	}
+	catch (Throwable $exc)
+	{
+		akeebaBackupWPErrorHandler($exc, $application);
+	}
+}
+else
+{
+	try
+	{
+		// Create the application
+		$application = $container->application;
+
+		akeebaBackupWPMainApplicationLoop($application);
+	}
+	catch (Exception $exc)
+	{
+		akeebaBackupWPErrorHandler($exc, $application);
+	}
 }

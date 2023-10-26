@@ -162,13 +162,16 @@ class Uri
 	 *
 	 * @return  string  The base URI string
 	 */
-	public static function base($pathonly = false, ?Container $container = null)
+	public static function base($pathonly = false, Container $container = null)
 	{
 		// Get the base request path.
 		if (empty(self::$base))
 		{
 
-			$container = $container ?? Application::getInstance()->getContainer();
+			if (!is_object($container))
+			{
+				$container = Application::getInstance()->getContainer();
+			}
 
 			$config = $container->appConfig;
 			$live_site = $config->get('live_site') ?: '';

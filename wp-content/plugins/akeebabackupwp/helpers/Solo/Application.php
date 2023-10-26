@@ -9,23 +9,18 @@ namespace Solo;
 
 use Akeeba\Engine\Factory;
 use Akeeba\Engine\Platform;
+use Awf\Html\Grid;
 use Awf\Text\Text;
-use Solo\Helper\Html\FEFSelect as FEFSelectHtmlHelper;
-use Solo\Helper\Html\Setup as SetupHtmlHelper;
 use Solo\Helper\SecretWord;
 
 class Application extends \Awf\Application\Application
 {
-	private static $loadedLanguages = false;
+	const secretKeyRelativePath = '/engine/secretkey.php';
 
 	public function initialise()
 	{
-		// Register additional HTML Helpers
-		$this->getContainer()->html->registerHelperClass(SetupHtmlHelper::class);
-		$this->getContainer()->html->registerHelperClass(FEFSelectHtmlHelper::class);
-
 		// Let AWF know that the prefix for our system JavaScript is 'akeeba.System.'
-		$this->getContainer()->html->grid->setJavascriptPrefix('akeeba.System.');
+		Grid::$javascriptPrefix = 'akeeba.System.';
 
 		// Put a small marker to indicate that we run inside another CMS
 		$isCMS = $this->setIsCMSFlag();
@@ -45,8 +40,11 @@ class Application extends \Awf\Application\Application
 		// Load the configuration file if it's present
 		$this->container->appConfig->loadConfiguration();
 
+		// Load Akeeba Engine's settings encryption preferences
+		$this->loadEngineEncryptionKey();
+
 		// Enforce encryption of the front-end Secret Word
-		SecretWord::enforceEncryption('frontend_secret_word', $this->container);
+		SecretWord::enforceEncryption('frontend_secret_word');
 
 		// Load Akeeba Engine's configuration
 		$this->loadBackupProfile();
@@ -111,21 +109,28 @@ class Application extends \Awf\Application\Application
 	 */
 	private function loadLanguages()
 	{
-		if (self::$loadedLanguages)
+		// Manually load Solo text files, since we changed them in "com_akeebabackup"
+		Text::loadLanguage(null, 'akeebabackup', '.com_akeebabackup.ini', false, $this->container->languagePath);
+		Text::loadLanguage('en-GB', 'akeebabackup', '.com_akeebabackup.ini', false, $this->container->languagePath);
+
+		// Load the extra language files
+		Text::loadLanguage(null, 'akeeba', '.com_akeeba.ini', false, $this->container->languagePath);
+		Text::loadLanguage('en-GB', 'akeeba', '.com_akeeba.ini', false, $this->container->languagePath);
+	}
+
+	/**
+	 * @return void
+	 */
+	private function loadEngineEncryptionKey()
+	{
+		$secretKeyFile = $this->container->basePath . static::secretKeyRelativePath;
+
+		if (@file_exists($secretKeyFile))
 		{
-			return;
+			require_once $secretKeyFile;
 		}
 
-		self::$loadedLanguages = true;
-
-		// Load the language files
-		Text::loadLanguage('en-GB', $this->container, '.ini', true, $this->container->languagePath . '/akeebabackup', [$this, 'processLanguageIniFile']);
-
-		if (Text::detectLanguage($this->container, '.ini', $this->container->languagePath . '/akeebabackup', )
-		    !== 'en-GB')
-		{
-			Text::loadLanguage(null, $this->container, '.ini', true, $this->container->languagePath . '/akeebabackup', [$this, 'processLanguageIniFile']);
-		}
+		Factory::getSecureSettings()->setKeyFilename('secretkey.php');
 	}
 
 	/**

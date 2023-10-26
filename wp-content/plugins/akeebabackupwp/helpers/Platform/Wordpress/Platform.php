@@ -10,8 +10,7 @@ namespace Akeeba\Engine\Platform;
 use Akeeba\Engine\Factory;
 use Akeeba\Engine\Platform;
 use Akeeba\Engine\Psr\Log\LogLevel;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
+use Awf\Application\Application;
 
 // Protection against direct access
 defined('AKEEBAENGINE') or die();
@@ -24,10 +23,8 @@ if (!defined('DS'))
 /**
  * Akeeba Solo for WordPress platform class
  */
-class Wordpress extends Base implements ContainerAwareInterface
+class Wordpress extends Base
 {
-	use ContainerAwareTrait;
-
 	/** @var   integer  Platform class priority */
 	public $priority = 60;
 
@@ -64,45 +61,17 @@ class Wordpress extends Base implements ContainerAwareInterface
 	 */
 	public function get_stock_directories()
 	{
-		static $stock_directories = [];
+		static $stock_directories = array();
 
 		if (empty($stock_directories))
 		{
-			$host = $this->get_host();
+            $host = $this->get_host();
 
-			$contentFolder =
-				rtrim(
-					(defined('WP_CONTENT_DIR') ? WP_CONTENT_DIR : (rtrim(ABSPATH, '/') . '/wp-content')),
-					'/'
-				);
-			$defaultOutput = $contentFolder . '/backups';
-
-			if (!@is_dir($defaultOutput))
-			{
-				$this->conditionallyCreateDefaultOutputDirectory($defaultOutput);
-			}
-
-			$contentFolder =
-				rtrim(
-					(defined('WP_CONTENT_DIR') ? WP_CONTENT_DIR : (rtrim(ABSPATH, '/') . '/wp-content')),
-					'/'
-				);
-			$pluginsDir = rtrim(
-				defined('WP_PLUGIN_DIR') ? WP_PLUGIN_DIR : ($contentFolder . '/plugins'),
-				'/'
-			);
-			$pluginSlug = (class_exists('AkeebaBackupWP') && !empty(\AkeebaBackupWP::$pluginBaseName))
-				? \AkeebaBackupWP::$pluginBaseName
-				: 'akeebabackupwp/akeebabackupwp.php';
-			$abwpDir = dirname($pluginsDir . '/' . $pluginSlug);
-
-			$stock_directories['[SITEROOT]']              = $this->get_site_root();
-			$stock_directories['[ROOTPARENT]']            = @realpath($this->get_site_root() . '/..');
-			$stock_directories['[SITETMP]']               = APATH_BASE . '/tmp';
-			$stock_directories['[DEFAULT_OUTPUT]']        = $defaultOutput;
-			$stock_directories['[LEGACY_DEFAULT_OUTPUT]'] = APATH_BASE . '/backups';
-			$stock_directories['[LEGACY_DEFAULT_OUTPUT_TESTING]'] = $abwpDir . '/app/backups';
-			$stock_directories['[HOST]']                  = empty($host) ? 'unknown_host' : $host;
+			$stock_directories['[SITEROOT]']       = $this->get_site_root();
+			$stock_directories['[ROOTPARENT]']     = @realpath($this->get_site_root() . '/..');
+			$stock_directories['[SITETMP]']        = APATH_BASE . '/tmp';
+			$stock_directories['[DEFAULT_OUTPUT]'] = APATH_BASE . '/backups';
+            $stock_directories['[HOST]']           = empty($host) ? 'unknown_host' : $host;
 		}
 
 		return $stock_directories;
@@ -170,7 +139,7 @@ class Wordpress extends Base implements ContainerAwareInterface
 	 */
 	public function get_installer_images_path()
 	{
-		return $this->getContainer()->basePath . '/assets/installers';
+		return Application::getInstance()->getContainer()->basePath . '/assets/installers';
 	}
 
 	/**
@@ -191,7 +160,7 @@ class Wordpress extends Base implements ContainerAwareInterface
 			return AKEEBA_PROFILE;
 		}
 
-		$session = $this->getContainer()->segment;
+		$session = Application::getInstance()->getContainer()->segment;
 
 		if (!isset($session->profile))
 		{
@@ -231,7 +200,7 @@ class Wordpress extends Base implements ContainerAwareInterface
 			$id = 1;
 		}
 
-		$db = $this->getContainer()->db;
+		$db = Application::getInstance()->getContainer()->db;
 		$query = $db->getQuery(true)
 			->select($db->qn('description'))
 			->from($db->qn('#__ak_profiles'))
@@ -265,7 +234,7 @@ class Wordpress extends Base implements ContainerAwareInterface
 	 */
 	public function get_timestamp_database($date = 'now')
 	{
-		$date = $this->getContainer()->dateFactory($date);
+		$date = new \Awf\Date\Date($date);
 
 		return $date->toSql();
 	}
@@ -286,12 +255,12 @@ class Wordpress extends Base implements ContainerAwareInterface
 		// No forced timezone set? Use the default Joomla! behavior.
 		if (empty($tz) || ($tz == 'AKEEBA/DEFAULT'))
 		{
-			$tz = $this->getContainer()->appConfig->get('timezone', 'UTC');
+			$tz = Application::getInstance()->getContainer()->appConfig->get('timezone', 'UTC');
 		}
 
 		// Get the current date/time and apply the preferred timezone
 		$utcTimeZone = new \DateTimeZone('UTC');
-		$dateNow     = $this->getContainer()->dateFactory('now', $utcTimeZone);
+		$dateNow     = new \Awf\Date\Date('now', $utcTimeZone);
 		$timezone    = new \DateTimeZone($tz);
 		$dateNow->setTimezone($timezone);
 
@@ -456,7 +425,7 @@ class Wordpress extends Base implements ContainerAwareInterface
 
 		if (!defined('AKEEBABACKUP_DATE'))
 		{
-			$date = $this->getContainer()->dateFactory();
+			$date = new \Awf\Date\Date();
 			define("AKEEBABACKUP_DATE", $date->format('Y-m-d'));
 		}
 	}
@@ -489,13 +458,13 @@ class Wordpress extends Base implements ContainerAwareInterface
 		$site_root = $this->get_site_root();
 
 		Factory::getLog()->log(LogLevel::INFO, "APATH_BASE         :" . APATH_BASE, ['translate_root' => false]);
-		Factory::getLog()->log(LogLevel::INFO, "Application Path   :" . $this->getContainer()->basePath, ['translate_root' => false]);
+		Factory::getLog()->log(LogLevel::INFO, "Application Path   :" . Application::getInstance()->getContainer()->basePath, ['translate_root' => false]);
 		Factory::getLog()->log(LogLevel::INFO, "Site root          :" . $this->get_site_root(), ['translate_root' => false]);
 
 		// If the release is older than 3 months, issue a warning
 		if (defined('AKEEBABACKUP_DATE'))
 		{
-			$releaseDate = $this->getContainer()->dateFactory(AKEEBABACKUP_DATE);
+			$releaseDate = new \Awf\Date\Date(AKEEBABACKUP_DATE);
 
 			if (time() - $releaseDate->toUnix() > 10368000)
 			{
@@ -545,7 +514,7 @@ class Wordpress extends Base implements ContainerAwareInterface
 	 */
 	public function get_platform_configuration_option($key, $default)
 	{
-		$config   = $this->getContainer()->appConfig;
+		$config   = Application::getInstance()->getContainer()->appConfig;
 		$altValue = $config->get($key, $default);
 		$value    = $config->get('options.' . $key, $altValue);
 
@@ -598,7 +567,8 @@ class Wordpress extends Base implements ContainerAwareInterface
 	{
 		Factory::getLog()->log(LogLevel::DEBUG, "-- Fetching mailer object");
 
-		$mailer = $this->getContainer()->mailer();
+		$app = Application::getInstance();
+		$mailer = $app->getContainer()->mailer;
 
 		if (!is_object($mailer))
 		{
@@ -727,7 +697,7 @@ class Wordpress extends Base implements ContainerAwareInterface
 	{
 		try
 		{
-			$fs = $this->getContainer()->fileSystem;
+			$fs = Application::getInstance()->getContainer()->fileSystem;
 			$result = $fs->delete($file);
 		}
 		catch (\RuntimeException $e)
@@ -755,7 +725,7 @@ class Wordpress extends Base implements ContainerAwareInterface
 	{
 		try
 		{
-			$fs = $this->getContainer()->fileSystem;
+			$fs = Application::getInstance()->getContainer()->fileSystem;
 			$result = $fs->move($from, $to);
 		}
 		catch (\RuntimeException $e)
@@ -781,7 +751,7 @@ class Wordpress extends Base implements ContainerAwareInterface
 	 */
 	public function set_flash_variable($name, $value)
 	{
-		$session = $this->getContainer()->segment;
+		$session = Application::getInstance()->getContainer()->segment;
 
 		$session->setFlash($name, $value);
 	}
@@ -797,7 +767,7 @@ class Wordpress extends Base implements ContainerAwareInterface
 	 */
 	public function get_flash_variable($name, $default = null)
 	{
-		$session = $this->getContainer()->segment;
+		$session = Application::getInstance()->getContainer()->segment;
 
 		$value = $session->getFlash($name);
 
@@ -818,7 +788,7 @@ class Wordpress extends Base implements ContainerAwareInterface
 	 */
 	public function redirect($url)
 	{
-		$this->getContainer()->application->redirect($url);
+		Application::getInstance()->redirect($url);
 	}
 
 	/**
@@ -833,10 +803,8 @@ class Wordpress extends Base implements ContainerAwareInterface
 		Factory::getConfigurationChecks()->addConfigurationCheckDefinition('001', 'critical');
 		// Free memory too low
 		Factory::getConfigurationChecks()->addConfigurationCheckDefinition('004', 'critical');
-		// Output folder within plugin folder
+		// Output folder within component folder (except the default one)
 		Factory::getConfigurationChecks()->addConfigurationCheckDefinition('013', 'critical', 'COM_AKEEBA_CPANEL_WARNING_Q013', array('\\Akeeba\\Engine\\Platform\\Wordpress', 'quirk_013'));
-		// Cannot create default output directory
-		Factory::getConfigurationChecks()->addConfigurationCheckDefinition('014', 'critical', 'COM_AKEEBA_CPANEL_WARNING_Q014', array('\\Akeeba\\Engine\\Platform\\Wordpress', 'quirk_014'));
 		// open_basedir on output directory
 		Factory::getConfigurationChecks()->addConfigurationCheckDefinition('101', 'high');
 		// Less than 10" of max_execution_time with PHP Safe Mode enabled
@@ -856,85 +824,55 @@ class Wordpress extends Base implements ContainerAwareInterface
 		return array(__DIR__);
 	}
 
-	/**
-	 * Critical error detection: Output folder within plugin folder
-	 *
-	 * @return  bool
-	 * @since   8.1.0
-	 */
 	public static function quirk_013()
 	{
-		if (defined('AKEEBA_BACKUP_TESTING_DISABLE_Q013') && AKEEBA_BACKUP_TESTING_DISABLE_Q013)
-		{
-			return false;
-		}
+		$stock_dirs  = Platform::getInstance()->get_stock_directories();
+		$default_out = @realpath($stock_dirs['[DEFAULT_OUTPUT]']);
 
 		$registry = Factory::getConfiguration();
-		$outDir   = $registry->get('akeeba.basic.output_directory');
+		$outdir = $registry->get('akeeba.basic.output_directory');
 
-		if (empty($outDir))
+		foreach ($stock_dirs as $macro => $replacement)
+		{
+			$outdir = str_replace($macro, $replacement, $outdir);
+		}
+
+		$outdir_real = @realpath($outdir);
+
+		// If the output folder is the default one (or any subdir), we are safe
+		if (strpos($outdir_real, $default_out) !== false)
 		{
 			return false;
 		}
 
-		$realOutDir = @realpath($outDir);
+		$component_path = @realpath(APATH_BASE);
 
-		if (!@is_dir($realOutDir) || $realOutDir === false)
+		$forbiddenPaths = [
+			'Awf',
+			'cli',
+			'fonts',
+			'languages',
+			'media',
+			'Solo',
+			'templates',
+			'tmp',
+		];
+
+		foreach ($forbiddenPaths as $subdir)
 		{
-			return false;
-		}
+			$checkPath = realpath($component_path . '/' . $subdir);
 
-		$contentFolder =
-			rtrim(
-				(defined('WP_CONTENT_DIR') ? WP_CONTENT_DIR : (rtrim(ABSPATH, '/') . '/wp-content')),
-				'/'
-			);
-		$pluginsDir    = rtrim(
-			defined('WP_PLUGIN_DIR') ? WP_PLUGIN_DIR : ($contentFolder . '/plugins'),
-			'/'
-		);
-		$pluginSlug    = (class_exists('AkeebaBackupWP') && !empty(\AkeebaBackupWP::$pluginBaseName))
-			? \AkeebaBackupWP::$pluginBaseName
-			: 'akeebabackupwp/akeebabackupwp.php';
+			if ($checkPath === false)
+			{
+				continue;
+			}
 
-		$abwpDir     = dirname($pluginsDir . '/' . $pluginSlug);
-		$abwpDirReal = @realpath($abwpDir);
+			$checkPath .= DIRECTORY_SEPARATOR;
 
-		if (!@is_dir($abwpDir) || empty($abwpDirReal))
-		{
-			return false;
-		}
-
-		return stripos($realOutDir, $abwpDirReal) === 0
-		       || stripos($realOutDir, $abwpDir) === 0
-		       || stripos($outDir, $abwpDirReal) === 0
-		       || stripos($outDir, $abwpDir) === 0;
-	}
-
-	/**
-	 * Critical error detection: Cannot create default output directory
-	 *
-	 * @return  bool
-	 * @since   8.1.0
-	 */
-	public static function quirk_014()
-	{
-		$stock_dirs    = Platform::getInstance()->get_stock_directories();
-		$defaultOutput = $stock_dirs['[DEFAULT_OUTPUT]'] ?? '';
-
-		if (empty($defaultOutput))
-		{
-			return false;
-		}
-
-		if (!@is_dir($defaultOutput))
-		{
-			return true;
-		}
-
-		if (@realpath($defaultOutput) === false)
-		{
-			return true;
+			if (strpos($outdir_real, $checkPath) === 0)
+			{
+				return true;
+			}
 		}
 
 		return false;
@@ -951,34 +889,5 @@ class Wordpress extends Base implements ContainerAwareInterface
 		$this->setProxySettings($enabled, $host, $port, $user, $pass);
 	}
 
-	/**
-	 * Tries to create the default output directory if it does not already exist.
-	 *
-	 * @param   string  $pathName  The path to the output directory
-	 *
-	 * @return  void
-	 */
-	protected function conditionallyCreateDefaultOutputDirectory(string $pathName)
-	{
-		// If it already exists
-		if (@is_dir($pathName))
-		{
-			return;
-		}
 
-		$success = @mkdir($pathName, 0755, true);
-
-		if (!$success || !@is_dir($pathName))
-		{
-			/**
-			 * Why return instead of using WordPress' WP_Filesystem? Because WordPress does not, in fact, save the FTP
-			 * information anywhere. Therefore, even using WordPress' WP_Filesystem would try to use mkdir() which has
-			 * already failed at this point. We can just display a message instead.
-			 */
-			return;
-		}
-
-		// Create files to protect against direct access
-		Factory::getFilesystemTools()->ensureNoAccess($pathName, true);
-	}
 }

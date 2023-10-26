@@ -9,13 +9,13 @@ namespace Awf\Application;
 
 
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Registry\Registry;
 
-class Configuration extends Registry implements ContainerAwareInterface
+class Configuration extends Registry
 {
-	use ContainerAwareTrait;
+
+	/** @var \Awf\Container\Container|null The DI container we belong to */
+	protected $container = null;
 
 	/** @var string The path to the default JSON configuration file */
 	protected $defaultPath = null;
@@ -30,7 +30,7 @@ class Configuration extends Registry implements ContainerAwareInterface
 	{
 		parent::__construct($data);
 
-		$this->setContainer($container);
+		$this->container = $container;
 	}
 
 	/**

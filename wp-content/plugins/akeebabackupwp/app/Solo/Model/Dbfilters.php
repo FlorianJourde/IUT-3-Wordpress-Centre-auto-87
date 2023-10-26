@@ -425,9 +425,7 @@ class Dbfilters extends Model
 
 			// Tabular view
 			case 'tab':
-				$ret_array = [
-					'list' => $this->get_filters($action->root)
-				];
+				$ret_array = $this->get_filters($action->root);
 				break;
 
 			// Reset filters

@@ -7,6 +7,7 @@
 
 namespace Solo\Model;
 
+use Akeeba\Engine\Archiver\Directftp;
 use Akeeba\Engine\Factory;
 use Akeeba\Engine\Platform;
 use Akeeba\Engine\Postproc\Base;
@@ -84,7 +85,7 @@ class Configuration extends Model
 		// Check for bad settings
 		if (substr($config['host'], 0, 6) == 'ftp://')
 		{
-			throw new RuntimeException(Text::_('COM_AKEEBA_CONFIG_FTPTEST_BADPREFIX'), 500);
+			throw new RuntimeException(Text::_('COM_AKEEBABACKUP_CONFIG_FTPTEST_BADPREFIX'), 500);
 		}
 
 		// Special case for cURL transport
@@ -117,7 +118,7 @@ class Configuration extends Model
 		}
 		catch (RuntimeException $e)
 		{
-			throw new RuntimeException(Text::_('COM_AKEEBA_CONFIG_FTPTEST_NOUPLOAD'), 500);
+			throw new RuntimeException(Text::_('COM_AKEEBABACKUP_CONFIG_FTPTEST_NOUPLOAD'), 500);
 		}
 		finally
 		{
@@ -126,7 +127,7 @@ class Configuration extends Model
 
 		if (!$ret)
 		{
-			throw new RuntimeException(Text::_('COM_AKEEBA_CONFIG_FTPTEST_NOUPLOAD'), 500);
+			throw new RuntimeException(Text::_('COM_AKEEBABACKUP_CONFIG_FTPTEST_NOUPLOAD'), 500);
 		}
 
 		// Delete the remote file. If it fails, that's ok for us
@@ -154,7 +155,7 @@ class Configuration extends Model
 		// Check for bad settings
 		if (substr($config['host'], 0, 7) == 'sftp://')
 		{
-			throw new RuntimeException(Text::_('COM_AKEEBA_CONFIG_SFTPTEST_BADPREFIX'), 500);
+			throw new RuntimeException(Text::_('COM_AKEEBABACKUP_CONFIG_SFTPTEST_BADPREFIX'), 500);
 		}
 
 		// Initialize the correct object
@@ -187,7 +188,7 @@ class Configuration extends Model
 		}
 		catch (RuntimeException $e)
 		{
-			throw new RuntimeException(Text::_('COM_AKEEBA_CONFIG_SFTPTEST_NOUPLOAD'), 500);
+			throw new RuntimeException(Text::_('COM_AKEEBABACKUP_CONFIG_SFTPTEST_NOUPLOAD'), 500);
 		}
 		finally
 		{

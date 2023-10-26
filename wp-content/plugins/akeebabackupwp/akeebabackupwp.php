@@ -9,11 +9,11 @@
 Plugin Name: Akeeba Backup CORE for WordPress
 Plugin URI: https://www.akeeba.com
 Description: The complete backup solution for WordPress
-Version: 8.1.0.b3
+Version: 7.9.2
 Author: Akeeba Ltd
 Author URI: https://www.akeeba.com
 Network: true
-License: GPL-3.0-or-later
+License: GPLv3
 */
 
 /**
@@ -25,7 +25,7 @@ defined('WPINC') or die;
  * This should never happen unless your site is broken! It'd mean that you're double loading our plugin which is not how
  * WordPress works. We still defend against this because we've learned to expect the unexpected ;)
  */
-if (defined('AKEEBABACKUPWP_PATH'))
+if (defined('AKEEBA_SOLOWP_PATH'))
 {
 	return;
 }
@@ -35,14 +35,7 @@ require_once dirname(__FILE__) . '/helpers/AkeebaBackupWP.php';
 require_once dirname(__FILE__) . '/helpers/AkeebaBackupWPUpdater.php';
 
 // Initialization of our helper class
-AkeebaBackupWP::initialization(__FILE__);
-AkeebaBackupWP::loadIntegratedUpdater(__FILE__);
-
-// Quit early if it is the wrong PHP version
-if (AkeebaBackupWP::$wrongPHP)
-{
-	return;
-}
+AkeebaBackupWP::preboot_initialization(__FILE__);
 
 /**
  * Redirect to the ANGIE installer if the installer currently exists
@@ -61,34 +54,46 @@ register_activation_hook(__FILE__, ['AkeebaBackupWP', 'install']);
  */
 register_deactivation_hook(__FILE__, ['AkeebaBackupWP', 'onDeactivate']);
 
-register_uninstall_hook(__FILE__, ['AkeebaBackupWP', 'uninstall']);
+/**
+ * Register the plugin updater hooks (if necessary)
+ */
+AkeebaBackupWP::loadIntegratedUpdater();
 
 /**
  * Register administrator plugin hooks
  */
 if (is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX))
 {
-	// Menu items
 	add_action('admin_menu', ['AkeebaBackupWP', 'adminMenu']);
 	add_action('network_admin_menu', ['AkeebaBackupWP', 'networkAdminMenu']);
 
-	// Output buffering, wherever it is needed
-	add_action('init', ['AkeebaBackupWP', 'startOutputBuffering'], 1);
-	add_action('in_admin_footer', ['AkeebaBackupWP', 'stopOutputBuffering']);
+	if (!AkeebaBackupWP::$wrongPHP)
+	{
+		add_action('init', ['AkeebaBackupWP', 'startSession'], 1);
+		add_action('init', ['AkeebaBackupWP', 'loadJavascript'], 1);
+		add_action('plugins_loaded', ['AkeebaBackupWP', 'fakeRequest'], 1);
+		add_action('wp_logout', ['AkeebaBackupWP', 'endSession']);
+		add_action('wp_login', ['AkeebaBackupWP', 'endSession']);
+		add_action('in_admin_footer', ['AkeebaBackupWP', 'clearBuffer']);
+		add_action('clear_auth_cookie', ['AkeebaBackupWP', 'onUserLogout'], 1);
 
-	add_action('init', ['AkeebaBackupWP', 'loadCommonCSS'], 1);
-	add_action('clear_auth_cookie', ['AkeebaBackupWP', 'onUserLogout'], 1);
+		// Add a hook to register dashboard widgets
+		add_action('wp_dashboard_setup', ['AkeebaBackupWP', 'registerDashboardWidgets']);
+	}
 }
 elseif (defined('DOING_AJAX') && DOING_AJAX)
 {
-	add_action('wp_ajax_akeebabackup_api', ['AkeebaBackupWP', 'jsonApi'], 1);
-	add_action('wp_ajax_nopriv_akeebabackup_api', ['AkeebaBackupWP', 'jsonApi'], 1);
+	if (!AkeebaBackupWP::$wrongPHP)
+	{
+		add_action('wp_ajax_akeebabackup_api', ['AkeebaBackupWP', 'jsonApi'], 1);
+		add_action('wp_ajax_nopriv_akeebabackup_api', ['AkeebaBackupWP', 'jsonApi'], 1);
 
-	add_action('wp_ajax_akeebabackup_legacy', ['AkeebaBackupWP', 'legacyFrontendBackup'], 1);
-	add_action('wp_ajax_nopriv_akeebabackup_legacy', ['AkeebaBackupWP', 'legacyFrontendBackup'], 1);
+		add_action('wp_ajax_akeebabackup_legacy', ['AkeebaBackupWP', 'legacyFrontendBackup'], 1);
+		add_action('wp_ajax_nopriv_akeebabackup_legacy', ['AkeebaBackupWP', 'legacyFrontendBackup'], 1);
 
-	add_action('wp_ajax_akeebabackup_check', ['AkeebaBackupWP', 'frontendBackupCheck'], 1);
-	add_action('wp_ajax_nopriv_akeebabackup_check', ['AkeebaBackupWP', 'frontendBackupCheck'], 1);
+		add_action('wp_ajax_akeebabackup_check', ['AkeebaBackupWP', 'frontendBackupCheck'], 1);
+		add_action('wp_ajax_nopriv_akeebabackup_check', ['AkeebaBackupWP', 'frontendBackupCheck'], 1);
+	}
 }
 
 // PseudoCRON with WP-CRON

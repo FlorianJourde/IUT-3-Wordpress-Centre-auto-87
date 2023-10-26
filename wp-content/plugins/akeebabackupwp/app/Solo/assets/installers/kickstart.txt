@@ -30,7 +30,7 @@ define('KICKSTART_RECOMMENDED_PHP', '7.4.0');
 
 if (!defined('VERSION'))
 {
-	define('VERSION', '8.0.3');
+	define('VERSION', '8.0.2-dev202307081324-rev90d85bd');
 }
 
 if (!defined('KICKSTARTPRO'))
@@ -703,7 +703,7 @@ abstract class AKAbstractPart extends AKAbstractObject
 	 *
 	 * @var boolean
 	 */
-	protected $hasRun = false;
+	protected $hasRan = false;
 
 	/**
 	 * The name of the engine part (a.k.a. Domain), used in return table
@@ -10199,7 +10199,7 @@ function getPhpHandlers($root = null)
 
 	$contents   = file_get_contents($htaccess);
 	$directives = AKUtilsHtaccess::extractHandler($contents);
-	$directives = empty($directives) ? [] : explode("\n", $directives);
+	$directives = explode("\n", $directives);
 
 	return $directives;
 }
@@ -12719,14 +12719,7 @@ akeeba.System.sanitizeErrorMessage = function (msg)
 {
 	if (msg.indexOf("<script") > -1)
 	{
-		try
-		{
-			msg = (new DOMParser().parseFromString(msg ?? "", "text/html")).textContent;
-		}
-		catch (e)
-		{
-			msg = "(HTML containing script tags)";
-		}
+		msg = "(HTML containing script tags)";
 	}
 
 	return msg;
@@ -14251,7 +14244,7 @@ function echoPage()
 		<div id="header">
 			<div class="title">
 				<span id="logo" alt="Akeeba Kickstart logo"></span>
-				Akeeba Kickstart <?php echo $edition ?> <?php echo defined('VERSION') ? VERSION : '8.0.3' ?>
+				Akeeba Kickstart <?php echo $edition ?> <?php echo defined('VERSION') ? VERSION : '8.0.2-dev202307081324-rev90d85bd' ?>
 			</div>
 		</div>
 
@@ -14909,7 +14902,7 @@ function kickstart_application_cli()
 
 	if (!$silent)
 	{
-		$version = defined('VERSION') ? VERSION : '8.0.3';
+		$version = defined('VERSION') ? VERSION : '8.0.2-dev202307081324-rev90d85bd';
 		echo <<< BANNER
 Akeeba Kickstart CLI $version
 Copyright (c) 2008-$year Akeeba Ltd / Nicholas K. Dionysopoulos

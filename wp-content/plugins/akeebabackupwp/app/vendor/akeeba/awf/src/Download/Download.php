@@ -9,14 +9,17 @@ namespace Awf\Download;
 
 use Awf\Application\Application;
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Text\Text;
 use Awf\Timer\Timer;
 
-class Download implements ContainerAwareInterface
+class Download
 {
-	use ContainerAwareTrait;
+    /**
+     * The component container object
+     *
+     * @var  Container
+     */
+    protected $container = null;
 
 	/**
 	 * Parameters passed from the GUI when importing from URL
@@ -39,20 +42,14 @@ class Download implements ContainerAwareInterface
      */
     private $adapterOptions = array();
 
-	public function __construct(?Container $container = null)
+	public function __construct(Container $c = null)
 	{
-		/** @deprecated 2.0 The container argument will become mandatory */
-		if (empty($container))
-		{
-			trigger_error(
-				sprintf('The container argument is mandatory in %s', __METHOD__),
-				E_USER_DEPRECATED
-			);
+        if(!is_object($c))
+        {
+            $c = Application::getInstance()->getContainer();
+        }
 
-			$container = Application::getInstance()->getContainer();
-		}
-
-        $this->setContainer($container);
+        $this->container = $c;
 
 		// Find the best fitting adapter
 		$allAdapters = self::getFiles(__DIR__ . '/Adapter', [], ['AbstractAdapter.php', 'cacert.pem']);

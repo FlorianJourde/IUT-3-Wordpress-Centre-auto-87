@@ -13,9 +13,13 @@ use Awf\Uri\Uri;
 
 abstract class Template
 {
-	public static function addCss(string $path, ?Application $app = null, bool $useMediaQueryKey = true)
+	public static function addCss($path, $app = null, $useMediaQueryKey = true)
 	{
-		$app = $app ?? Application::getInstance();
+		if (!is_object($app))
+		{
+			$app = Application::getInstance();
+		}
+
 		$url = self::parsePath($path, false, $app);
 
 		$mediaQueryKey = $app->getContainer()->mediaQueryKey;
@@ -30,9 +34,12 @@ abstract class Template
 		$app->getDocument()->addStyleSheet($url);
 	}
 
-	public static function addJs(string $path, ?Application $app = null, bool $useMediaQueryKey = true, bool $defer = false, bool $async = false)
+	public static function addJs($path, $app = null, $useMediaQueryKey = true, $defer = false, $async = false)
 	{
-		$app = $app ?? Application::getInstance();
+		if (!is_object($app))
+		{
+			$app = Application::getInstance();
+		}
 
 		$url = self::parsePath($path, false, $app);
 
@@ -60,15 +67,18 @@ abstract class Template
 	 * media://		The media directory or a media override
 	 * site://		Path relative to site's root (no overrides)
 	 *
-	 * @param   string            $path       Fancy path
-	 * @param   boolean           $localFile  When true, it returns the local path, not the URL
-	 * @param   Application|null  $app        The application we're operating under
+	 * @param   string       $path       Fancy path
+	 * @param   boolean      $localFile  When true, it returns the local path, not the URL
+	 * @param   Application  $app        The application we're operating under
 	 *
 	 * @return  string  Parsed path
 	 */
-	public static function parsePath(string $path, bool $localFile = false, ?Application $app = null)
+	public static function parsePath($path, $localFile = false, $app = null)
 	{
-		$app = $app ?? Application::getInstance();
+		if (!is_object($app))
+		{
+			$app = Application::getInstance();
+		}
 
 		$rootPath = $app->getContainer()->filesystemBase;
 
@@ -156,9 +166,12 @@ abstract class Template
 	 *
 	 * @return  array  Array of normal and alternate parsed path
 	 */
-	public static function getAltPaths(string $path, ?Application $app = null)
+	public static function getAltPaths($path, $app = null)
 	{
-		$app = $app ?? Application::getInstance();
+		if (!is_object($app))
+		{
+			$app = Application::getInstance();
+		}
 
 		$protoAndPath = explode('://', $path, 2);
 

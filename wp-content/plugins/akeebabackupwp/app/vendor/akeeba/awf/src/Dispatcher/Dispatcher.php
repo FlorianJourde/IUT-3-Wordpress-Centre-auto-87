@@ -8,8 +8,6 @@
 namespace Awf\Dispatcher;
 
 use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Input\Input;
 use Awf\Application\Application;
 use Awf\Text\Text;
@@ -22,15 +20,16 @@ use Awf\Mvc;
  *
  * @package Awf\Dispatcher
  */
-class Dispatcher implements ContainerAwareInterface
+class Dispatcher
 {
-	use ContainerAwareTrait;
-
 	/** @var   Input  Input variables */
 	protected $input = array();
 
 	/** @var   string  The name of the default view, in case none is specified */
 	public $defaultView = 'main';
+
+	/** @var   Container  A copy of the application object we belong to */
+	protected $container;
 
 	/** @var string The view which will be rendered by the dispatcher */
 	protected $view;
@@ -41,22 +40,16 @@ class Dispatcher implements ContainerAwareInterface
 	/**
 	 * Public constructor
 	 *
-	 * @param   Container|null  $container  The container this dispatcher belongs to
+	 * @param   Container $container The container this dispatcher belongs to
 	 */
-	public function __construct(?Container $container = null)
+	public function __construct($container = null)
 	{
-		/** @deprecated 2.0 The container argument will become mandatory */
-		if (empty($container))
+		if (!is_object($container) || !($container instanceof Container))
 		{
-			trigger_error(
-				sprintf('The container argument is mandatory in %s', __METHOD__),
-				E_USER_DEPRECATED
-			);
-
 			$container = Application::getInstance()->getContainer();
 		}
 
-		$this->setContainer($container);
+		$this->container = $container;
 
 		$this->input = $container->input;
 
@@ -116,8 +109,8 @@ class Dispatcher implements ContainerAwareInterface
 			$this->input->set('task', $task);
 		}
 
-		$controller = $this->container->mvcFactory->makeController($view);
-		$status     = $controller->execute($task);
+		$controller = Mvc\Controller::getInstance($this->container->application_name, $view, $this->container);
+		$status = $controller->execute($task);
 
 		if ($status === false)
 		{

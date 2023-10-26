@@ -7,14 +7,10 @@
 
 namespace Solo\Application;
 
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\User\Authentication;
 
-abstract class UserAuthenticationOtep extends Authentication implements ContainerAwareInterface
+abstract class UserAuthenticationOtep extends Authentication
 {
-	use ContainerAwareTrait;
-
 	/**
 	 * Validates an OTEP. If the OTEP is valid it will be removed from the list of OTEPs and the user account will be
 	 * saved with the updated list of OTEPs.
@@ -64,7 +60,7 @@ abstract class UserAuthenticationOtep extends Authentication implements Containe
 		// Save the modified user
 		$this->user->getParameters()->set('tfa.otep', $temp);
 
-		$userManager = $this->getContainer()->userManager;
+		$userManager = \Awf\Application\Application::getInstance()->getContainer()->userManager;
 		$userManager->saveUser($this->user);
 
 		// OK, we can authenticate

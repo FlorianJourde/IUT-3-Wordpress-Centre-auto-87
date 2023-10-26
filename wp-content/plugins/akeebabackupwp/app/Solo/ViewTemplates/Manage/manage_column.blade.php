@@ -58,7 +58,7 @@ if ($showUploadRemote)
                 <strong>@lang('COM_AKEEBA_BUADMIN_LBL_ARCHIVEPATH' . ($archiveExists ? '' : '_PAST'))</strong>
                 <br />
                 <span class="akeeba-label--information">
-		        {{{ AkeebaHelperUtils::getRelativePath(defined('ABSPATH') ? ABSPATH : APATH_BASE, dirname($record['absolute_path'])) }}}
+		        {{{ AkeebaHelperUtils::getRelativePath(APATH_BASE, dirname($record['absolute_path'])) }}}
 		</span>
             </p>
             <p>
@@ -137,7 +137,7 @@ if ($showUploadRemote)
 	                    $archiveName = $record['archivename'];
 	                    $extension = substr($archiveName, -4);
 	                    $firstPart = substr($extension, 0, 2) . '01';
-	                    $lastPart = substr($extension, 0, 2) . sprintf('%02u', max($record['multipart'] - 1, 1));
+	                    $lastPart = substr($extension, 0, 2) . sprintf('%02u', min($record['multipart'] - 1, 1));
 	                    ?>
                         @if ($record['multipart'] < 2)
                             @sprintf('COM_AKEEBA_BUADMIN_LBL_DOWNLOAD_WARNING_NODOWNLOAD_MULTIPART_1', $archiveName)

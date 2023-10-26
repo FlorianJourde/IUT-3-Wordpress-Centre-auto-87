@@ -9,6 +9,7 @@ namespace Solo\Model;
 
 
 use Akeeba\Engine\Factory;
+use Awf\Html\Select;
 use Awf\Mvc\Model;
 use Awf\Text\Text;
 
@@ -98,7 +99,7 @@ class Log extends Model
 
 		if (!empty($list))
 		{
-			$options[] = $this->getContainer()->html->select->option( '', Text::_('COM_AKEEBA_LOG_CHOOSE_FILE_VALUE'));
+			$options[] = Select::option(null, Text::_('COM_AKEEBA_LOG_CHOOSE_FILE_VALUE'));
 
 			foreach ($list as $item)
 			{
@@ -106,12 +107,12 @@ class Log extends Model
 
 				if (strstr($item, '.') !== false)
 				{
-					[$origin, $backupId] = explode('.', $item, 2);
+					list($origin, $backupId) = explode('.', $item, 2);
 
 					$text = Text::_('COM_AKEEBA_BUADMIN_LABEL_ORIGIN_' . strtoupper($origin)) . ' (' . $backupId . ')';
 				}
 
-				$options[] = $this->getContainer()->html->select->option( $item, $text);
+				$options[] = Select::option($item, $text);
 			}
 		}
 

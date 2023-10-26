@@ -6,12 +6,7 @@
  */
 
 namespace Awf\Date;
-use Awf\Application\Application;
-use Awf\Container\Container;
-use Awf\Container\ContainerAwareInterface;
-use Awf\Container\ContainerAwareTrait;
 use Awf\Database\Driver;
-use Awf\Exception\App;
 
 /**
  * Date is a class that stores a date and provides logic to manipulate
@@ -32,10 +27,8 @@ use Awf\Exception\App;
  *
  * This class is adapted from the Joomla! Framework
  */
-class Date extends \DateTime implements ContainerAwareInterface
+class Date extends \DateTime
 {
-	use ContainerAwareTrait;
-
 	/**
 	 * The format string to be applied when using the __toString() magic method.
 	 *
@@ -68,28 +61,11 @@ class Date extends \DateTime implements ContainerAwareInterface
 	/**
 	 * Constructor.
 	 *
-	 * @param   string          $date       String in a format accepted by strtotime(), defaults to "now".
-	 * @param   mixed           $tz         Time zone to be used for the date. Might be a string or a DateTimeZone
-	 *                                      object.
-	 * @param   Container|null  $container  The DI Container of the application
-	 *
-	 * @throws App
+	 * @param   string  $date  String in a format accepted by strtotime(), defaults to "now".
+	 * @param   mixed   $tz    Time zone to be used for the date. Might be a string or a DateTimeZone object.
 	 */
-	public function __construct($date = 'now', $tz = null, ?Container $container = null)
+	public function __construct($date = 'now', $tz = null)
 	{
-		/** @deprecated 2.0 The container argument will become mandatory */
-		if (empty($container))
-		{
-			trigger_error(
-				sprintf('The container argument is mandatory in %s', __METHOD__),
-				E_USER_DEPRECATED
-			);
-
-			$container = Application::getInstance()->getContainer();
-		}
-
-		$this->setContainer($container);
-
 		// Create the base GMT and server time zone objects.
 		if (empty(self::$gmt) || empty(self::$stz))
 		{
@@ -316,7 +292,10 @@ class Date extends \DateTime implements ContainerAwareInterface
 	 */
 	public function toSql($local = false, Driver $db = null)
 	{
-		$db = $db ?? $this->container->db;
+		if ($db === null)
+		{
+			$db = Driver::getInstance();
+		}
 
 		return $this->format($db->getDateFormat(), $local);
 	}

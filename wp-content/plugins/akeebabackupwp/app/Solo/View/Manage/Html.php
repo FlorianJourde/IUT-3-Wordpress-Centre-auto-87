@@ -9,7 +9,9 @@ namespace Solo\View\Manage;
 
 use Akeeba\Engine\Factory;
 use Akeeba\Engine\Platform;
+use Awf\Date\Date;
 use Awf\Html\Select;
+use Awf\Mvc\Model;
 use Awf\Mvc\View;
 use Awf\Pagination\Pagination;
 use Awf\Text\Text;
@@ -17,6 +19,7 @@ use Awf\Utils\Template;
 use DateTimeZone;
 use Solo\Helper\Escape;
 use Solo\Model\Profiles;
+use function foo\func;
 
 class Html extends View
 {
@@ -174,24 +177,31 @@ class Html extends View
 
 		$this->items = $model->getStatisticsListWithMeta(false, $filters, $ordering);
 
+		$containerClone               = clone $this->getContainer();
+		$containerClone['mvc_config'] = [
+			'modelTemporaryInstance' => true,
+			'modelClearState'        => true,
+			'modelClearInput'        => true,
+		];
+
 		/** @var Profiles $profileModel */
-		$profileModel         = $this->container->mvcFactory->makeTempModel('Profiles');
+		$profileModel         = Model::getInstance(null, 'Profiles', $containerClone);
 		$this->profiles       = $profileModel->get(true);
 		$this->profilesList   = [];
-		$this->profilesList[] = $this->getContainer()->html->select->option( '', '&mdash;');
+		$this->profilesList[] = Select::option('', '&mdash;');
 
 		if (!empty($this->profiles))
 		{
 			foreach ($this->profiles as $profile)
 			{
-				$this->profilesList[] = $this->getContainer()->html->select->option( $profile->id, $profile->description);
+				$this->profilesList[] = Select::option($profile->id, $profile->description);
 			}
 		}
 
 		$this->frozenList = [
-			$this->getContainer()->html->select->option( '', '–' . Text::_('COM_AKEEBA_BUADMIN_LABEL_FROZEN_SELECT') . '–'),
-			$this->getContainer()->html->select->option( '1', Text::_('COM_AKEEBA_BUADMIN_LABEL_FROZEN_FROZEN')),
-			$this->getContainer()->html->select->option( '2', Text::_('COM_AKEEBA_BUADMIN_LABEL_FROZEN_UNFROZEN')),
+			Select::option('', '–' . Text::_('COM_AKEEBA_BUADMIN_LABEL_FROZEN_SELECT') . '–'),
+			Select::option('1', Text::_('COM_AKEEBA_BUADMIN_LABEL_FROZEN_FROZEN')),
+			Select::option('2', Text::_('COM_AKEEBA_BUADMIN_LABEL_FROZEN_UNFROZEN')),
 		];
 
 		$this->pagination = $model->getPagination($filters);
@@ -215,8 +225,7 @@ class Html extends View
 		}
 
 		// "Show warning first" download button.
-		$doc = $this->container->application->getDocument();
-		$doc->lang('COM_AKEEBA_BUADMIN_LOG_DOWNLOAD_CONFIRM', false);
+		Text::script('COM_AKEEBA_BUADMIN_LOG_DOWNLOAD_CONFIRM', false);
 		$document->addScriptOptions('akeeba.Manage.downloadURL', $router->route('index.php?option=com_akeeba&view=Manage&task=download&format=raw'));
 
 		$buttons = [
@@ -417,8 +426,8 @@ JS;
 	protected function getTimeInformation($record)
 	{
 		$utcTimeZone = new DateTimeZone('UTC');
-		$startTime   = $this->container->dateFactory($record['backupstart'], $utcTimeZone);
-		$endTime     = $this->container->dateFactory($record['backupend'], $utcTimeZone);
+		$startTime   = new Date($record['backupstart'], $utcTimeZone);
+		$endTime     = new Date($record['backupend'], $utcTimeZone);
 
 		$duration = $endTime->toUnix() - $startTime->toUnix();
 

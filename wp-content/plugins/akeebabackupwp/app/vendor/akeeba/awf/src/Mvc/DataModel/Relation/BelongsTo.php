@@ -45,7 +45,7 @@ class BelongsTo extends HasOne
 			// Get a model instance
 			$container = Application::getInstance($this->foreignModelApp)->getContainer();
 			/** @var DataModel $foreignModel */
-			$foreignModel = $container->mvcFactory->makeTempModel($this->foreignModelName);
+			$foreignModel = DataModel::getTmpInstance($this->foreignModelApp, $this->foreignModelName, $container);
 
 			$this->localKey = $foreignModel->getIdFieldName();
 		}
@@ -57,7 +57,7 @@ class BelongsTo extends HasOne
 				// Get a model instance
 				$container = Application::getInstance($this->foreignModelApp)->getContainer();
 				/** @var DataModel $foreignModel */
-				$foreignModel = $container->mvcFactory->makeTempModel($this->foreignModelName);
+				$foreignModel = DataModel::getTmpInstance($this->foreignModelApp, $this->foreignModelName, $container);
 			}
 
 			$this->foreignKey = $foreignModel->getIdFieldName();
