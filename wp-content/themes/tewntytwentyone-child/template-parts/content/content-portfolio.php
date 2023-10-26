@@ -3,16 +3,24 @@
 <?php
 
 if (is_archive()) {
-    $post_per_page = '9';
+    $post_per_page = 3;
 } else {
-    $post_per_page = '3';
+    $post_per_page = 3;
 }
+//
+//$args = array(
+//    'post_type' => 'voitures',
+//    'posts_per_page' => $post_per_page
+//);
+//
+//$query = new WP_Query( $args );
 
-$args = array(
+$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+$query = new WP_Query( array(
     'post_type' => 'voitures',
-    'posts_per_page' => $post_per_page
-);
-$query = new WP_Query( $args );
+    'posts_per_page' => $post_per_page,
+    'paged' => $paged
+) );
 
 if ( $query->have_posts() ) :
     while ( $query->have_posts() ) : $query->the_post();
@@ -26,6 +34,7 @@ if ( $query->have_posts() ) :
         //        $cars_about             = get_field( 'cars_about' );
         // $cars_category = get_the_terms( the_post()->ID, 'taxonomy' );
         // Output
+
         ?>
 
 
@@ -50,8 +59,33 @@ if ( $query->have_posts() ) :
         </a>
 
     <?php endwhile; ?>
+
     <?php wp_reset_postdata(); ?>
-    <?php twenty_twenty_one_the_posts_navigation(); ?>
 <?php endif; ?>
 
 </div>
+
+
+<?php if (is_archive()) : ?>
+
+    <div class="pagination">
+        <?php
+        echo paginate_links( array(
+            'base'         => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
+            'total'        => $query->max_num_pages,
+            'current'      => max( 1, get_query_var( 'paged' ) ),
+            'format'       => '?paged=%#%',
+            'show_all'     => false,
+            'type'         => 'plain',
+            'end_size'     => 2,
+            'mid_size'     => 1,
+            'prev_next'    => true,
+            'prev_text'    => '<button class="button-primary">Précédent</button>',
+            'next_text'    => '<button class="button-primary">Suivant</button>',
+            'add_args'     => false,
+            'add_fragment' => '',
+        ) );
+        ?>
+    </div>
+
+<?php endif; ?>

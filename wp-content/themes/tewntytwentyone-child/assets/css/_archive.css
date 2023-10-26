@@ -45,3 +45,15 @@ z-index: 0;
   flex-wrap: wrap;
   gap: 10px 20px;
 }
+
+.pagination, .comments-pagination {
+  border: unset;
+  padding-top: unset;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+.pagination .page-numbers:not(.prev):not(.next) {
+  display: none;
+}

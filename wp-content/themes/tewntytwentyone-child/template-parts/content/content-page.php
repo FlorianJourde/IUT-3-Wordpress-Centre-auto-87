@@ -13,7 +13,7 @@
 
 <section>
     <div class="wrapper">
-        <h2>Contenu de la page d'accueil</h2>
-        <?php var_dump(get_the_content()); ?>
+<!--        <h2>Contenu de la page d'accueil</h2>-->
+<!--        --><?php //var_dump(get_the_content()); ?>
     </div>
 </section>
