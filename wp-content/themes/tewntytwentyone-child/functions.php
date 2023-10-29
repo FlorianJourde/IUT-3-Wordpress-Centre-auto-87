@@ -59,11 +59,41 @@ function my_pre_get_posts( $query ) {
         if( isset($_GET['marque']) ) {
             $query->set('meta_key', 'marque');
             $query->set('meta_value', $_GET['marque']);
+//            add_query_arg( array(
+//                'marque' => $_GET['marque'],
+//            ) );
+//            var_dump($_GET['marque']);
+        } elseif ( isset($_GET['prix']) ) {
+            $query->set('meta_key', 'prix');
+//            $query->set('meta_value', $_GET['prix']);
+            $query->set('meta_value', $_GET['min_price']);
+            $query->set('meta_value', $_GET['max_price']);
+//            add_query_arg( array(
+//                'prix' => $_GET['prix'],
+//            ) );
         }
     }
 
     return $query;
 }
+
+add_action('init','url_register_param');
+function url_register_param() {
+    global $wp;
+    $wp->add_query_var('anyParamName');
+}
+
+//add_action('init','add_get_val');
+//function add_get_val() {
+//    global $wp;
+//    $wp->add_query_var('ppc');
+//}
+//
+//add_filter( 'query_vars', 'add_query_vars_filter' );
+//function add_query_vars_filter( $vars ){
+//    $vars[] = "ppc";
+//    return $vars;
+//}
 
 //
 //add_action('pre_get_posts', 'my_pre_get_posts');
