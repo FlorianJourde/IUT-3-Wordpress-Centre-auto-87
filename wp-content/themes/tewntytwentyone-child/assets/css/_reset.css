@@ -58,7 +58,7 @@ ul {
   width: 100%;
   padding-left: 20px;
   padding-right: 20px;
-  max-width: 1200px;
+  max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
   position: relative;
@@ -72,11 +72,11 @@ ul {
 }
 
 .wrapper-wide {
-  max-width: 1500px;
+  /*max-width: 1500px;*/
 }
 
 .wrapper-small {
-  max-width: 900px;
+  max-width: 1000px;
 }
 
 .box {

@@ -14,7 +14,8 @@ get_header();
 ?>
 
 <section class="single-container box">
-    <div class="wrapper wrapper-wide">
+    <div class="wrapper">
+<!--    <div class="wrapper wrapper-wide">-->
 <!--        --><?php //var_dump(get_post()); ?>
         <div class="single-article">
             <div class="left-area">
@@ -60,28 +61,36 @@ get_header();
                     <h3>Modèle</h3>
                     <p><?php echo get_field('modele'); ?></p>
                 </div>
-                <div class="color">
-                    <h3>Couleur</h3>
-                    <p><?php echo get_field('color'); ?></p>
-                </div>
-            </div>
-        </div>
-        <div class="single-description">
-            <div class="title">
-                <h2>Caractéristiques</h2>
-            </div>
-            <div class="content">
-                <div class="brand">
-                    <h3>Marque</h3>
-                    <p><?php echo get_field('marque'); ?></p>
-                </div>
-                <div class="reference">
-                    <h3>Modèle</h3>
-                    <p><?php echo get_field('modele'); ?></p>
+                <div class="price">
+                    <h3>Prix</h3>
+                    <p><?php echo get_field('prix'); ?></p>
                 </div>
                 <div class="color">
                     <h3>Couleur</h3>
-                    <p><?php echo get_field('color'); ?></p>
+                    <p><?php echo get_field('couleur'); ?></p>
+                </div>
+            </div>
+            <div class="single-description">
+                <div class="title">
+                    <h2>Caractéristiques</h2>
+                </div>
+                <div class="content">
+                    <div class="brand">
+                        <h3>Marque</h3>
+                        <p><?php echo get_field('marque'); ?></p>
+                    </div>
+                    <div class="reference">
+                        <h3>Modèle</h3>
+                        <p><?php echo get_field('modele'); ?></p>
+                    </div>
+                    <div class="price">
+                        <h3>Prix</h3>
+                        <p><?php echo get_field('prix'); ?></p>
+                    </div>
+                    <div class="color">
+                        <h3>Couleur</h3>
+                        <p><?php echo get_field('couleur'); ?></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -112,7 +121,7 @@ get_header();
 <!--</section>-->
 
 <section class="cars-section-single">
-    <div class="wrapper wrapper-wide">
+    <div class="wrapper">
         <h2>Nos dernières voitures</h2>
 
         <?php get_template_part('template-parts/content/content-portfolio'); ?>

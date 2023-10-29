@@ -13,7 +13,8 @@ Template Name: Accueil
 </section>
 
 <section class="cars-section-single">
-    <div class="wrapper wrapper-wide">
+    <div class="wrapper">
+<!--    <div class="wrapper wrapper-wide">-->
         <h2>Nos dernières voitures</h2>
 
         <?php get_template_part('template-parts/content/content-portfolio'); ?>
