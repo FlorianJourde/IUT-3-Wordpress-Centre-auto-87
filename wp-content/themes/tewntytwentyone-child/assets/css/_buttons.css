@@ -1,17 +1,23 @@
-#content .button-primary, #content .button-secondary, #content .button-tertiary {
+#content .button-primary, #content .button-secondary, #content .button-tertiary, .pagination .page-numbers {
   /*text-transform: uppercase;*/
   display: inline-flex;
   padding: 10px 20px;
   border-width: 2px;
   border-style: solid;
   border-color: var(--clr-transparent);
-  /*font-family: var(--ff-primary);*/
+  font-family: var(--ff-primary);
+  text-transform: uppercase;
+  line-height: 1;
 }
 
-#content .button-red.button-primary {
+#content .button-red.button-primary, .pagination .page-numbers.prev, .pagination .page-numbers.next,  .pagination .page-numbers.current {
   border-color: var(--clr-transparent);
   color: var(--clr-white);
   background-color: var(--clr-red);
+}
+
+.pagination .page-numbers.prev, .pagination .page-numbers.next,  .pagination .page-numbers.current {
+  background-color: var(--clr-black);
 }
 
 #content .button-red.button-secondary {
@@ -20,8 +26,13 @@
   color: var(--clr-red);
 }
 
+.pagination .page-numbers,
 #content .button-red.button-tertiary {
   color: var(--clr-red);
   background-color: var(--clr-transparent);
   border-color: var(--clr-transparent);
+}
+
+.pagination .page-numbers {
+
 }

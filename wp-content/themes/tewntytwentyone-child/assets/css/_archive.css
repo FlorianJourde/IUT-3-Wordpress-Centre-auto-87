@@ -51,9 +51,9 @@ z-index: 0;
   padding-top: unset;
   display: flex;
   justify-content: center;
-  gap: 50px;
+  gap: 20px;
 }
 
 .pagination .page-numbers:not(.prev):not(.next) {
-  display: none;
+  /*display: none;*/
 }

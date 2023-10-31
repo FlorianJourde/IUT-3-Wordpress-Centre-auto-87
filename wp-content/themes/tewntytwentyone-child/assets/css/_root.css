@@ -4,7 +4,9 @@
   --clr-very-dark-blue: #000734;
   --clr-dark-green: #0c4711;
   --clr-green: #aec90b;
-  --clr-dark-red: #550413;
+  --clr-dark-yellow: #8a5d00;
+  --clr-yellow: #d28d00;
+  --clr-dark-red: #740511;
   --clr-red: #c90b27;
   --clr-transparent: #00000000;
   --clr-light-grey: hsl(0, 0%, 80%);
@@ -18,9 +20,6 @@
   --fs-accent: 12px;
   --ff-primary: "Gabarito", Arial, sans-serif;
   --ff-secondary: Roboto, sans-serif;
-  /*--bs-primary: 0 0 32px 8px rgba(0,0,0,.1);*/
   --bs-primary: 0 10px 20px 0 rgba(0,0,0,.1);
   --bs-secondary: 0 0 32px 8px rgba(0,0,0,.2);
-  /*--ff-primary: Roboto, sans-serif;*/
-  /*--ff-secondary: JetBrains Mono, sans-serif;*/
 }

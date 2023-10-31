@@ -23,7 +23,7 @@ $wrapper_classes .= has_nav_menu( 'primary' ) ? ' has-menu' : '';
 <header>
     <div class="wrapper">
         <a href="<?= get_site_url(); ?>" class="website-infos">
-            <img class="website-logo left-website-infos" src="<?= esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] ); ?>" alt="">
+            <img class="website-logo left-website-infos" src="<?= esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] ); ?>" alt="Centre auto 87 logo">
             <div class="right-website-infos">
                 <h2 class="website-title"><?= get_bloginfo('name'); ?></h2>
 <!--                <h2 class="website-title">--><?php //get_template_part( 'template-parts/header/site-branding' ); ?><!--</h2>-->

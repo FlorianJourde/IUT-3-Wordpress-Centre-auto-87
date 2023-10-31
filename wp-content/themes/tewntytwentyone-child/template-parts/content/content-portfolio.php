@@ -70,8 +70,10 @@ if ( $query->have_posts() ) :
 <?php if (is_archive()) : ?>
 
     <div class="pagination">
+
         <?php
-        echo paginate_links( array(
+
+        echo paginate_links( [
             'base'         => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
             'total'        => $query->max_num_pages,
             'current'      => max( 1, get_query_var( 'paged' ) ),
@@ -81,12 +83,14 @@ if ( $query->have_posts() ) :
             'end_size'     => 2,
             'mid_size'     => 1,
             'prev_next'    => true,
-            'prev_text'    => '<button class="button-primary">Précédent</button>',
-            'next_text'    => '<button class="button-primary">Suivant</button>',
+            'prev_text'    => 'Précédent',
+            'next_text'    => 'Suivant',
             'add_args'     => false,
             'add_fragment' => '',
-        ) );
+        ] );
+
         ?>
+
     </div>
 
 <?php endif; ?>

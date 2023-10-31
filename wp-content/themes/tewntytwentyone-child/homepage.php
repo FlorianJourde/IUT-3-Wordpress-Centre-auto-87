@@ -14,12 +14,17 @@ Template Name: Accueil
 
 <section class="cars-section-single">
     <div class="wrapper">
-<!--    <div class="wrapper wrapper-wide">-->
+
         <h2>Nos dernières voitures</h2>
 
         <?php get_template_part('template-parts/content/content-portfolio'); ?>
 
+<!--        --><?php //include('template-parts/content/content-portfolio.php'); ?>
+
+
     </div>
 </section>
+
+<?php include('template-parts/partials/contact.php'); ?>
 
 <?php get_footer(); ?>

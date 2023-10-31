@@ -1,25 +1,16 @@
 document.addEventListener("DOMContentLoaded", (event) => {
-  console.log("DOM fully loaded and parsed");
-
-const swiper = new Swiper('.swiper', {
-  // Optional parameters
-  // direction: 'vertical',
-  loop: true,
-
-  // If we need pagination
-  pagination: {
-    el: '.swiper-pagination',
-  },
-
-  // Navigation arrows
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-
-  // And if we need scrollbar
-  scrollbar: {
-    // el: '.swiper-scrollbar',
-  },
-});
+  const swiper = new Swiper('.swiper', {
+    loop: true,
+    autoplay: {
+      delay: 5000,
+    },
+    speed: 1000,
+    pagination: {
+      el: '.swiper-pagination',
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+  });
 });
