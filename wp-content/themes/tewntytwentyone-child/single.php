@@ -13,7 +13,7 @@ get_header();
 
 ?>
 
-<section class="single-container box">
+<section class="single-container box offset-top">
     <div class="wrapper">
 <!--    <div class="wrapper wrapper-wide">-->
 <!--        --><?php //var_dump(get_post()); ?>
@@ -274,7 +274,7 @@ get_header();
 <!--    </div>-->
 <!--</section>-->
 
-<section class="cars-section-single">
+<section class="cars-section">
     <div class="wrapper">
         <h2>Nos dernières voitures</h2>
 

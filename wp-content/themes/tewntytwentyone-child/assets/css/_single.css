@@ -7,7 +7,7 @@
   /*display: flex;*/
   display: grid;
   grid-template-columns: minmax(0, 1fr) 400px;
-  gap: 50px;
+  gap: 80px;
   align-items: flex-start;
 }
 
@@ -201,10 +201,10 @@
   background-color: var(--clr-black);
 }
 
-.cars-section-single {
+.cars-section {
   background-color: var(--clr-very-light-grey);
   flex-direction: column;
   display: flex;
-  gap: 30px;
+  gap: 80px;
   /*color: var(--clr-white);*/
 }

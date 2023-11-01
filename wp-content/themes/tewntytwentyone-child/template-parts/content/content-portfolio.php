@@ -3,7 +3,7 @@
 <?php
 
 if (is_archive()) {
-    $post_per_page = 3;
+    $post_per_page = 6;
 } else {
     $post_per_page = 3;
 }
@@ -44,7 +44,21 @@ if ( $query->have_posts() ) :
 
         <a href="<?php echo get_permalink(); ?>" class="cars-card">
 
-            <img src="<?php echo get_the_post_thumbnail_url(get_the_ID()); ?>" alt="">
+            <?php
+
+//            $thumbnail;
+
+            if (get_the_post_thumbnail_url(get_the_ID())) {
+                $thumbnail = get_the_post_thumbnail_url(get_the_ID());
+            } else {
+                $thumbnail = get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/logo/centre-auto-87-thumbnail.png';
+//                var_dump();
+            }
+
+            ?>
+<!--            <img src="--><?php //echo get_the_post_thumbnail_url(get_the_ID()); ?><!--" alt="">-->
+            <img src="<?php echo $thumbnail; ?>" alt="">
+
             <div class="cars-card-content">
                 <h3 class="cars-card-title">
                     <?php echo get_the_title(); ?>

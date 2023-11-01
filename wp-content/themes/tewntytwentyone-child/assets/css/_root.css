@@ -7,13 +7,15 @@
   --clr-dark-yellow: #8a5d00;
   --clr-yellow: #d28d00;
   --clr-dark-red: #740511;
+  --clr-very-dark-red: #340407;
   --clr-red: #c90b27;
+  --clr-very-light-red: #ffc4c8;
   --clr-transparent: #00000000;
   --clr-light-grey: hsl(0, 0%, 80%);
   --clr-very-light-grey: hsl(0, 0%, 95%);
   --clr-grey: hsl(0, 0%, 50%);
   --fs-very-big-title: 80px;
-  --fs-big-title: 50px;
+  --fs-big-title: 40px;
   --fs-title: 24px;
   --fs-small-title: 18px;
   --fs-body: 16px;

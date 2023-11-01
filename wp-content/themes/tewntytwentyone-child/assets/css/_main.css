@@ -7,8 +7,8 @@
 }
 
 section  {
-  padding-top: 100px;
-  padding-bottom: 100px;
+  padding-top: 150px;
+  padding-bottom: 150px;
 }
 
 .banner {
@@ -59,4 +59,130 @@ section  {
 
 .banner-single h1 {
   font-size: var(--fs-big-title);
+}
+
+.introduction-section .page {
+  display: flex;
+  gap: 150px;
+}
+
+.introduction-section .left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  /*max-width: 600px;*/
+}
+.introduction-section .right-section {
+  max-width: 600px;
+}
+
+.introduction-section .left-section p:first-of-type {
+  font-weight: 500;
+}
+
+.introduction-section .left-section h2 {
+  /*margin-bottom: 30px;*/
+  font-size: var(--fs-big-title);
+  color: var(--clr-red);
+  margin-bottom: 30px;
+}
+.introduction-section .left-section a {
+margin-top: 30px;
+}
+
+.image-decoration {
+  position: relative;
+}
+
+.image-decoration::before {
+  content: "";
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  width: 100%;
+  height: 100%;
+  background-color: var(--clr-red);
+}
+
+.image-decoration img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /*top: 20px;*/
+  /*right: 20px;*/
+}
+
+.no-padding {
+  /*padding-top: unset;*/
+  /*padding-bottom: unset;*/
+}
+
+.numbers-section {
+  padding-top: unset;
+}
+
+.numbers-section .box {
+  padding: 80px;
+  background-color: var(--clr-black);
+  gap: 80px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.numbers-section .number-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.numbers-section .number-details img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 20px;
+}
+
+.numbers-section .number-details h3 {
+  /*color: var(--clr-very-light-red);*/
+  color: var(--clr-white);
+  font-size: var(--fs-big-title);
+}
+
+.numbers-section .number-details p {
+  color: var(--clr-light-grey);
+  font-family: var(--ff-primary);
+  text-transform: uppercase;
+}
+
+
+.brands-section {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.brands-section .brands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.brands-section .brands .brand {
+  max-height: 60px;
+  max-width: 100px;
+  object-fit: contain;
+  filter: saturate(0);
+  opacity: .5;
+  transition: .5s;
+}
+
+.brands-section .brands .brand:hover {
+  opacity: 1;
+  filter: saturate(1);
 }

@@ -17,59 +17,57 @@ $description = get_the_archive_description();
 <!--<div class="wrapper">-->
 
 
-<section>
-<div class="wrapper">
+<!--<section>
+    <div class="wrapper">
 
-    <?php
+        <?php
+/*
         $groups = acf_get_field_groups(array('post_type' => 'voitures'));
         $fields = acf_get_fields($groups[0]['ID']);
-//        var_dump($fields);
         $brands = $fields[0]['choices'];
-//        $prices = $fields[2];
-//        var_dump($prices);
 
+        */?>
 
-    // Test if the query exists at the URL
-//    if ( get_query_var('ppc') ) {
-//
-//        // If so echo the value
-//        var_dump( get_query_var('ppc'));
-//
-//    }
+        <form method="GET" action="<?php /*echo get_post_type_archive_link( 'voitures' ); */?>">
+            <label for="brands">Marque</label>
+            <select name="marque" id="brands">
+                <?php /*foreach ($brands as $brand) :*/?>
+                    <option value="<?php /*echo $brand*/?>"><?php /*echo $brand */?></option>
+                <?php /*endforeach; */?>
+            </select>
+            <input type="submit" value="Rechercher">
+        </form>
 
-//    global $wp_query;
-//    var_dump($wp_query->query_vars['meta_value']);
+        <a href="<?php /*echo get_post_type_archive_link( 'voitures' ); */?>">Réinitialiser les filtres</a>
+    </div>
+</section>
+-->
 
-//    $anyParamNameValue = get_query_var('marque');
-//    var_dump($anyParamNameValue);
+<section class="brands-section box offset-top">
+    <div class="wrapper">
 
-    ?>
+        <?php include('template-parts/partials/brands-section.php'); ?>
 
-    <form method="GET" action="<?php echo get_post_type_archive_link( 'voitures' ); ?>">
-        <label for="brands">Marque</label>
-        <select name="marque" id="brands">
-            <?php foreach ($brands as $brand) :?>
-                <option value="<?php echo $brand?>"><?php echo $brand ?></option>
-            <?php endforeach; ?>
-        </select>
-        <input type="submit" value="Rechercher">
-    </form>
+        <?php
 
-<!--    <form method="GET" action="--><?php //echo get_post_type_archive_link( 'voitures' ); ?><!--">-->
-<!--        <label for="min-price">Prix mini</label>-->
-<!--        <input name="min_price" id="min-price" type="number">-->
-<!--        <label for="max-price">Prix maxi</label>-->
-<!--        <input name="max_price" id="max-price" type="number">-->
-<!--        <input type="submit" value="Rechercher par prix">-->
-<!--    </form>-->
+            $parts = parse_url($_SERVER['REQUEST_URI']);
+//            var_dump($parts);
+            if ($parts['query']) {
 
-    <a href="<?php echo get_post_type_archive_link( 'voitures' ); ?>">Réinitialiser les filtres</a>
-</div>
+        ?>
 
+        <div class="buttons-wrapper">
+            <a class="button-primary button-red" href="<?php echo get_post_type_archive_link( 'voitures' ); ?>">Réinitialiser les filtres</a>
+        </div>
+
+        <?php } ?>
+
+    </div>
 </section>
 
-<section class="cars-section box">
+<section class="cars-section archive">
     <div class="wrapper">
+        <h2>Nos voitures</h2>
 
         <?php get_template_part('template-parts/content/content-portfolio'); ?>
 

@@ -26,11 +26,14 @@
   color: var(--clr-red);
 }
 
-.pagination .page-numbers,
 #content .button-red.button-tertiary {
   color: var(--clr-red);
   background-color: var(--clr-transparent);
   border-color: var(--clr-transparent);
+}
+
+.pagination .page-numbers {
+
 }
 
 .pagination .page-numbers {
