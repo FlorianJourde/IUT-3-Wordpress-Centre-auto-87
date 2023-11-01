@@ -17,7 +17,7 @@ Template Name: Accueil
                 <a href="/a-propos" class="button-primary button-red">En savoir plus</a>
             </div>
             <div class="right-section image-decoration">
-                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/banner/car-drive.jpg'; ?>" alt="Car driving decoration">
+                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-drive.jpg'; ?>" alt="Car driving decoration">
             </div>
         </div>
 

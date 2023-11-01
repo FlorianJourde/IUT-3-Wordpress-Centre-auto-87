@@ -1,11 +1,15 @@
 :root {
   --clr-white: #ffffff;
   --clr-black: #000000;
+  --clr-very-dark-grey: #151515;
+  --clr-dark-grey: #2b2b2b;
   --clr-very-dark-blue: #000734;
   --clr-dark-green: #0c4711;
+  --clr-dark-green: #0c4711;
   --clr-green: #aec90b;
-  --clr-dark-yellow: #8a5d00;
+  --clr-dark-yellow: #6a4a00;
   --clr-yellow: #d28d00;
+  --clr-light-yellow: #ffc147;
   --clr-dark-red: #740511;
   --clr-very-dark-red: #340407;
   --clr-red: #c90b27;

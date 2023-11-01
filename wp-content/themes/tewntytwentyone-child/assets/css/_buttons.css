@@ -1,4 +1,4 @@
-#content .button-primary, #content .button-secondary, #content .button-tertiary, .pagination .page-numbers {
+#content .button-primary, #content .button-secondary, #content .button-tertiary, .pagination .page-numbers, .contact-form-section .wpforms-submit-container .wpforms-submit {
   display: inline-flex;
   padding: 10px 20px;
   border-width: 2px;
@@ -7,6 +7,7 @@
   font-family: var(--ff-primary);
   text-transform: uppercase;
   line-height: 1;
+  border-radius: unset;
 }
 
 #content .button-primary.button-big {
@@ -19,7 +20,7 @@
   font-size: var(--fs-accent);
 }
 
-#content .button-red.button-primary, .pagination .page-numbers.prev, .pagination .page-numbers.next,  .pagination .page-numbers.current {
+#content .button-red.button-primary, .pagination .page-numbers.prev, .pagination .page-numbers.next,  .pagination .page-numbers.current, .contact-form-section #wpforms-120 .wpforms-submit {
   border-color: var(--clr-transparent);
   color: var(--clr-white);
   background-color: var(--clr-red);

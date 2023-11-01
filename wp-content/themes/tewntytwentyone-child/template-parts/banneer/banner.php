@@ -5,7 +5,7 @@
     if (get_the_post_thumbnail_url()) {
         $banner_img = get_the_post_thumbnail_url(get_the_ID());
     } else {
-        $banner_img = get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/banner/forest-road-crop.jpg";
+        $banner_img = get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/photo/forest-road-crop.jpg";
     }
 
     ?>
