@@ -15,8 +15,8 @@ $wrapper_classes .= has_nav_menu( 'primary' ) ? ' has-menu' : '';
 
 <section class="upper-header">
     <div class="wrapper">
-        <a href="mailto:recup.auto87@outlook.fr">recup.auto87@outlook.fr</a>
-        <a href="tel:+33625326065">06 25 32 60 65</a>
+        <a href="mailto:recup.auto87@outlook.fr"><img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/email-picto.png'; ?>" alt="Téléphone"> recup.auto87@outlook.fr</a>
+        <a href="tel:+33625326065"><img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/phone-picto.png'; ?>" alt="Email">06 25 32 60 65</a>
     </div>
 </section>
 

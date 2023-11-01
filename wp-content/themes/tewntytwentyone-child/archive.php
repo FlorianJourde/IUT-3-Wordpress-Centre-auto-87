@@ -44,5 +44,7 @@ $description = get_the_archive_description();
     </div>
 </section>
 
+<?php include('template-parts/partials/action-section.php'); ?>
+
 <?php
 get_footer();

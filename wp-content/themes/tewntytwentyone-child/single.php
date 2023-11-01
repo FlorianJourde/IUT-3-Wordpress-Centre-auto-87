@@ -223,6 +223,7 @@ get_header();
     </div>
 </section>
 
-<?php include('template-parts/partials/contact.php'); ?>
+
+<?php include('template-parts/partials/action-section.php'); ?>
 
 <?php get_footer(); ?>
