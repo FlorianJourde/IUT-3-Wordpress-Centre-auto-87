@@ -8,8 +8,6 @@
 .cars-card {
   display: flex;
   flex-direction: column;
-  /*box-shadow: var(--bs-primary);*/
-  /*padding: 20px;*/
   position: relative;
   background-color: var(--clr-very-light-grey);
 }
@@ -59,10 +57,6 @@
   display: flex;
   justify-content: center;
   gap: 10px;
-}
-
-.pagination .page-numbers:not(.prev):not(.next) {
-  /*display: none;*/
 }
 
 .buttons-wrapper {

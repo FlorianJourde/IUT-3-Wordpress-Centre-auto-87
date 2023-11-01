@@ -15,6 +15,9 @@
     <div class="wrapper">
         <?php if (is_archive()) : ?>
             <h1>Nos voitures</h1>
+        <?php elseif (is_front_page()) : ?>
+            <h1><?= get_bloginfo('name'); ?></h1>
+            <h2><?= get_bloginfo('description'); ?></h2>
         <?php else : ?>
             <h1><?php echo get_the_title(); ?></h1>
         <?php endif; ?>

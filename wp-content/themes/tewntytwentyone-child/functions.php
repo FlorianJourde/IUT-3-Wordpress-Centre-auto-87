@@ -59,18 +59,10 @@ function my_pre_get_posts( $query ) {
         if( isset($_GET['marque']) ) {
             $query->set('meta_key', 'marque');
             $query->set('meta_value', $_GET['marque']);
-//            add_query_arg( array(
-//                'marque' => $_GET['marque'],
-//            ) );
-//            var_dump($_GET['marque']);
         } elseif ( isset($_GET['prix']) ) {
             $query->set('meta_key', 'prix');
-//            $query->set('meta_value', $_GET['prix']);
             $query->set('meta_value', $_GET['min_price']);
             $query->set('meta_value', $_GET['max_price']);
-//            add_query_arg( array(
-//                'prix' => $_GET['prix'],
-//            ) );
         }
     }
 
@@ -82,51 +74,3 @@ function url_register_param() {
     global $wp;
     $wp->add_query_var('anyParamName');
 }
-
-//add_action('init','add_get_val');
-//function add_get_val() {
-//    global $wp;
-//    $wp->add_query_var('ppc');
-//}
-//
-//add_filter( 'query_vars', 'add_query_vars_filter' );
-//function add_query_vars_filter( $vars ){
-//    $vars[] = "ppc";
-//    return $vars;
-//}
-
-//
-//add_action('pre_get_posts', 'my_pre_get_posts');
-//function my_pre_get_posts( $query ) {
-//
-//    // do not modify queries in the admin
-//    if( is_admin() ) {
-//        return $query;
-//    }
-//
-//    // only modify queries for 'event' post type
-////    if( isset($query->query_vars['post_type']) ) {
-////    if( isset($query->query_vars['post_type']) && $query->query_vars['post_type'] == 'marque' ) {
-//
-//        var_dump(get_field('marque'));
-//        // allow the url to alter the query
-////        if( isset($_GET['city']) ) {
-////            $query->set('meta_key', 'city');
-////            $query->set('meta_value', $_GET['city']);
-//////        }
-////    }
-//
-//    return $query;
-//}
-//
-//add_filter('query_vars', 'custom_query_vars');
-//function custom_query_vars ($params) {
-//    $params[] = 'marque';
-//    var_dump($params);
-//    return $params;
-//}
-
-//add_filter( 'excerpt_length', 'mytheme_custom_excerpt_length', 999 );
-//function mytheme_custom_excerpt_length( $length ) {
-//    return 20;
-//}

@@ -12,8 +12,6 @@ body, p {
   font-family: var(--ff-secondary);
   font-size: var(--fs-body);
   line-height: unset;
-  /*letter-spacing: 0.05em;*/
-  /*letter-spacing: normal;*/
 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .button-primary, .button-secondary, .button-tertiary {
@@ -76,7 +74,6 @@ ul {
 }
 
 .wrapper-wide {
-  /*max-width: 1500px;*/
 }
 
 .wrapper-small {
@@ -104,10 +101,6 @@ a:focus {
   color: unset !important;
 }
 
-/*.uppercase {*/
-/*  text-transform: uppercase;*/
-/*}*/
-
 .site-header, .site-main, .widget-area, .site-footer {
    padding-top: unset;
    padding-bottom: unset;
@@ -118,7 +111,3 @@ a:focus {
   margin-top: unset;
   margin-bottom: unset;
 }
-
-/*.site-main > .box {*/
-/*  */
-/*}*/

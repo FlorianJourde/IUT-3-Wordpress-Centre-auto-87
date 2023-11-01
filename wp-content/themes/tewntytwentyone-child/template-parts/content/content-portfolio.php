@@ -9,29 +9,12 @@ if (is_archive()) {
 }
 
 global $wp_query;
-//var_dump($wp_query->query_vars['meta_value']);
-//var_dump($wp_query->query_vars['meta_value']);
-//var_dump(WP_REST_Request::get_params());
-
-// Test if the query exists at the URL
-//if ( get_query_var('ppc') ) {
-//
-//     If so echo the value
-//    var_dump( get_query_var('ppc'));
-//
-//}
-//var_dump(add_query_arg( $_SERVER['QUERY_STRING'], '', home_url( $wp->request ) ));
-//var_dump(htmlspecialchars(intval($_GET['min_price'])));
-//var_dump(htmlspecialchars(intval($_GET['max_price'])));
-
 
 $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 $query = new WP_Query( [
     'post_type' => 'voitures',
     'posts_per_page' => $post_per_page,
     'paged' => $paged,
-//     's' => $s,
-//    'exact' => true
 ] );
 
 if ( $query->have_posts() ) :
@@ -40,23 +23,18 @@ if ( $query->have_posts() ) :
         $cars_category          = get_the_category( get_the_ID());
         ?>
 
-<!--    --><?php //intval($string);?>
-
         <a href="<?php echo get_permalink(); ?>" class="cars-card">
 
             <?php
 
-//            $thumbnail;
-
-            if (get_the_post_thumbnail_url(get_the_ID())) {
-                $thumbnail = get_the_post_thumbnail_url(get_the_ID());
-            } else {
-                $thumbnail = get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/logo/centre-auto-87-thumbnail.png';
-//                var_dump();
-            }
+                if (get_the_post_thumbnail_url(get_the_ID())) {
+                    $thumbnail = get_the_post_thumbnail_url(get_the_ID());
+                } else {
+                    $thumbnail = get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/logo/centre-auto-87-thumbnail.png';
+                }
 
             ?>
-<!--            <img src="--><?php //echo get_the_post_thumbnail_url(get_the_ID()); ?><!--" alt="">-->
+
             <img src="<?php echo $thumbnail; ?>" alt="">
 
             <div class="cars-card-content">

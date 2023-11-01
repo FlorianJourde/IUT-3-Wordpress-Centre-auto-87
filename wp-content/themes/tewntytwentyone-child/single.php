@@ -15,109 +15,72 @@ get_header();
 
 <section class="single-container box offset-top">
     <div class="wrapper">
-<!--    <div class="wrapper wrapper-wide">-->
-<!--        --><?php //var_dump(get_post()); ?>
         <div class="single-article">
             <div class="left-area">
-<!--                <div class="title">-->
-<!--                    <h2>Description rapide</h2>-->
-<!--                </div>-->
+                <div class="swiper single">
+                    <div class="swiper-wrapper">
+                        <?php foreach (get_field('images') as $item) : ?>
+                            <div class="swiper-slide">
+                                <img src="<?php echo $item; ?>" alt="">
+                            </div>
 
-                    <div class="swiper">
-                        <!-- Additional required wrapper -->
-                        <div class="swiper-wrapper">
-                            <?php foreach (get_field('images') as $item) : ?>
-                                        <!-- Slides -->
-                                <div class="swiper-slide">
-                                    <img src="<?php echo $item; ?>" alt="">
-                                </div>
-            <!--                            ...-->
-
-            <!--                    <img class="swiper-slide" src="--><?php //echo $item; ?><!--" alt="">-->
-                            <?php endforeach; ?>
-                        </div>
-<!--                        <div class="swiper-pagination"></div>-->
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-<!--                        <div class="swiper-scrollbar"></div>-->
+                        <?php endforeach; ?>
                     </div>
-
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
                 <div class="description">
                     <h2>Description</h2>
-
                     <div class="content">
-
-                    <!--                <p>--><?php //echo get_the_excerpt(); ?><!--</p>-->
                         <p><?php echo get_field('description'); ?></p>
                     </div>
                 </div>
             </div>
             <div class="right-area">
-
                 <div class="row">
                     <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="">
-                    <!--                    <div class="title">-->
                     <div class="details">
                         <h3>Marque</h3>
-                        <!--                    </div>-->
                         <p><?php echo get_field('marque'); ?></p>
                     </div>
                 </div>
-
                 <div class="row">
                     <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/barcode-picto.png" ?>" alt="">
-                    <!--                    <div class="title">-->
                     <div class="details">
                         <h3>Modèle</h3>
-                        <!--                    </div>-->
                         <p><?php echo get_field('modele'); ?></p>
                     </div>
                 </div>
 
                 <div class="row">
                     <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/euro-picto.png" ?>" alt="">
-                    <!--                    <div class="title">-->
                     <div class="details">
                         <h3>Prix</h3>
-                        <!--                    </div>-->
                         <p><?php echo get_field('prix'); ?> €</p>
                     </div>
                 </div>
 
                 <div class="row">
                     <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
-                    <!--                    <div class="title">-->
                     <div class="details">
                         <h3>Date de l'annonce</h3>
                         <?php echo get_the_date(); ?>
-                        <!--                    </div>-->
-<!--                        <p>--><?php //echo get_field('prix'); ?><!-- €</p>-->
                     </div>
                 </div>
 
-<!--                <div class="seller">-->
 
                     <a href="#contact" class="row seller">
 
-                        <!--                        <img src="--><?php //echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/date-picto.png" ?><!--" alt="">-->
-                        <!--                    <div class="title">-->
                         <div class="details">
                             <h4>Vendu par</h4>
                             <h3><?= get_bloginfo('name'); ?></h3>
-                            <!--                    </div>-->
-                            <!--                        <p>--><?php //echo get_field('prix'); ?><!-- €</p>-->
                         </div>
 
                         <img class="website-logo left-website-infos" src="<?= esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] ); ?>" alt="Centre auto 87 logo">
 
                     </a>
 
-<!--                </div>-->
 
-                <!--                <div class="price">-->
-<!--                    <h3>Prix</h3>-->
-<!--                    <p>--><?php //echo get_field('prix'); ?><!--</p>-->
-<!--                </div>-->
 
             </div>
 
@@ -126,7 +89,6 @@ get_header();
                     <h2>Caractéristiques</h2>
                 </div>
                 <div class="content">
-
 
                     <?php if (!empty(get_field('marque'))) { ?>
                         <div class="row">
@@ -151,7 +113,6 @@ get_header();
                     <?php if (!empty(get_field('date'))) { ?>
                         <div class="row">
                             <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
-                            <!--                    <div class="title">-->
                             <div class="details">
                                 <h3>Mise en circulation</h3>
                                 <p><?php echo get_field('date'); ?></p>
@@ -243,36 +204,15 @@ get_header();
                                 <p><span class="color-preview" style="background-color: <?php echo $color ?>;"></span> <?php echo get_field('couleur'); ?></p>
                             </div>
                         </div>
+
                     <?php } ?>
 
                 </div>
             </div>
         </div>
-<!--        <div class="single-article-technical">-->
-<!--            <div class="brand">-->
-<!--                <h3>Marque</h3>-->
-<!--                <p>--><?php //echo get_field('marque'); ?><!--</p>-->
-<!--            </div>-->
-<!--            <div class="reference">-->
-<!--                <h3>Modèle</h3>-->
-<!--                <p>--><?php //echo get_field('modele'); ?><!--</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="single-article-images">-->
-<!--        </div>-->
 
     </div>
 </section>
-<!--<section class="single-container-technical">-->
-<!--    <div class="wrapper">-->
-<!--        <h2>Descriptif technique</h2>-->
-<!--    </div>-->
-<!--</section>-->
-<!--<section class="single-container-images">-->
-<!--    <div class="wrapper">-->
-<!--        <h2>Photos</h2>-->
-<!--    </div>-->
-<!--</section>-->
 
 <section class="cars-section">
     <div class="wrapper">

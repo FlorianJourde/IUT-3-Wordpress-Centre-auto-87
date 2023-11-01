@@ -1,5 +1,4 @@
 #content .button-primary, #content .button-secondary, #content .button-tertiary, .pagination .page-numbers {
-  /*text-transform: uppercase;*/
   display: inline-flex;
   padding: 10px 20px;
   border-width: 2px;

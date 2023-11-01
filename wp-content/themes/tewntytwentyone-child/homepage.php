@@ -68,11 +68,64 @@ Template Name: Accueil
 
 <section class="testimonials-section">
     <div class="wrapper">
+        <h2>Ils parlent de nous</h2>
+        <div class="swiper testimonials">
+            <div class="swiper-wrapper">
 
+                <div class="swiper-slide testimonial">
+                    <div class="profile-picture">
+                        <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/person-picto-white.png'; ?>" alt="Recommandation">
+                    </div>
+                    <div class="comment">
+                        Bon accueil de la part de l'équipe et du gérant, il y a des véhicules pour tous les budgets. J'ai été bien conseillé, avec transparence, sur les véhicules et leur état. Les reprises se passent bien et simplement, on est loin des grandes concessions qui ne pense qu'au business et qui négligent les petits clients.  Je recommande!
+                    </div>
+<!--                    <hr>-->
+                    <div class="author">
+                        Guillaume B.
+                    </div>
+                </div>
+                <div class="swiper-slide testimonial">
+                    <div class="profile-picture">
+                        <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/person-picto-white.png'; ?>" alt="Recommandation">
+                    </div>
+                    <div class="comment">
+                        Pas mal de véhicule sur parc, super bien conseillé, ils connaissent leurs véhicules et vous guide en fonction de vos besoins. Ils n ont pas cherché à me vendre à tt prix. J ai apprécié l accueil, les conseils et le choix bien sur. Ils ont etes très sympa, ca change des vendeurs habituel près à vous faire acheter n importe quoi. Bref, je recommande 👍
+                    </div>
+<!--                    <hr>-->
+                    <div class="author">
+                        Sylvain M.
+                    </div>
+                </div>
+                <div class="swiper-slide testimonial">
+                    <div class="profile-picture">
+                        <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/person-picto-white.png'; ?>" alt="Recommandation">
+                    </div>
+                    <div class="comment">
+                        C’est la première fois que j’achète une voiture et vraiment ça a été rapide. Je suis jeune conducteur et je ne trouvais pas de voiture avant des les contacter. Merci beaucoup :)
+                    </div>
+<!--                    <hr>-->
+                    <div class="author">
+                        Anthony P.
+                    </div>
+                </div>
+                <div class="swiper-slide testimonial">
+                    <div class="profile-picture">
+                        <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/person-picto-white.png'; ?>" alt="Recommandation">
+                    </div>
+                    <div class="comment">
+                        Choix multiples à très bon prix en dessous du marché, vendeur très professionnel et sympathique il seront vous orienté je recommande.
+                    </div>
+<!--                    <hr>-->
+                    <div class="author">
+                        Virginie R.
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
-<section class="cta-section">
+<section class="cta-section banner">
     <div class="wrapper">
 
     </div>

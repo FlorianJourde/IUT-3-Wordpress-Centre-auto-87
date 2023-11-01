@@ -14,35 +14,6 @@ get_header();
 $description = get_the_archive_description();
 ?>
 
-<!--<div class="wrapper">-->
-
-
-<!--<section>
-    <div class="wrapper">
-
-        <?php
-/*
-        $groups = acf_get_field_groups(array('post_type' => 'voitures'));
-        $fields = acf_get_fields($groups[0]['ID']);
-        $brands = $fields[0]['choices'];
-
-        */?>
-
-        <form method="GET" action="<?php /*echo get_post_type_archive_link( 'voitures' ); */?>">
-            <label for="brands">Marque</label>
-            <select name="marque" id="brands">
-                <?php /*foreach ($brands as $brand) :*/?>
-                    <option value="<?php /*echo $brand*/?>"><?php /*echo $brand */?></option>
-                <?php /*endforeach; */?>
-            </select>
-            <input type="submit" value="Rechercher">
-        </form>
-
-        <a href="<?php /*echo get_post_type_archive_link( 'voitures' ); */?>">Réinitialiser les filtres</a>
-    </div>
-</section>
--->
-
 <section class="brands-section box offset-top">
     <div class="wrapper">
 
@@ -51,7 +22,6 @@ $description = get_the_archive_description();
         <?php
 
             $parts = parse_url($_SERVER['REQUEST_URI']);
-//            var_dump($parts);
             if ($parts['query']) {
 
         ?>

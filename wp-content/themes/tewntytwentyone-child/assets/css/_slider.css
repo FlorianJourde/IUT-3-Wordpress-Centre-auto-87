@@ -1,10 +1,15 @@
 .swiper {
   width: 100%;
-  height: 500px;
-  /*height: 100%;*/
+  /*height: 500px;*/
 }
 
-.swiper-slide {
+.swiper.single {
+  /*width: 100%;*/
+  height: 500px;
+}
+
+
+.swiper.single .swiper-slide {
   text-align: center;
   font-size: 18px;
   background: #fff;
@@ -13,9 +18,91 @@
   align-items: center;
 }
 
-.swiper-slide img {
+.swiper.single .swiper-slide img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
+.swiper.testimonials {
+  max-width: 800px;
+  padding: 30px;
+  /*padding-top: 50px;*/
+  /*padding-bottom: 50px;*/
+  /*overflow: visible;*/
+}
+
+.swiper.testimonials .swiper-slide {
+  /*max-width: 600px;*/
+  background-color: var(--clr-white);
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  align-items: flex-start;
+  justify-content: center;
+  height: auto;
+  margin-right: 30px;
+  margin-left: 30px;
+  overflow-x: visible;
+  gap: 20px;
+  /*height: auto;*/
+  /*cursor: grab;*/
+  box-shadow: var(--bs-primary);
+  /*transition: opacity .5s;*/
+}
+
+.swiper.testimonials .swiper-slide:not(.swiper-slide-active) {
+  /*opacity: .5;*/
+}
+
+/*.swiper.testimonials .swiper-slide hr {*/
+/*  height: 2px;*/
+/*  width: 100%;*/
+/*  background-color: var(--clr-very-light-grey);*/
+/*  border: unset;*/
+/*}*/
+
+.swiper.testimonials .swiper-slide .profile-picture {
+  /*width: 100px;*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1/1;
+  background-color: var(--clr-red);
+  border-radius: 50%;
+  /*padding: 20px;*/
+  min-height: 65px;
+}
+.swiper.testimonials .swiper-slide .profile-picture img {
+  width: 25px;
+  /*aspect-ratio: 1/1;*/
+  object-fit: contain;
+}
+
+
+.swiper.testimonials .swiper-slide .author {
+  font-size: var(--fs-small-title);
+  font-weight: 500;
+  font-family: var(--ff-primary);
+  text-transform: uppercase;
+  color: var(--clr-red);
+}
+
+/*.swiper-container{*/
+/*  width: 100%;*/
+/*}*/
+/*.swiper-wrapper {*/
+/*  width: 50%;*/
+/*}*/
+/*.swiper-slide {*/
+/*  text-align: center;*/
+/*  width: auto;*/
+/*}*/
+/*.slide-image {*/
+/*  height: 400px;*/
+/*  width: auto;*/
+/*}*/
+/*.my-gallery figure {*/
+/*  margin: 0px;*/
+/*}*/
