@@ -72,3 +72,18 @@
   max-height: 40px;
   max-width: 50px;
 }
+
+.text-with-button {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 50px;
+  justify-content: space-between;
+}
+
+.text-with-button .brand {
+  width: 200px;
+  height: 100px;
+  object-fit: contain;
+
+}

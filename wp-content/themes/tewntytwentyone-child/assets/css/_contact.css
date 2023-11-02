@@ -95,3 +95,9 @@
   border: 1px solid var(--clr-yellow);
   color: var(--clr-white);
 }
+
+#contact-map {
+  padding-top: unset;
+  padding-bottom: unset;
+  margin-bottom: -10px;
+}

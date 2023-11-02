@@ -6,7 +6,7 @@ Template Name: Accueil
 
 <?php get_header(); ?>
 
-<section class="introduction-section">
+<section class="image-decoration-section">
     <div class="wrapper">
         <div class="page">
             <div class="left-section">
@@ -17,10 +17,9 @@ Template Name: Accueil
                 <a href="/a-propos" class="button-primary button-red">En savoir plus</a>
             </div>
             <div class="right-section image-decoration">
-                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-drive.jpg'; ?>" alt="Car driving decoration">
+                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-drive.jpg'; ?>" alt="Conduite de voiture avec volant">
             </div>
         </div>
-
     </div>
 </section>
 
@@ -28,23 +27,21 @@ Template Name: Accueil
     <div class="wrapper">
         <div class="box">
             <div class="number-details">
-                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/experience-picto-white.png'; ?>" alt="Années d'expérience">
+                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/experience-picto-white.png'; ?>" alt="Pictogramme années d'expérience">
                 <h3>+10</h3>
                 <p>années d'expérience</p>
             </div>
             <div class="number-details">
-                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/key-car-picto-white.png'; ?>" alt="Ventes par semaine">
+                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/key-car-picto-white.png'; ?>" alt="Pictogramme ventes par semaine">
                 <h3>+50</h3>
                 <p>ventes par semaines</p>
             </div>
             <div class="number-details">
-                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/people-picto-white.png'; ?>" alt="Voitures exposées">
+                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/people-picto-white.png'; ?>" alt="Pictogramme voitures exposées">
                 <h3>+100</h3>
                 <p>voitures exposées</p>
             </div>
         </div>
-<!--        <div class="box"></div>-->
-        <!--        <h2>Page d'accueil</h2>-->
     </div>
 </section>
 
@@ -78,7 +75,6 @@ Template Name: Accueil
                     <div class="comment">
                         Bon accueil de la part de l'équipe et du gérant, il y a des véhicules pour tous les budgets. J'ai été bien conseillé, avec transparence, sur les véhicules et leur état. Les reprises se passent bien et simplement, on est loin des grandes concessions qui ne pense qu'au business et qui négligent les petits clients.  Je recommande!
                     </div>
-<!--                    <hr>-->
                     <div class="author">
                         Guillaume B.
                     </div>
@@ -90,7 +86,6 @@ Template Name: Accueil
                     <div class="comment">
                         Pas mal de véhicule sur parc, super bien conseillé, ils connaissent leurs véhicules et vous guide en fonction de vos besoins. Ils n ont pas cherché à me vendre à tt prix. J ai apprécié l accueil, les conseils et le choix bien sur. Ils ont etes très sympa, ca change des vendeurs habituel près à vous faire acheter n importe quoi. Bref, je recommande 👍
                     </div>
-<!--                    <hr>-->
                     <div class="author">
                         Sylvain M.
                     </div>
@@ -102,7 +97,6 @@ Template Name: Accueil
                     <div class="comment">
                         C’est la première fois que j’achète une voiture et vraiment ça a été rapide. Je suis jeune conducteur et je ne trouvais pas de voiture avant des les contacter. Merci beaucoup :)
                     </div>
-<!--                    <hr>-->
                     <div class="author">
                         Anthony P.
                     </div>
@@ -114,7 +108,6 @@ Template Name: Accueil
                     <div class="comment">
                         Choix multiples à très bon prix en dessous du marché, vendeur très professionnel et sympathique il seront vous orienté je recommande.
                     </div>
-<!--                    <hr>-->
                     <div class="author">
                         Virginie R.
                     </div>
