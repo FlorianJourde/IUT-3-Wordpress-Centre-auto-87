@@ -15,6 +15,10 @@
 .archive.cars-section {
   background-color: unset;
   padding-top: 80px;
+  background-image: url("../images/background/centre-auto-87-logo-background.png");
+  background-position: right -100px bottom 50px;
+  background-size: 50vw;
+  background-repeat: no-repeat;
 }
 
 .cars-section .cars-card {
@@ -69,8 +73,8 @@
 }
 
 .box.offset-top.brands-section .brands .brand {
-  max-height: 40px;
-  max-width: 50px;
+  /*max-height: 40px;*/
+  /*max-width: 50px;*/
 }
 
 .text-with-button {

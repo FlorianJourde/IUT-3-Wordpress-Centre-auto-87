@@ -1,0 +1,13 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1359 45" width="1359" height="45">
+	<title>road</title>
+	<defs>
+		<image  width="1280" height="720" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQAAAALQAQMAAAD1s08VAAAAAXNSR0IB2cksfwAAAANQTFRF8vLyZAOKawAAAIdJREFUeJztwTEBAAAAwqD1T20JT6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeBrE3wABB8CymgAAAABJRU5ErkJggg=="/>
+	</defs>
+	<style>
+		.s0 { fill: #d9d9d9 } 
+		.s1 { fill: none;stroke: #ffffff;stroke-width: 2;stroke-dasharray: 10 } 
+	</style>
+	<use id="Background" href="#img1" x="0" y="-246"/>
+	<path id="Layer" class="s0" d="m0 0h1366v45h-1366z"/>
+	<path id="Layer" class="s1" d="m8.5 20.5h1351"/>
+</svg>

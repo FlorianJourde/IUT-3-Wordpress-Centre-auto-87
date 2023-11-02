@@ -197,7 +197,7 @@ margin-top: 30px;
   gap: 80px;
   align-items: center;
   background-image: url("../images/background/guillemets-top-picto.png"), url("../images/background/guillemets-bottom-picto.png");
-  background-position: top 50px left 10%, bottom 50px right 10%;
+  background-position: top 100px left 20%, bottom 100px right 20%;
   background-repeat: no-repeat, no-repeat;
   background-size: 500px, 500px;
 }
@@ -253,4 +253,39 @@ margin-top: 30px;
 
 .about-section {
 
+}
+
+/*.road-separator {*/
+/*  overflow-x: hidden;*/
+/*}*/
+
+/*.road-wrapper {*/
+.road-separator {
+  height: 50px;
+  min-height: 75px;
+  background-image: url("../images/background/road.svg");
+  background-position: bottom;
+  background-repeat: repeat-x;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.car-picto {
+  width: 180px;
+  object-fit: contain;
+  position: absolute;
+  left: 60%;
+  bottom: 10px;
+  transform: translateX(-100vw);
+  transition: 4s;
+}
+
+.car-picto.right {
+  transform: translateX(100vw);
+  right: 60%;
+  left: unset;
+}
+
+.car-picto.show {
+  transform: translateX(0);
 }

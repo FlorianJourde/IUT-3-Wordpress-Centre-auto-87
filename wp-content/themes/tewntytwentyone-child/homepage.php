@@ -45,6 +45,12 @@ Template Name: Accueil
     </div>
 </section>
 
+<div class="road-separator">
+<!--    <div class="road-wrapper">-->
+        <img class="car-picto appear-on-scroll" src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/background/car-left.svg'; ?>" alt="Pictogramme voiture">
+<!--    </div>-->
+</div>
+
 <section class="cars-section">
     <div class="wrapper">
 
@@ -62,6 +68,13 @@ Template Name: Accueil
 
     </div>
 </section>
+
+
+<div class="road-separator">
+<!--    <div class="road-wrapper">-->
+        <img class="car-picto right appear-on-scroll" src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/background/car-right.svg'; ?>" alt="Pictogramme voiture">
+<!--    </div>-->
+</div>
 
 <section class="testimonials-section">
     <div class="wrapper">
