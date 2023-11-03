@@ -44,7 +44,7 @@ if ( $query->have_posts() ) :
                 <?php } ?>
 
                 <?php if (!empty(get_field('kilometres'))) { ?>
-                    <p class="tag"><?= get_field('kilometres'); ?></p>
+                    <p class="tag"><?= get_field('kilometres'); ?> km</p>
                 <?php } ?>
 
                 <?php if (!empty(get_field('carburant'))) { ?>
