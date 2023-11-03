@@ -27,14 +27,17 @@ get_header();
 
 <section class="contact-form-section">
     <div class="wrapper">
+        <h2 class="title-decoration">Besoin d'un renseignement ? Écrivez-nous !</h2>
 <!--        <h2>Page contact</h2>-->
 <!--        [wpforms id="120" title="false"]-->
 <!--        --><?php //[wpforms id="120" title="false"] ?>
-        <div class="left-area">
+        <div class="form-wrapper">
+            <div class="left-area">
 
-        </div>
-        <div class="right-area">
-            <?php echo do_shortcode( '[wpforms id="120" title="false"]' ); ?>
+            </div>
+            <div class="right-area">
+                <?php echo do_shortcode( '[wpforms id="120" title="false"]' ); ?>
+            </div>
         </div>
     </div>
 </section>

@@ -7,6 +7,18 @@ html {
   color: var(--clr-white);
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar {
+  background-color: var(--clr-very-light-grey);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--clr-black);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -118,4 +130,42 @@ a:focus {
 .site-main > * {
   margin-top: unset;
   margin-bottom: unset;
+}
+
+.title-decoration {
+  position: relative;
+  z-index: 0;
+  /*z-*/
+}
+
+.title-decoration::before {
+  content: "";
+  position: absolute;
+  background-size: contain;
+  width: 150px;
+  aspect-ratio: 1/1;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  opacity: .05;
+  /*opacity: 1;*/
+  background-image: url("../images/pictos/steering-wheel.png");
+  z-index: -1;
+  /*animation: 3s rotate;*/
+  transform-origin: center;
+  animation: 8s rotate infinite;
+  animation-delay: 2s;
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0);
+  } 20% {
+      transform: translate(-50%, -50%) rotate(-360deg) ;
+  /*} 20% {*/
+  /*    transform: translate(-50%, -50%) rotate(-0) ;*/
+  } 100% {
+    /*transform: translate(-50%, -50%) rotate(0) ;*/
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
 }

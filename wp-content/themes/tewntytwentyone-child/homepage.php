@@ -10,7 +10,7 @@ Template Name: Accueil
     <div class="wrapper">
         <div class="page">
             <div class="left-section">
-                <h2>Trouvez la voiture idéale à Couzeix, près de Limoges !</h2>
+                <h2 class="title-decoration">Trouvez la voiture idéale à Couzeix, près de Limoges !</h2>
                 <p>Notre concession automobile propose une vaste sélection de voitures neuves et d'occasion de marques françaises et internationales.</p>
                 <p>Chez nous, vous trouverez le véhicule parfait pour répondre à vos besoins et à votre budget !</p>
                 <p>Basés à Limoges, nous sommes fiers de servir la communauté locale depuis plus de 10 ans. En tant que passionnés de l'industrie automobile, notre mission est de vous offrir des véhicules de qualité, alliant performance, fiabilité et économie. Découvrez pourquoi tant de particuliers et professionnels font confiance à notre expertise en matière de voitures neuves et d'occasion.</p>
@@ -37,7 +37,7 @@ Template Name: Accueil
                 <p>ventes par semaines</p>
             </div>
             <div class="number-details">
-                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/people-picto-white.png'; ?>" alt="Pictogramme voitures exposées">
+                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/car-model-picto-white.png'; ?>" alt="Pictogramme voitures exposées">
                 <h3>+100</h3>
                 <p>voitures exposées</p>
             </div>
@@ -54,7 +54,7 @@ Template Name: Accueil
 <section class="cars-section">
     <div class="wrapper">
 
-        <h2>Nos dernières voitures</h2>
+        <h2 class="title-decoration">Nos dernières voitures</h2>
 
         <?php get_template_part('template-parts/content/content-portfolio'); ?>
 

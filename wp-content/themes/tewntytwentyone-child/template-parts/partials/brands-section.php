@@ -1,5 +1,5 @@
 <div class="text-with-button">
-    <h2>Nos marques</h2>
+    <h2 class="<?= is_front_page() ? "title-decoration" : ""?>">Nos marques</h2>
 
     <?php
 

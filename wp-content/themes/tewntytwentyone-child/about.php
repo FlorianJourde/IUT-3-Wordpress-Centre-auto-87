@@ -11,9 +11,10 @@ get_header();
     <div class="wrapper">
         <div class="page">
             <div class="left-section">
-                <h2>Qui sommes-nous ?</h2>
+                <h2 class="title-decoration">Qui sommes-nous ?</h2>
                 <p>Centre Auto 87, votre concessionnaire de confiance à Couzeix, à deux pas de Limoges, est dédié à offrir une expérience automobile exceptionnelle !</p>
-                <p>Notre vaste inventaire de voitures neuves et d'occasion, principalement de marques françaises, répond aux besoins de particuliers exigeants. Grâce à notre engagement envers la qualité, la fiabilité et la satisfaction du client, nous sommes devenus un pilier de la communauté automobile de Limoges.</p>
+                <p>Notre vaste inventaire de voitures neuves et d'occasion, principalement de marques françaises, répond aux besoins de particuliers exigeants.</p>
+                <p>Grâce à notre engagement envers la qualité, la fiabilité et la satisfaction du client, nous sommes devenus un pilier de la communauté automobile de Limoges.</p>
             </div>
             <div class="right-section image-decoration">
                 <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-keys.jpg'; ?>" alt="Voiture avec clés">

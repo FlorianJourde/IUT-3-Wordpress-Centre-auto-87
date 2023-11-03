@@ -38,7 +38,7 @@ $description = get_the_archive_description();
 <section class="cars-section archive">
     <div class="wrapper">
         <div class="text-with-button">
-            <h2>Nos voitures</h2>
+            <h2 class="title-decoration">Nos voitures</h2>
 
             <?php
 

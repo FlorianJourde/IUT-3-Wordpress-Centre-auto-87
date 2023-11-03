@@ -58,6 +58,10 @@
   transition: .4s background-color;
 }
 
+.single-container .right-area .row.seller:first-child {
+  margin-top: -30px;
+}
+
 .single-container .right-area .row.seller:hover {
   background-color: var(--clr-dark-red);
 }
@@ -77,6 +81,21 @@
   filter: invert(1);
   height: 25px;
   width: 25px;
+  object-fit: contain;
+}
+
+.single-container .right-area img.brand {
+  filter: saturate(0) brightness(1);
+  /*height: 35px;*/
+  /*width: 35px;*/
+}
+
+.single-image img {
+  /*height: 400px;*/
+  max-height: 500px;
+  width: 100%;
+  object-fit: contain;
+  background-color: var(--clr-very-light-grey);
 }
 
 .single-description {

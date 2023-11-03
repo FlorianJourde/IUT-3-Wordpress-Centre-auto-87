@@ -37,6 +37,12 @@
 .contact-form-section {
   display: flex;
   padding-top: unset;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.contact-form-section .form-wrapper {
+  display: flex;
 }
 
 .contact-form-section .left-area {

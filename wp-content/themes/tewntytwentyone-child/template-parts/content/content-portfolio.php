@@ -37,12 +37,30 @@ if ( $query->have_posts() ) :
 
             <img src="<?php echo $thumbnail; ?>" alt="">
 
+            <div class="tags">
+
+                <?php if (!empty(get_field('type'))) { ?>
+                    <p class="tag"><?= get_field('type'); ?></p>
+                <?php } ?>
+
+                <?php if (!empty(get_field('kilometres'))) { ?>
+                    <p class="tag"><?= get_field('kilometres'); ?></p>
+                <?php } ?>
+
+                <?php if (!empty(get_field('carburant'))) { ?>
+                    <p class="tag"><?= get_field('carburant'); ?></p>
+                <?php } ?>
+
+            </div>
+
             <div class="cars-card-content">
                 <h3 class="cars-card-title">
                     <?php echo get_the_title(); ?>
                 </h3>
-                <p>
-                    <?php echo wp_trim_words(get_the_excerpt(), 20); ?>
+                <p class="description">
+<!--                    --><?php //var_dump(get_the_content()) ;?>
+<!--                    --><?php //var_dump(get_field('description')) ;?>
+                    <?php echo wp_trim_words(get_field('description'), 15); ?>
                 </p>
                 <div class="cars-card-actions">
                     <button class="button-primary button-red">Voir l'annonce</button>
@@ -54,10 +72,18 @@ if ( $query->have_posts() ) :
     <?php endwhile; ?>
 
     <?php wp_reset_postdata(); ?>
+
 <?php endif; ?>
 
 </div>
 
+<?php if (!is_archive()) : ?>
+
+    <div class="buttons-wrapper">
+        <a href="/voitures" class="button-primary button-red">Toutes nos voitures</a>
+    </div>
+
+<?php endif; ?>
 
 <?php if (is_archive()) : ?>
 

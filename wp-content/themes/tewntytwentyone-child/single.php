@@ -16,19 +16,36 @@ get_header();
 <section class="single-container box offset-top">
     <div class="wrapper">
         <div class="single-article">
-            <div class="left-area">
-                <div class="swiper single">
-                    <div class="swiper-wrapper">
-                        <?php foreach (get_field('images') as $item) : ?>
-                            <div class="swiper-slide">
-                                <img src="<?php echo $item; ?>" alt="">
-                            </div>
 
-                        <?php endforeach; ?>
+            <div class="left-area">
+
+                <?php if (get_field('images')) { ?>
+                    <div class="swiper single">
+                        <div class="swiper-wrapper">
+                            <?php foreach (get_field('images') as $item) : ?>
+                                <div class="swiper-slide">
+                                    <img src="<?php echo $item; ?>" alt="">
+                                </div>
+
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
                     </div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-                </div>
+                <?php } else {
+                            if (get_the_post_thumbnail_url(get_the_ID())) {
+                                $thumbnail = get_the_post_thumbnail_url(get_the_ID());
+                            } else {
+                                $thumbnail = get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/logo/centre-auto-87-thumbnail.png';
+                            }
+                ?>
+
+                    <div class="single-image">
+                        <img src="<?php echo $thumbnail ?>" alt="">
+                    </div>
+
+                <?php } ?>
+
                 <div class="description">
                     <h2>Description</h2>
                     <div class="content">
@@ -36,51 +53,83 @@ get_header();
                     </div>
                 </div>
             </div>
+
             <div class="right-area">
-                <div class="row">
-                    <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="">
-                    <div class="details">
-                        <h3>Marque</h3>
-                        <p><?php echo get_field('marque'); ?></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/barcode-picto.png" ?>" alt="">
-                    <div class="details">
-                        <h3>Modèle</h3>
-                        <p><?php echo get_field('modele'); ?></p>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/euro-picto.png" ?>" alt="">
-                    <div class="details">
-                        <h3>Prix</h3>
-                        <p><?php echo get_field('prix'); ?> €</p>
-                    </div>
-                </div>
+<!--                --><?php //if (get_field('marque') != 'Non-renseigné') {?>
+                    <div class="row">
+<!--                        <img src="--><?php //echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?><!--" alt="">-->
 
-                <div class="row">
-                    <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
-                    <div class="details">
-                        <h3>Date de l'annonce</h3>
-                        <?php echo get_the_date(); ?>
-                    </div>
-                </div>
+                        <?php
 
+                            $replace = [
+                                'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'ç' => 'c',
+                                'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
+                                'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
+                                'ñ' => 'n',
+                                'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o',
+                                'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
+                                'ý' => 'y', 'ÿ' => 'y',
+                            ];
 
-                    <a href="#contact" class="row seller">
+                            $brand = strtr(get_field('marque'), $replace);
+//                        }
+                        ?>
+
+                        <?php if (get_field('marque') != 'Non-renseigné') { ?>
+
+                            <img class="brand icon" src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . $brand . '-automobile-logo.png'; ?>" alt="<?php echo get_field('marque') ?> automobile logo">
+
+                        <?php } else { ?>
+
+                            <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="">
+
+                        <?php } ?>
 
                         <div class="details">
-                            <h4>Vendu par</h4>
-                            <h3><?= get_bloginfo('name'); ?></h3>
+                            <h3>Marque</h3>
+                            <p><?php echo get_field('marque'); ?></p>
                         </div>
+                    </div>
+<!--                --><?php //} ?>
 
-                        <img class="website-logo left-website-infos" src="<?= esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] ); ?>" alt="Centre auto 87 logo">
+                <?php if (get_field('modele')) { ?>
+                    <div class="row">
+                        <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/barcode-picto.png" ?>" alt="">
+                        <div class="details">
+                            <h3>Modèle</h3>
+                            <p><?php echo get_field('modele'); ?></p>
+                        </div>
+                    </div>
+                <?php } ?>
 
-                    </a>
+                <?php if (get_field('prix')) { ?>
+                    <div class="row">
+                        <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/euro-picto.png" ?>" alt="">
+                        <div class="details">
+                            <h3>Prix</h3>
+                            <p><?php echo get_field('prix'); ?> €</p>
+                        </div>
+                    </div>
+                <?php } ?>
 
+                <?php if (get_the_date()) { ?>
+                    <div class="row">
+                        <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
+                        <div class="details">
+                            <h3>Date de l'annonce</h3>
+                            <?php echo get_the_date(); ?>
+                        </div>
+                    </div>
+                <?php } ?>
 
+                <a href="/contact" class="row seller">
+                    <div class="details">
+                        <h4>Vendu par</h4>
+                        <h3><?= get_bloginfo('name'); ?></h3>
+                    </div>
+                    <img class="website-logo left-website-infos" src="<?= esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] ); ?>" alt="Centre auto 87 logo">
+                </a>
 
             </div>
 
@@ -90,15 +139,18 @@ get_header();
                 </div>
                 <div class="content">
 
-                    <?php if (!empty(get_field('marque'))) { ?>
-                        <div class="row">
-                            <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="">
-                            <div class="details">
-                                <h3>Marque</h3>
-                                <p><?php echo get_field('marque'); ?></p>
-                            </div>
+                    <div class="row">
+                        <?php if (get_field('marque') != 'Non-renseigné') { ?>
+                            <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . $brand . '-automobile-logo.png'; ?>" alt="<?php echo get_field('marque') ?> automobile logo">
+                        <?php } else { ?>
+                        <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="Pictogramme bouclier">
+                        <?php } ?>
+
+                        <div class="details">
+                            <h3>Marque</h3>
+                            <p><?php echo get_field('marque'); ?></p>
                         </div>
-                    <?php } ?>
+                    </div>
 
                     <?php if (!empty(get_field('modele'))) { ?>
                         <div class="row">
@@ -136,6 +188,16 @@ get_header();
                             <div class="details">
                                 <h3>Type</h3>
                                 <p><?php echo get_field('type'); ?></p>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <?php if (!empty(get_field('carburant'))) { ?>
+                        <div class="row">
+                            <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/fuel-picto.png" ?>" alt="">
+                            <div class="details">
+                                <h3>Carburant</h3>
+                                <p><?php echo get_field('carburant'); ?></p>
                             </div>
                         </div>
                     <?php } ?>
@@ -214,9 +276,15 @@ get_header();
     </div>
 </section>
 
+<div class="road-separator">
+    <!--    <div class="road-wrapper">-->
+    <img class="car-picto appear-on-scroll" src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/background/car-left.svg'; ?>" alt="Pictogramme voiture">
+    <!--    </div>-->
+</div>
+
 <section class="cars-section">
     <div class="wrapper">
-        <h2>Nos dernières voitures</h2>
+        <h2 class="title-decoration">Nos dernières voitures</h2>
 
         <?php get_template_part('template-parts/content/content-portfolio'); ?>
 

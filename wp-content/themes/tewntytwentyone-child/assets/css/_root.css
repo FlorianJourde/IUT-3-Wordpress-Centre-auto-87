@@ -2,7 +2,7 @@
   --clr-white: #ffffff;
   --clr-black: #000000;
   --clr-very-dark-grey: #151515;
-  --clr-dark-grey: #2b2b2b;
+  --clr-dark-grey: #4e4e4e;
   --clr-very-dark-blue: #000734;
   --clr-dark-green: #0c4711;
   --clr-green: #aec90b;
@@ -14,7 +14,7 @@
   --clr-red: #c90b27;
   --clr-very-light-red: #ffc4c8;
   --clr-transparent: #00000000;
-  --clr-light-grey: hsl(0, 0%, 80%);
+  --clr-light-grey: hsl(0, 0%, 90%);
   --clr-very-light-grey: hsl(0, 0%, 95%);
   --clr-grey: hsl(0, 0%, 50%);
   --fs-very-big-title: 80px;
