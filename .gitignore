@@ -50,4 +50,7 @@ wp-config.php
 # PHPStorm
 /.idea
 
+# Akkeba
+/wp-content/plugins/akeebabackupwp/app/backups/
+
 /backups
