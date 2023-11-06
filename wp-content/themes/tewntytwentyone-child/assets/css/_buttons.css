@@ -20,7 +20,7 @@
   transform: translate(5px, -5px);
   background-color: var(--clr-white);
   color: var(--clr-red);
-  border-color: 2px solid var(--clr-red);
+  /*border-color: 2px solid var(--clr-red);*/
   box-shadow: -5px 5px 0 var(--clr-red);
 }
 
@@ -28,7 +28,7 @@
   transform: translate(5px, -5px);
   background-color: var(--clr-white);
   color: var(--clr-black);
-  border-color: 2px solid var(--clr-black);
+  /*border-color: 2px solid var(--clr-black);*/
   box-shadow: -5px 5px 0 var(--clr-black);
 }
 
@@ -42,13 +42,13 @@
   font-size: var(--fs-accent);
 }
 
-#content .button-red.button-primary, .pagination .page-numbers.prev, .pagination .page-numbers.next,  .pagination .page-numbers.current, .contact-form-section #wpforms-120 .wpforms-submit {
+#content .button-red.button-primary, .pagination .page-numbers.prev, .pagination .page-numbers.next,  .pagination .page-numbers:not(.current), .contact-form-section #wpforms-120 .wpforms-submit {
   border-color: var(--clr-transparent);
   color: var(--clr-white);
   background-color: var(--clr-red);
 }
 
-.pagination .page-numbers.prev, .pagination .page-numbers.next,  .pagination .page-numbers.current {
+.pagination .page-numbers.prev, .pagination .page-numbers.next,  .pagination .page-numbers:not(.current) {
   background-color: var(--clr-black);
 }
 

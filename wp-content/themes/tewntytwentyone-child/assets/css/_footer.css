@@ -1,14 +1,53 @@
 footer {
-  display: flex;
-  justify-content: space-between;
   background-color: var(--clr-black);
-  padding: 20px;
 }
 
-footer .website-title, footer .website-baseline {
+footer .website-infos {
+  display: flex;
+  /*justify-content: space-between;*/
+  justify-content: center;
+  /*background-color: var(--clr-black);*/
+  padding: 20px 0;
+}
+
+footer .website-infos .website-title, footer .website-infos .website-baseline {
   color: var(--clr-white);
 }
 
-footer .website-logo {
+footer .website-infos .website-logo {
   filter: invert(1) hue-rotate(180deg);
+}
+
+footer .legals-section-footer {
+  border-top: 2px solid var(--clr-very-dark-grey);
+}
+
+footer .legals-links {
+  /*background-color: var(--clr-black);*/
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+footer .legals-links .menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  font-size: var(--fs-accent);
+  text-transform: uppercase;
+  padding-left: unset;
+}
+
+footer .legals-links a {
+  color: var(--clr-white);
+  transition: .5s;
+  text-align: center;
+}
+
+footer a:hover,
+footer a:focus {
+  color: var(--clr-grey) !important;
+  background-color: unset !important;
 }

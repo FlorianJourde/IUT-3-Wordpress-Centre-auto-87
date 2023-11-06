@@ -23,28 +23,32 @@ if ( $query->have_posts() ) :
         $cars_category          = get_the_category( get_the_ID());
         ?>
 
-        <a href="<?php echo get_permalink(); ?>" class="cars-card">
+        <?php
 
-            <?php
+            if (get_the_post_thumbnail_url(get_the_ID())) {
+                $thumbnail = get_the_post_thumbnail_url(get_the_ID());
+                $grow = true;
+                $description = "Vignette de la voiture";
+            } else {
+                $thumbnail = get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/logo/centre-auto-87-thumbnail.png';
+                $grow = false;
+                $description = "Miniature de voiture par défaut";
+            }
 
-                if (get_the_post_thumbnail_url(get_the_ID())) {
-                    $thumbnail = get_the_post_thumbnail_url(get_the_ID());
-                } else {
-                    $thumbnail = get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/logo/centre-auto-87-thumbnail.png';
-                }
+        ?>
 
-            ?>
+        <a href="<?php echo get_permalink(); ?>" class="cars-card <?= $grow == true ? 'grow' : ''; ?>">
 
-            <img src="<?php echo $thumbnail; ?>" alt="">
+            <img src="<?php echo $thumbnail; ?>" alt="<?= $description; ?>">
 
             <div class="tags">
 
-                <?php if (!empty(get_field('type'))) { ?>
-                    <p class="tag"><?= get_field('type'); ?></p>
+                <?php if (!empty(get_field('prix'))) { ?>
+                    <p class="tag"><?= number_format(get_field('prix'), 0,".", " "); ?> €</p>
                 <?php } ?>
 
                 <?php if (!empty(get_field('kilometres'))) { ?>
-                    <p class="tag"><?= get_field('kilometres'); ?> km</p>
+                    <p class="tag"><?= number_format(get_field('kilometres'), 0,".", " "); ?>  km</p>
                 <?php } ?>
 
                 <?php if (!empty(get_field('carburant'))) { ?>
@@ -58,8 +62,6 @@ if ( $query->have_posts() ) :
                     <?php echo get_the_title(); ?>
                 </h3>
                 <p class="description">
-<!--                    --><?php //var_dump(get_the_content()) ;?>
-<!--                    --><?php //var_dump(get_field('description')) ;?>
                     <?php echo wp_trim_words(get_field('description'), 15); ?>
                 </p>
                 <div class="cars-card-actions">

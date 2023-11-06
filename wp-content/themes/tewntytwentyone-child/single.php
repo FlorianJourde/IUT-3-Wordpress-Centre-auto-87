@@ -108,7 +108,7 @@ get_header();
                         <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/euro-picto.png" ?>" alt="">
                         <div class="details">
                             <h3>Prix</h3>
-                            <p><?php echo get_field('prix'); ?> €</p>
+                            <p><?= number_format(get_field('prix'), 0,".", " "); ?> €</p>
                         </div>
                     </div>
                 <?php } ?>
@@ -177,7 +177,7 @@ get_header();
                             <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/speed-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Kilomètres</h3>
-                                <p><?php echo get_field('kilometres'); ?> km</p>
+                                <p><?= number_format(get_field('kilometres'), 0,".", " "); ?> km</p>
                             </div>
                         </div>
                     <?php } ?>

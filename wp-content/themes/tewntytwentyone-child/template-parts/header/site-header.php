@@ -32,7 +32,7 @@ $wrapper_classes .= has_nav_menu( 'primary' ) ? ' has-menu' : '';
             </div>
         </a>
 <!--        <ul class="menu">-->
-            <?php wp_nav_menu(); ?>
+        <?php wp_nav_menu(); ?>
 <!--        </ul>-->
     </div>
 </header>

@@ -9,7 +9,7 @@
         ?>
 
         <div class="buttons-wrapper">
-            <a class="button-primary button-red" href="<?php echo get_post_type_archive_link( 'voitures' ); ?>">Réinitialiser les filtres</a>
+            <a class="button-primary button-red" href="<?php echo get_post_type_archive_link( 'voitures' ); ?>">Réinitialiser</a>
         </div>
 
     <?php } ?>

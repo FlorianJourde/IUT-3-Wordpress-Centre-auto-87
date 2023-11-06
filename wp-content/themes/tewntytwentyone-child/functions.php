@@ -75,3 +75,9 @@ function url_register_param() {
     global $wp;
     $wp->add_query_var('anyParamName');
 }
+
+function legales_notice() {
+    register_nav_menus( [
+        'legals' => __( 'Mentions légales', 'twentytwentyone-child' ),] );
+}
+add_action( 'after_setup_theme', 'legales_notice' );

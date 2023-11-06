@@ -38,7 +38,7 @@ header {
 #menu-header {
   display: flex;
   padding: unset;
-  gap: 50px;
+  gap: 30px;
 }
 
 #menu-header li {
@@ -46,7 +46,21 @@ header {
   font-weight: 500;
   color: var(--clr-black);
   text-transform: uppercase;
+  padding: 5px 15px;
 }
+
+#menu-header li.current-menu-item a {
+  color: var(--clr-red);
+}
+
+/*#menu-header li.current-menu-item {*/
+/*  background-color: var(--clr-very-light-grey);*/
+  /*color: var(--clr-grey);*/
+/*}*/
+
+/*#menu-header li.current-menu-item a {*/
+/*  !*color: var(--clr-grey);*!*/
+/*}*/
 
 .menu-header-container {
   display: flex;

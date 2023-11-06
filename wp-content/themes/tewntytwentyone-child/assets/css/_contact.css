@@ -26,6 +26,12 @@
   font-family: var(--ff-primary);
   text-transform: uppercase;
   text-align: center;
+  transition: .5s;
+}
+
+.contact-info-section .contact-info:hover,
+.contact-info-section .contact-info:focus {
+  background-color: var(--clr-black) !important;
 }
 
 .contact-info-section .contact-info img {
