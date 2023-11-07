@@ -9,7 +9,6 @@ section  {
   gap: 30px;
   background-color: var(--clr-black);
   color: var(--clr-white);
-  /*padding-bottom: 300px;*/
   position: relative;
   z-index: -1;
   text-shadow: 0 10px 50px var(--clr-black);
@@ -43,7 +42,6 @@ section  {
 }
 
 .banner.homepage {
-  /*padding-top: 200px;*/
   padding-top: 300px;
   padding-bottom: 150px;
   background-position: bottom;
@@ -57,27 +55,21 @@ section  {
   content: '';
   background-image: url("../images/background/car-headlights.png");
   position: absolute;
-  /*width: 500px;*/
-  /*height: 300px;*/
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-size: 1500px;
-  /*background-position: center;*/
-  /*background-position: top -200px right -300px;*/
   background-position: top 50% left 175%;
   background-repeat: no-repeat;
   mix-blend-mode: screen;
   z-index: 1;
-  /*animation: 3s linear 1s light;*/
   animation: 6s linear light infinite;
   animation-delay: 2s;
   opacity: 0;
 }
 
 @keyframes light {
-  /*opa*/
   0% {
     opacity: 0
   }
@@ -149,7 +141,6 @@ section  {
 }
 
 .image-decoration-section .right-section {
-  /*max-width: 600px;*/
 }
 
 
@@ -187,7 +178,6 @@ margin-top: 30px;
 
 .image-decoration img {
   position: relative;
-  /*width: 100%;*/
   height: 600px;
   max-width: 600px;
   object-fit: cover;
@@ -268,7 +258,6 @@ margin-top: 30px;
   background-color: var(--clr-very-light-grey);
   display: flex;
   flex-direction: column;
-  /*padding: 80px;*/
   gap: 80px;
   align-items: center;
   background-image: url("../images/background/guillemets-top-picto.png"), url("../images/background/guillemets-bottom-picto.png");
@@ -279,7 +268,6 @@ margin-top: 30px;
 
 .action-section {
   display: flex;
-  /*flex-direction: column;*/
   gap: 150px;
   position: relative;
   z-index: 1;
@@ -288,7 +276,6 @@ margin-top: 30px;
   background-repeat: no-repeat;
   background-size: cover;
   justify-content: space-between;
-  /*justify-content: flex-end;*/
 }
 
 .action-section::after {
@@ -314,8 +301,6 @@ margin-top: 30px;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  /*width: 600px;*/
-  /*width: 100%;*/
 }
 
 .action-section h2, .action-section p {
@@ -330,11 +315,7 @@ margin-top: 30px;
 
 }
 
-/*.road-separator {*/
-/*  overflow-x: hidden;*/
-/*}*/
 
-/*.road-wrapper {*/
 .road-separator {
   height: 50px;
   min-height: 75px;
@@ -367,7 +348,6 @@ margin-top: 30px;
 
 .page-section h2 {
   margin-bottom: 50px;
-  /*position: absolute;*/
   font-size: var(--fs-very-big-title);
   color: var(--clr-red);
 }

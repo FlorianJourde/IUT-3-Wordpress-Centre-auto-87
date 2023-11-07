@@ -53,15 +53,6 @@ header {
   color: var(--clr-red);
 }
 
-/*#menu-header li.current-menu-item {*/
-/*  background-color: var(--clr-very-light-grey);*/
-  /*color: var(--clr-grey);*/
-/*}*/
-
-/*#menu-header li.current-menu-item a {*/
-/*  !*color: var(--clr-grey);*!*/
-/*}*/
-
 .menu-header-container {
   display: flex;
   align-items: center;

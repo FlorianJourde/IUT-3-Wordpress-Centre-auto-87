@@ -90,7 +90,6 @@ transform: translateY(-100px);
 }
 
 .cars-card .tag {
-  /*border: 2px solid var(--clr-white);*/
   padding: 6px 12px;
   font-size: var(--fs-accent);
   background-color: var(--clr-red);
@@ -111,7 +110,6 @@ transform: translateY(-100px);
 }
 
 #content .cars-card:hover .button-red.button-primary {
-/*.cars-card:hover .button-red {*/
   background-color: var(--clr-white);
   color: var(--clr-red);
 }

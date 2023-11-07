@@ -1,12 +1,7 @@
     <?php
 
     $is_wide = '';
-//    var_dump(get_page_template());
-//    var_dump(is_single());*
     global $template;
-//    var_dump(get_page_template());
-//    var_dump(get_page_template_slug());
-//    var_dump(basename($template));
 
     if (is_single() || is_archive() || basename($template) === 'legals.php' || basename($template) === 'contact.php' || basename($template) === '404.php') {
         $is_wide = 'wide';
@@ -19,7 +14,7 @@
 
     ?>
 
-<section class="banner <?php echo is_single() ? "banner-single" : "" ?> <?php echo $is_wide; ?> <?php echo $is_homepage; ?>">
+<section class="banner <?= is_single() ? "banner-single" : "" ?> <?= $is_wide; ?> <?= $is_homepage; ?>">
 
     <?php
 
@@ -31,7 +26,7 @@
 
     ?>
 
-    <div class="banner-image"  style="background-image: url(<?php echo $banner_img; ?>)"></div>
+    <div class="banner-image"  style="background-image: url(<?= $banner_img; ?>)"></div>
 
     <div class="wrapper">
         <?php if (is_archive()) : ?>
@@ -42,7 +37,7 @@
         <?php elseif (is_404()) : ?>
             <h1>Page introuvable</h1>
         <?php else : ?>
-            <h1><?php echo get_the_title(); ?></h1>
+            <h1><?= get_the_title(); ?></h1>
         <?php endif; ?>
     </div>
 </section>

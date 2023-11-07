@@ -9,18 +9,12 @@
   line-height: 1;
   border-radius: unset;
   transition: .5s;
-  /*box-shadow: 0 0 0 var(--clr-red);*/
-}
-
-#content .button-primary:hover, .pagination .page-numbers.prev:hover, .pagination .page-numbers.next:hover, .contact-form-section #wpforms-120 .wpforms-submit:hover {
-  /*box-shadow: -5px 5px 0 var(--clr-red);*/
 }
 
 #content .button-red.button-primary:hover, .contact-form-section #wpforms-120 .wpforms-submit:hover {
   transform: translate(5px, -5px);
   background-color: var(--clr-white);
   color: var(--clr-red);
-  /*border-color: 2px solid var(--clr-red);*/
   box-shadow: -5px 5px 0 var(--clr-red);
 }
 
@@ -28,7 +22,6 @@
   transform: translate(5px, -5px);
   background-color: var(--clr-white);
   color: var(--clr-black);
-  /*border-color: 2px solid var(--clr-black);*/
   box-shadow: -5px 5px 0 var(--clr-black);
 }
 
@@ -59,7 +52,6 @@
 }
 
 .page-numbers:hover {
-  /*color: var(--clr-black);*/
   border-color: 2px solid var(--clr-black);
 }
 

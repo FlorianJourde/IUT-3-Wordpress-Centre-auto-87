@@ -86,12 +86,9 @@
 
 .single-container .right-area img.brand {
   filter: saturate(0) brightness(1);
-  /*height: 35px;*/
-  /*width: 35px;*/
 }
 
 .single-image img {
-  /*height: 400px;*/
   max-height: 500px;
   width: 100%;
   object-fit: contain;

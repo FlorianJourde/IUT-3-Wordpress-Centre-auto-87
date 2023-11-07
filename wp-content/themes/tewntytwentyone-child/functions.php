@@ -81,39 +81,3 @@ function legales_notice() {
     register_nav_menus( [
         'legals' => __( 'Mentions légales', 'twentytwentyone-child' ),] );
 }
-
-//add_filter( 'document_title_parts', 'theme_slug_filter_wp_title' );
-//function theme_slug_filter_wp_title( $title_parts ) {
-//    if ( is_404() ) {
-//        $title_parts['title'] = 'ADD 404 TITLE TEXT HERE';
-//    }
-//
-//    return $title_parts;
-//}
-
-// Hook into document_title_parts
-
-//add_action( 'parse_query', 'disable_search' );
-//function disable_search( $query, $error = true ) {
-//    if ( is_search() ) {
-//        $query->is_search = false;
-//        $query->query_vars[s] = false;
-//        $query->query[s] = false;
-//        if ( $error == true )
-//            $query->is_404 = true;
-//    }
-//}
-//
-//add_filter( 'get_search_form', create_function( '$a', "return null;" ) );
-//function remove_search_widget()
-//{
-//    unregister_widget('WP_Widget_Search');
-//
-//    add_action('widgets_init', 'remove_search_widget');
-//}
-
-//add_action('wp_head', 'show_template');
-//function show_template() {
-//    global $template;
-//    echo basename($template);
-//}

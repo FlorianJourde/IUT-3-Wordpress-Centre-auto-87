@@ -4,9 +4,7 @@ footer {
 
 footer .website-infos {
   display: flex;
-  /*justify-content: space-between;*/
   justify-content: center;
-  /*background-color: var(--clr-black);*/
   padding: 20px 0;
 }
 
@@ -23,7 +21,6 @@ footer .legals-section-footer {
 }
 
 footer .legals-links {
-  /*background-color: var(--clr-black);*/
   padding-top: 20px;
   padding-bottom: 20px;
   text-align: center;

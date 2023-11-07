@@ -8,7 +8,7 @@
             <p>N'hésitez pas à nous contacter dès maintenant pour demander conseil, ou simplement en parler !</p>
         </div>
         <div class="right-area">
-            <a class="button-primary button-big button-red" href="<?php echo get_home_url() . '/contact' ?>">Contactez-nous</a>
+            <a class="button-primary button-big button-red" href="<?= get_home_url() . '/contact' ?>">Contactez-nous</a>
         </div>
     </div>
 </section>

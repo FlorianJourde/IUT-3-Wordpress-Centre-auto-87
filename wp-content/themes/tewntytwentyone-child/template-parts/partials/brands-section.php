@@ -9,7 +9,7 @@
         ?>
 
         <div class="buttons-wrapper">
-            <a class="button-primary button-red" href="<?php echo get_post_type_archive_link( 'voitures' ); ?>">Réinitialiser</a>
+            <a class="button-primary button-red" href="<?= get_post_type_archive_link( 'voitures' ); ?>">Réinitialiser</a>
         </div>
 
     <?php } ?>
@@ -46,8 +46,8 @@
 
             ?>
 
-            <a href="<?php echo get_home_url() . '/voitures?marque=' . $brand; ?>">
-                <img class="brand" src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . $brand . '-automobile-logo.png'; ?>" alt="<?php echo $brand ?> automobile logo">
+            <a href="<?= get_home_url() . '/voitures?marque=' . $brand; ?>">
+                <img class="brand" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . $brand . '-automobile-logo.png'; ?>" alt="<?= $brand ?> automobile logo">
             </a>
 
         <?php }

@@ -17,7 +17,7 @@ get_header();
                 <p>Grâce à notre engagement envers la qualité, la fiabilité et la satisfaction du client, nous sommes devenus un pilier de la communauté automobile de Limoges.</p>
             </div>
             <div class="right-section image-decoration">
-                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-keys.jpg'; ?>" alt="Voiture avec clés">
+                <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-keys.jpg'; ?>" alt="Voiture avec clés">
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@ get_header();
                 <a href="/voitures" class="button-primary button-red">Nos voitures</a>
             </div>
             <div class="right-section image-decoration">
-                <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-architechture.jpg'; ?>" alt="Car driving decoration">
+                <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-architechture.jpg'; ?>" alt="Car driving decoration">
             </div>
         </div>
     </div>

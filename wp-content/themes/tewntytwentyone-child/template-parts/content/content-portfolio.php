@@ -37,9 +37,9 @@ if ( $query->have_posts() ) :
 
         ?>
 
-        <a href="<?php echo get_permalink(); ?>" class="cars-card <?= $grow == true ? 'grow' : ''; ?>">
+        <a href="<?= get_permalink(); ?>" class="cars-card <?= $grow == true ? 'grow' : ''; ?>">
 
-            <img src="<?php echo $thumbnail; ?>" alt="<?= $description; ?>">
+            <img src="<?= $thumbnail; ?>" alt="<?= $description; ?>">
 
             <div class="tags">
 
@@ -59,10 +59,10 @@ if ( $query->have_posts() ) :
 
             <div class="cars-card-content">
                 <h3 class="cars-card-title">
-                    <?php echo get_the_title(); ?>
+                    <?= get_the_title(); ?>
                 </h3>
                 <p class="description">
-                    <?php echo wp_trim_words(get_field('description'), 15); ?>
+                    <?= wp_trim_words(get_field('description'), 15); ?>
                 </p>
                 <div class="cars-card-actions">
                     <button class="button-primary button-red">Voir l'annonce</button>

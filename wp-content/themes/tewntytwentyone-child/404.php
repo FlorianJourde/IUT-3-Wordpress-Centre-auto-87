@@ -15,14 +15,10 @@ get_header();
     <section class="page-section box offset-top">
         <div class="wrapper">
             <h2>Oups !</h2>
-<!--            <p>Il semblerait que la page recherchée n'existe pas...</p>-->
-<!--            <div class="buttons-wrapper">-->
-<!--                <a href="/voitures" class="button-primary button-red">Page d'accueil</a>-->
-<!--            </div>-->
             <div class="text-with-button">
                 <p class="<?= is_front_page() ? "title-decoration" : ""?>">Il semblerait que la page recherchée n'existe pas...</p>
                 <div class="buttons-wrapper">
-                    <a class="button-primary button-red" href="<?php echo get_home_url() ?>">Page d'accueil</a>
+                    <a class="button-primary button-red" href="<?= get_home_url() ?>">Page d'accueil</a>
                 </div>
             </div>
         </div>

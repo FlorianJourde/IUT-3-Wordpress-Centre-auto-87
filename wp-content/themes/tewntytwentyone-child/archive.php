@@ -36,7 +36,7 @@ $description = get_the_archive_description();
                 ?>
 
                 <div class="buttons-wrapper">
-                        <img class="brand" src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . $_GET['marque'] . '-automobile-logo.png'; ?>" alt="<?php echo $_GET['marque'] ?> automobile logo">
+                        <img class="brand" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . $_GET['marque'] . '-automobile-logo.png'; ?>" alt="<?= $_GET['marque'] ?> automobile logo">
                 </div>
 
             <?php } ?>

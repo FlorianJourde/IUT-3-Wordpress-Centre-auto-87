@@ -24,7 +24,7 @@ get_header();
                         <div class="swiper-wrapper">
                             <?php foreach (get_field('images') as $item) : ?>
                                 <div class="swiper-slide">
-                                    <img src="<?php echo $item; ?>" alt="">
+                                    <img src="<?= $item; ?>" alt="">
                                 </div>
 
                             <?php endforeach; ?>
@@ -41,7 +41,7 @@ get_header();
                 ?>
 
                     <div class="single-image">
-                        <img src="<?php echo $thumbnail ?>" alt="">
+                        <img src="<?= $thumbnail ?>" alt="">
                     </div>
 
                 <?php } ?>
@@ -49,63 +49,60 @@ get_header();
                 <div class="description">
                     <h2>Description</h2>
                     <div class="content">
-                        <p><?php echo get_field('description'); ?></p>
+                        <p><?= get_field('description'); ?></p>
                     </div>
                 </div>
             </div>
 
             <div class="right-area">
 
-<!--                --><?php //if (get_field('marque') != 'Non-renseigné') {?>
                     <div class="row">
-<!--                        <img src="--><?php //echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?><!--" alt="">-->
 
                         <?php
 
-                            $replace = [
-                                'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'ç' => 'c',
-                                'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
-                                'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
-                                'ñ' => 'n',
-                                'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o',
-                                'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
-                                'ý' => 'y', 'ÿ' => 'y',
-                            ];
+                        $replace = [
+                            'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'ç' => 'c',
+                            'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
+                            'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
+                            'ñ' => 'n',
+                            'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o',
+                            'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
+                            'ý' => 'y', 'ÿ' => 'y',
+                        ];
 
-                            $brand = strtr(get_field('marque'), $replace);
-//                        }
+                        $brand = strtr(get_field('marque'), $replace);
+
                         ?>
 
                         <?php if (get_field('marque') != 'Non-renseigné') { ?>
 
-                            <img class="brand icon" src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . $brand . '-automobile-logo.png'; ?>" alt="<?php echo get_field('marque') ?> automobile logo">
+                            <img class="brand icon" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . $brand . '-automobile-logo.png'; ?>" alt="<?= get_field('marque') ?> automobile logo">
 
                         <?php } else { ?>
 
-                            <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="">
 
                         <?php } ?>
 
                         <div class="details">
                             <h3>Marque</h3>
-                            <p><?php echo get_field('marque'); ?></p>
+                            <p><?= get_field('marque'); ?></p>
                         </div>
                     </div>
-<!--                --><?php //} ?>
 
                 <?php if (get_field('modele')) { ?>
                     <div class="row">
-                        <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/barcode-picto.png" ?>" alt="">
+                        <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/barcode-picto.png" ?>" alt="">
                         <div class="details">
                             <h3>Modèle</h3>
-                            <p><?php echo get_field('modele'); ?></p>
+                            <p><?= get_field('modele'); ?></p>
                         </div>
                     </div>
                 <?php } ?>
 
                 <?php if (get_field('prix')) { ?>
                     <div class="row">
-                        <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/euro-picto.png" ?>" alt="">
+                        <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/euro-picto.png" ?>" alt="">
                         <div class="details">
                             <h3>Prix</h3>
                             <p><?= number_format(get_field('prix'), 0,".", " "); ?> €</p>
@@ -115,10 +112,10 @@ get_header();
 
                 <?php if (get_the_date()) { ?>
                     <div class="row">
-                        <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
+                        <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
                         <div class="details">
                             <h3>Date de l'annonce</h3>
-                            <?php echo get_the_date(); ?>
+                            <?= get_the_date(); ?>
                         </div>
                     </div>
                 <?php } ?>
@@ -141,40 +138,40 @@ get_header();
 
                     <div class="row">
                         <?php if (get_field('marque') != 'Non-renseigné') { ?>
-                            <img src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . $brand . '-automobile-logo.png'; ?>" alt="<?php echo get_field('marque') ?> automobile logo">
+                            <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . $brand . '-automobile-logo.png'; ?>" alt="<?= get_field('marque') ?> automobile logo">
                         <?php } else { ?>
-                        <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="Pictogramme bouclier">
+                        <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="Pictogramme bouclier">
                         <?php } ?>
 
                         <div class="details">
                             <h3>Marque</h3>
-                            <p><?php echo get_field('marque'); ?></p>
+                            <p><?= get_field('marque'); ?></p>
                         </div>
                     </div>
 
                     <?php if (!empty(get_field('modele'))) { ?>
                         <div class="row">
-                            <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/barcode-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/barcode-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Modèle</h3>
-                                <p><?php echo get_field('modele'); ?></p>
+                                <p><?= get_field('modele'); ?></p>
                             </div>
                         </div>
                     <?php } ?>
 
                     <?php if (!empty(get_field('date'))) { ?>
                         <div class="row">
-                            <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Mise en circulation</h3>
-                                <p><?php echo get_field('date'); ?></p>
+                                <p><?= get_field('date'); ?></p>
                             </div>
                         </div>
                     <?php } ?>
 
                     <?php if (!empty(get_field('kilometres'))) { ?>
                         <div class="row">
-                            <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/speed-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/speed-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Kilomètres</h3>
                                 <p><?= number_format(get_field('kilometres'), 0,".", " "); ?> km</p>
@@ -184,37 +181,37 @@ get_header();
 
                     <?php if (!empty(get_field('type'))) { ?>
                         <div class="row">
-                            <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/car-model-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/car-model-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Type</h3>
-                                <p><?php echo get_field('type'); ?></p>
+                                <p><?= get_field('type'); ?></p>
                             </div>
                         </div>
                     <?php } ?>
 
                     <?php if (!empty(get_field('carburant'))) { ?>
                         <div class="row">
-                            <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/fuel-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/fuel-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Carburant</h3>
-                                <p><?php echo get_field('carburant'); ?></p>
+                                <p><?= get_field('carburant'); ?></p>
                             </div>
                         </div>
                     <?php } ?>
 
                     <?php if (!empty(get_field('vitesse'))) { ?>
                         <div class="row">
-                            <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/gear-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/gear-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Boîte de vitesse</h3>
-                                <p><?php echo get_field('vitesse'); ?></p>
+                                <p><?= get_field('vitesse'); ?></p>
                             </div>
                         </div>
                     <?php } ?>
 
                     <?php if ( get_field('couleur') != 'Non renseigné') { ?>
                         <div class="row">
-                            <img src="<?php echo get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/color-palette-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/color-palette-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Couleur</h3>
 
@@ -263,7 +260,7 @@ get_header();
 
                                 ?>
 
-                                <p><span class="color-preview" style="background-color: <?php echo $color ?>;"></span> <?php echo get_field('couleur'); ?></p>
+                                <p><span class="color-preview" style="background-color: <?= $color ?>;"></span> <?= get_field('couleur'); ?></p>
                             </div>
                         </div>
 
@@ -277,9 +274,7 @@ get_header();
 </section>
 
 <div class="road-separator">
-    <!--    <div class="road-wrapper">-->
-    <img class="car-picto appear-on-scroll" src="<?php echo get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/background/car-left.svg'; ?>" alt="Pictogramme voiture">
-    <!--    </div>-->
+    <img class="car-picto appear-on-scroll" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/background/car-left.svg'; ?>" alt="Pictogramme voiture">
 </div>
 
 <section class="cars-section">
