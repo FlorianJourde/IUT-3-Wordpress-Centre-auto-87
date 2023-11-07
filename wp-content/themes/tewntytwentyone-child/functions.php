@@ -82,3 +82,10 @@ function legales_notice() {
     register_nav_menus( [
         'legals' => __( 'Mentions légales', 'twentytwentyone-child' ),] );
 }
+
+add_filter( 'site_transient_update_plugins', 'filter_plugin_updates' );
+function filter_plugin_updates( $value ) {
+    unset( $value->response['advanced-custom-fields-pro/acf.php'] );
+    unset( $value->response['wpforms/wpforms.php'] );
+    return $value;
+}
