@@ -113,3 +113,7 @@
   padding-bottom: unset;
   margin-bottom: -10px;
 }
+
+#wpforms-120 input[type=submit]:hover, #wpforms-120 input[type=submit]:active, #wpforms-120 button[type=submit]:hover, #wpforms-120 button[type=submit]:active, #wpforms-120 .wpforms-page-button:hover, #wpforms-120 .wpforms-page-button:active {
+  background: unset;
+}
