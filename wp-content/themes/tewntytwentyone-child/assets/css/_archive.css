@@ -34,7 +34,6 @@
   transition: 1.5s;
 }
 
-
 .cars-card::before {
   content: "";
   left: 0;

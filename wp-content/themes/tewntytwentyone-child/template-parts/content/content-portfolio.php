@@ -3,7 +3,7 @@
 <?php
 
 if (is_archive()) {
-    $post_per_page = 6;
+    $post_per_page = 12;
 } else {
     $post_per_page = 3;
 }
