@@ -32,6 +32,7 @@
   object-fit: cover;
   position: absolute;
   transition: 1.5s;
+  filter: saturate(.5);
 }
 
 .cars-card::before {
@@ -47,6 +48,7 @@
 
 .cars-card.grow:hover img {
   transform: scale(1.05);
+  filter: saturate(1);
 }
 
 .cars-card-content {
@@ -129,11 +131,6 @@ transform: translateY(-100px);
 
 .box.offset-top.brands-section .brands {
   gap: 30px;
-}
-
-.box.offset-top.brands-section .brands .brand {
-  /*max-height: 40px;*/
-  /*max-width: 50px;*/
 }
 
 .text-with-button {
