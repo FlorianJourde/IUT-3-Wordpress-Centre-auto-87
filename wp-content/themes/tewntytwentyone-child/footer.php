@@ -19,7 +19,7 @@
 	<?php get_template_part( 'template-parts/footer/footer-widgets' ); ?>
 
 <footer>
-    <div class="website-infos">
+    <div class="website-infos-section">
         <div class="wrapper">
             <a href="<?= get_site_url(); ?>" class="website-infos">
                 <img class="website-logo left-website-infos" src="<?= esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] ); ?>" alt="">

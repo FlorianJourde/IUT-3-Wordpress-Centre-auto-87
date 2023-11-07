@@ -60,7 +60,7 @@ section  {
   width: 100%;
   height: 100%;
   background-size: 1500px;
-  background-position: top 50% left 175%;
+  background-position: top -180px right -350px;
   background-repeat: no-repeat;
   mix-blend-mode: screen;
   z-index: 1;
@@ -108,10 +108,6 @@ section  {
   100% {
     opacity: 0;
   }
-}
-
-.banner.banner-single {
-  padding-top: 300px;
 }
 
 .banner-single h1 {
@@ -178,7 +174,7 @@ margin-top: 30px;
 
 .image-decoration img {
   position: relative;
-  height: 600px;
+  height: 100%;
   max-width: 600px;
   object-fit: cover;
 }
@@ -223,6 +219,7 @@ margin-top: 30px;
   color: var(--clr-light-grey);
   font-family: var(--ff-primary);
   text-transform: uppercase;
+  text-align: center;
 }
 
 

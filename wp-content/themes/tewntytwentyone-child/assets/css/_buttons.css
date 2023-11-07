@@ -51,7 +51,7 @@
   color: var(--clr-red);
 }
 
-.page-numbers:hover {
+.page-numbers:not(.dots):hover {
   border-color: 2px solid var(--clr-black);
 }
 

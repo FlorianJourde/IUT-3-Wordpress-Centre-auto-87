@@ -16,8 +16,10 @@ get_header();
                 <p>Notre vaste inventaire de voitures neuves et d'occasion, principalement de marques françaises, répond aux besoins de particuliers exigeants.</p>
                 <p>Grâce à notre engagement envers la qualité, la fiabilité et la satisfaction du client, nous sommes devenus un pilier de la communauté automobile de Limoges.</p>
             </div>
-            <div class="right-section image-decoration">
-                <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-keys.jpg'; ?>" alt="Voiture avec clés">
+            <div class="right-section">
+                <div class="image-decoration">
+                    <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-keys.jpg'; ?>" alt="Voiture avec clés">
+                </div>
             </div>
         </div>
     </div>
@@ -34,7 +36,9 @@ get_header();
                 <a href="/voitures" class="button-primary button-red">Nos voitures</a>
             </div>
             <div class="right-section image-decoration">
-                <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-architechture.jpg'; ?>" alt="Car driving decoration">
+                <div class="image-decoration">
+                    <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-architechture.jpg'; ?>" alt="Car driving decoration">
+                </div>
             </div>
         </div>
     </div>

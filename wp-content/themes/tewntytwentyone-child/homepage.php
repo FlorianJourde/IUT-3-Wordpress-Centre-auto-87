@@ -16,8 +16,10 @@ Template Name: Accueil
                 <p>Basés à Limoges, nous sommes fiers de servir la communauté locale depuis plus de 10 ans. En tant que passionnés de l'industrie automobile, notre mission est de vous offrir des véhicules de qualité, alliant performance, fiabilité et économie. Découvrez pourquoi tant de particuliers et professionnels font confiance à notre expertise en matière de voitures neuves et d'occasion.</p>
                 <a href="/a-propos" class="button-primary button-red">En savoir plus</a>
             </div>
-            <div class="right-section image-decoration">
-                <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-drive.jpg'; ?>" alt="Conduite de voiture avec volant">
+            <div class="right-section">
+                <div class="image-decoration">
+                    <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-drive.jpg'; ?>" alt="Conduite de voiture avec volant">
+                </div>
             </div>
         </div>
     </div>

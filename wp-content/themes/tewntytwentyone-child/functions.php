@@ -7,8 +7,9 @@ function custom_styles() {
 
 add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 function custom_scripts() {
-    wp_enqueue_script('slider-script', get_stylesheet_directory_uri() . '/assets/js/_slider.js');
     wp_enqueue_script('appear-on-scroll', get_stylesheet_directory_uri() . '/assets/js/_appear-on-scroll.js');
+    wp_enqueue_script('menu', get_stylesheet_directory_uri() . '/assets/js/_menu.js');
+    wp_enqueue_script('slider-script', get_stylesheet_directory_uri() . '/assets/js/_slider.js');
 }
 
 add_filter('upload_mimes', 'support_mime_types');
