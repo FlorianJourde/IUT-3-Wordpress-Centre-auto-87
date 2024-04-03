@@ -43,16 +43,16 @@ if ( $query->have_posts() ) :
 
             <div class="tags">
 
-                <?php if (!empty(get_field('prix'))) { ?>
-                    <p class="tag"><?= number_format(get_field('prix'), 0,".", " "); ?> €</p>
-                <?php } ?>
-
                 <?php if (!empty(get_field('kilometres'))) { ?>
                     <p class="tag"><?= number_format(get_field('kilometres'), 0,".", " "); ?>  km</p>
                 <?php } ?>
 
                 <?php if (!empty(get_field('carburant'))) { ?>
                     <p class="tag"><?= get_field('carburant'); ?></p>
+                <?php } ?>
+
+                <?php if (!empty(get_field('prix'))) { ?>
+                    <p class="tag black"><?= number_format(get_field('prix'), 0,".", " "); ?> €</p>
                 <?php } ?>
 
             </div>

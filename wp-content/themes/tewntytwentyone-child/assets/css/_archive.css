@@ -61,7 +61,7 @@
   color: var(--clr-white);
   background-color: var(--clr-black);
   z-index: 1;
-  transition: .5s;
+  transition: var(--tr-primary);
 }
 
 .cars-card-title {
@@ -73,7 +73,7 @@
 }
 
 .cars-card:hover .tags {
-transform: translateY(-100px);
+transform: translateY(-120px);
 }
 
 
@@ -84,10 +84,11 @@ transform: translateY(-100px);
   display: flex;
   gap: 15px;
   justify-content: flex-end;
+  align-items: flex-start;
   max-width: calc(100% - 50px);
   flex-wrap: wrap;
   z-index: 1;
-  transition: .5s;
+  transition: var(--tr-primary);
 }
 
 .cars-card .tag {
@@ -97,6 +98,11 @@ transform: translateY(-100px);
   color: var(--clr-white);
   text-transform: uppercase;
   font-weight: 500;
+}
+
+.cars-card .tag.black {
+  background-color: var(--clr-black);
+  font-weight: 600;
 }
 
 .cars-card-content .description {
@@ -131,6 +137,10 @@ transform: translateY(-100px);
 
 .box.offset-top.brands-section .brands {
   gap: 30px;
+}
+
+.box.offset-top.brands-section .wrapper {
+  padding-bottom: unset;
 }
 
 .text-with-button {

@@ -46,8 +46,8 @@
 
             ?>
 
-            <a href="<?= get_home_url() . '/voitures?marque=' . $brand; ?>">
-                <img class="brand" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . $brand . '-automobile-logo.png'; ?>" alt="<?= $brand ?> automobile logo">
+            <a href="<?= get_home_url() . '/voitures?marque=' . strtolower($brand); ?>">
+                <img class="brand" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . strtolower($brand) . '-automobile-logo.png'; ?>" alt="<?= $brand ?> automobile logo">
             </a>
 
         <?php }

@@ -10,13 +10,14 @@ get_header();
 <section class="contact-info-section">
     <div class="wrapper">
         <div class="contact-infos">
-            <a class="contact-info" href="mailto:recup.auto87@outlook.fr" target="_blank">
-                <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/email-picto.png'; ?>" alt="Téléphone"> recup.auto87@outlook.fr
+            <a class="contact-info" href="mailto:contact@centreauto87.fr" target="_blank">
+                <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/email-picto.png'; ?>" alt="Téléphone">contact@centreauto87.fr
             </a>
-            <a class="contact-info" href="tel:+33625326065">
+            <div class="contact-info">
                 <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/phone-picto.png'; ?>" alt="Email">
-                06 25 32 60 65
-            </a>
+                <a href="tel:+33625326065">06 25 32 60 65</a>
+                <a href="tel:+33645450198">06 45 45 01 98</a>
+            </div>
             <a class="contact-info" href="https://maps.app.goo.gl/QmA71HxH1XmVj5jW8" target="_blank">
                 <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/location-picto.png'; ?>" alt="Adresse">
                 28 Route de Poitiers <br> 87270 Couzeix

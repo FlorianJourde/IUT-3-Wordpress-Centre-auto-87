@@ -1,4 +1,41 @@
 @media (max-width: 1200px) {
+  .menu-wrapper {
+    gap: 0 20px;
+    display: grid;
+    grid-template-areas:
+      'a b'
+      'c c';
+    grid-template-columns: 1fr auto;
+  }
+
+  #menu-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .menu-container {
+    background-color: var(--clr-light-grey);
+    max-height: 0;
+    overflow: hidden;
+    transition: var(--tr-primary);
+    padding: 0 10px;
+    margin-top: 0;
+  }
+
+  .menu-container.show {
+    margin-top: 20px;
+    padding: 10px;
+    max-height: 200px;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: flex;
+  }
+
   .box.offset-top .wrapper {
     padding-left: 50px;
     padding-right: 50px;
@@ -16,7 +53,8 @@
     max-width: 400px;
   }
 
-  .action-section {
+  .partner-section {
+    gap: 100px;
   }
 
   .cars-cards {
@@ -55,47 +93,10 @@
 }
 
 @media (max-width: 992px) {
-  .menu-wrapper {
-    gap: 0 20px;
-    display: grid;
-    grid-template-areas:
-      'a b'
-      'c c';
-    grid-template-columns: 1fr auto;
-  }
-
-  #menu-header {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .menu-container {
-    background-color: var(--clr-light-grey);
-    max-height: 0;
-    overflow: hidden;
-    transition: .5s;
-    padding: 0 10px;
-    margin-top: 0;
-  }
-
-  .menu-container.show {
-    margin-top: 20px;
-    padding: 10px;
-    max-height: 200px;
-  }
-
   #menu-header li.current-menu-item a,
   #menu-header .menu-item a:hover
   {
     color: var(--clr-grey);
-  }
-
-  .desktop-only {
-    display: none;
-  }
-
-  .mobile-only {
-    display: flex;
   }
 
   .image-decoration img {
@@ -108,8 +109,23 @@
     align-items: flex-end;
   }
 
-  .action-section {
+  .action-section, .partner-section {
     flex-direction: column;
+    align-items: center;
+  }
+
+  .partner-section {
+    gap: 50px;
+  }
+
+  .partner-section .right-area {
+    align-items: center;
+    text-align: center;
+  }
+
+  .partner-section img {
+    max-width: 150px;
+    border: 5px solid var(--clr-white);
   }
 
   .action-section .left-area {
@@ -118,9 +134,6 @@
 
   .numbers-section .box {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .swiper.testimonials {
   }
 
   .swiper.testimonials .swiper-slide {
@@ -169,11 +182,7 @@
   }
 
   .box .wrapper > .single-article {
-    padding-bottom: unset;
-  }
-
-  .swiper.single {
-    height: 300px;
+    /*padding-bottom: unset;*/
   }
 
   .archive.cars-section {
@@ -221,6 +230,11 @@
 
   header {
   }
+      
+    .upper-header p, 
+    .upper-header a {
+      font-size: var(--fs-body);
+    }
 
   .menu-container.show {
     margin-top: 20px;
@@ -234,6 +248,10 @@
   .upper-header {
     flex-wrap: wrap;
     gap: 20px;
+  }
+
+  .upper-header p:first-child {
+    display: none;
   }
 
   .banner.homepage {
@@ -279,6 +297,11 @@
     width: 100%;
   }
 
+  .numbers-section .box {
+    padding: 50px;
+    gap: 50px;
+  }
+
   .cars-cards {
     grid-template-columns: minmax(0, 1fr);
     gap: 20px;
@@ -306,11 +329,17 @@
   }
 
   .swiper.testimonials {
-    padding: 0 0 30px 0;
+    padding: 0 0 80px 0;
   }
 
   .swiper .swiper-button-next, .swiper .swiper-button-prev {
+    height: 50px;
+    width: 50px;
   }
+
+    .swiper.single .swiper-button-next {
+        left: 50px;
+    }
 
   .swiper.testimonials .swiper-button-next {
     right: 50px;
@@ -362,6 +391,8 @@
 
   .single-description {
     padding: 30px;
+    background-size: 300px;
+    background-position: top -50px right -50px;
   }
 
   .archive.cars-section {
@@ -371,8 +402,6 @@
 
 @media (max-width: 450px) {
     .banner.homepage::before {
-      /*background-size: 600px;*/
-      /*background-position: top -50px right -150px;*/
       background-position: top -80px right -250px;
     }
 
@@ -382,5 +411,21 @@
 
   .contact-form-section .right-area {
     padding: 30px;
+  }
+
+  .upper-header {
+    justify-content: center;
+  }
+
+  .swiper.single {
+    height: 300px;
+  }
+
+  footer .right-website-infos p {
+    /*flex-grow: 1;*/
+  }
+
+  footer .right-website-infos {
+    gap: 10px 50px;
   }
 }

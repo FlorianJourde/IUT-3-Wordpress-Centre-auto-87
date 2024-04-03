@@ -11,9 +11,9 @@ Template Name: Accueil
         <div class="page">
             <div class="left-section">
                 <h2 class="title-decoration">Trouvez la voiture idéale à deux pas de Limoges !</h2>
-                <p>Notre concession automobile propose une vaste sélection de voitures neuves et d'occasion de marques françaises et internationales.</p>
+                <p>Notre concession automobile propose une vaste sélection de voitures d'occasion de marques françaises et internationales.</p>
                 <p>Chez nous, vous trouverez le véhicule parfait pour répondre à vos besoins et à votre budget !</p>
-                <p>Basés à Limoges, nous sommes fiers de servir la communauté locale depuis plus de 10 ans. En tant que passionnés de l'industrie automobile, notre mission est de vous offrir des véhicules de qualité, alliant performance, fiabilité et économie. Découvrez pourquoi tant de particuliers et professionnels font confiance à notre expertise en matière de voitures neuves et d'occasion.</p>
+                <p>Basés à Limoges, nous sommes fiers de servir la communauté locale depuis plus de 5 ans. En tant que passionnés de l'industrie automobile, notre mission est de vous offrir des véhicules de qualité, alliant performance, fiabilité et économie. Découvrez pourquoi tant de particuliers et professionnels font confiance à notre expertise en matière de voitures d'occasion.</p>
                 <a href="/a-propos" class="button-primary button-red">En savoir plus</a>
             </div>
             <div class="right-section">
@@ -64,6 +64,26 @@ Template Name: Accueil
     </div>
 </section>
 
+<section class="partner-section">
+    <div class="wrapper">
+        <div class="left-area">
+            <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/logo/limoges-csp-logo.png'; ?>" alt="Stade CSP Limoges">
+
+        </div>
+        <div class="right-area">
+            <h2 class="title">
+                Partenaire officiel du <span>Limoges&nbsp;CSP</span>
+            </h2>
+            <p>Le Centre auto 87 est fier d'être le partenaire officiel du prestigieux club de basket du CSP Limoges.</p>
+            <p>Unis par la passion du sport et de la performance, nous soutenons l'équipe dans ses défis, offrant qualité et engagement à nos clients, tout comme le CSP incarne l'excellence sur le terrain.</p>
+            <a class="button-primary button-big button-green" href="https://www.limogescsp.com/" target="_blank">
+                Visiter le site
+            </a>
+
+        </div>
+    </div>
+</section>
+
 <section class="brands-section">
     <div class="wrapper">
 
@@ -78,34 +98,34 @@ Template Name: Accueil
 
 <?php if (count(get_field('recommandations')) >= 2) { ?>
 
-    <section class="testimonials-section">
-        <div class="wrapper">
-            <h2>Ils parlent de nous</h2>
-            <div class="swiper testimonials">
-                <div class="swiper-wrapper">
+<section class="testimonials-section">
+    <div class="wrapper">
+        <h2>Ils parlent de nous</h2>
+        <div class="swiper testimonials">
+            <div class="swiper-wrapper">
 
-                    <?php foreach (get_field('recommandations') as $recommandation) { ?>
+                <?php foreach (get_field('recommandations') as $recommandation) { ?>
 
-                        <div class="swiper-slide testimonial">
-                            <div class="profile-picture">
-                                <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/person-picto-white.png'; ?>" alt="Recommandation">
-                            </div>
-                            <div class="comment">
-                                <?= $recommandation['description']; ?>
-                            </div>
-                            <div class="author">
-                                <?= $recommandation['nom']; ?>
-                            </div>
+                    <div class="swiper-slide testimonial">
+                        <div class="profile-picture">
+                            <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/person-picto-white.png'; ?>" alt="Recommandation">
                         </div>
+                        <div class="comment">
+                            <?= $recommandation['description']; ?>
+                        </div>
+                        <div class="author">
+                            <?= $recommandation['nom']; ?>
+                        </div>
+                    </div>
 
-                    <?php } ?>
-                    
-                </div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
+                <?php } ?>
+
             </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
         </div>
-    </section>
+    </div>
+</section>
 
 <?php } ?>
 

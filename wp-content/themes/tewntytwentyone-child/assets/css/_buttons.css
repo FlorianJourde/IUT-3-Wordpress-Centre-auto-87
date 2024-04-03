@@ -8,7 +8,7 @@
   text-transform: uppercase;
   line-height: 1;
   border-radius: unset;
-  transition: .5s;
+  transition: var(--tr-primary);
 }
 
 #content .button-red.button-primary:hover, .contact-form-section #wpforms-120 .wpforms-submit:hover {
@@ -39,6 +39,19 @@
   border-color: var(--clr-transparent);
   color: var(--clr-white);
   background-color: var(--clr-red);
+}
+
+#content .button-green.button-primary {
+  border-color: var(--clr-transparent);
+  color: var(--clr-white);
+  background-color: var(--clr-green);
+}
+
+#content .button-green.button-primary:hover {
+  transform: translate(5px, -5px);
+  background-color: var(--clr-white);
+  color: var(--clr-green);
+  box-shadow: -5px 5px 0 var(--clr-green);
 }
 
 .pagination .page-numbers.prev, .pagination .page-numbers.next,  .pagination .page-numbers.current {

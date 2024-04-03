@@ -56,39 +56,39 @@ get_header();
 
             <div class="right-area">
 
-                    <div class="row">
+                <div class="row">
 
-                        <?php
+                    <?php
 
-                        $replace = [
-                            'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'ç' => 'c',
-                            'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
-                            'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
-                            'ñ' => 'n',
-                            'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o',
-                            'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
-                            'ý' => 'y', 'ÿ' => 'y',
-                        ];
+                    $replace = [
+                        'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'ç' => 'c',
+                        'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
+                        'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
+                        'ñ' => 'n',
+                        'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o',
+                        'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
+                        'ý' => 'y', 'ÿ' => 'y',
+                    ];
 
-                        $brand = strtr(get_field('marque'), $replace);
+                    $brand = strtr(get_field('marque'), $replace);
 
-                        ?>
+                    ?>
 
-                        <?php if (get_field('marque') != 'Non-renseigné') { ?>
+                    <?php if (get_field('marque') != 'Non-renseigné') { ?>
 
-                            <img class="brand icon" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . $brand . '-automobile-logo.png'; ?>" alt="<?= get_field('marque') ?> automobile logo">
+                        <img class="brand icon" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . strtolower($brand) . '-automobile-logo.png'; ?>" alt="<?= get_field('marque') ?> automobile logo">
 
-                        <?php } else { ?>
+                    <?php } else { ?>
 
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="">
+                        <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="">
 
-                        <?php } ?>
+                    <?php } ?>
 
-                        <div class="details">
-                            <h3>Marque</h3>
-                            <p><?= get_field('marque'); ?></p>
-                        </div>
+                    <div class="details">
+                        <h3>Marque</h3>
+                        <p><?= get_field('marque'); ?></p>
                     </div>
+                </div>
 
                 <?php if (get_field('modele')) { ?>
                     <div class="row">
@@ -134,11 +134,12 @@ get_header();
                 <div class="title">
                     <h2>Caractéristiques</h2>
                 </div>
+
                 <div class="content">
 
                     <div class="row">
                         <?php if (get_field('marque') != 'Non-renseigné') { ?>
-                            <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . $brand . '-automobile-logo.png'; ?>" alt="<?= get_field('marque') ?> automobile logo">
+                            <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . strtolower($brand) . '-automobile-logo.png'; ?>" alt="<?= get_field('marque') ?> automobile logo">
                         <?php } else { ?>
                         <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="Pictogramme bouclier">
                         <?php } ?>
@@ -159,22 +160,22 @@ get_header();
                         </div>
                     <?php } ?>
 
-                    <?php if (!empty(get_field('date'))) { ?>
-                        <div class="row">
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
-                            <div class="details">
-                                <h3>Mise en circulation</h3>
-                                <p><?= get_field('date'); ?></p>
-                            </div>
-                        </div>
-                    <?php } ?>
-
                     <?php if (!empty(get_field('kilometres'))) { ?>
                         <div class="row">
                             <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/speed-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Kilomètres</h3>
                                 <p><?= number_format(get_field('kilometres'), 0,".", " "); ?> km</p>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <?php if (!empty(get_field('mise_en_circulation'))) { ?>
+                        <div class="row">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
+                            <div class="details">
+                                <h3>Mise en circulation</h3>
+                                <p><?= substr(get_field('mise_en_circulation'), strrpos(get_field('mise_en_circulation'), '/') + 1); ?></p>
                             </div>
                         </div>
                     <?php } ?>
@@ -189,22 +190,62 @@ get_header();
                         </div>
                     <?php } ?>
 
-                    <?php if (!empty(get_field('carburant'))) { ?>
-                        <div class="row">
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/fuel-picto.png" ?>" alt="">
-                            <div class="details">
-                                <h3>Carburant</h3>
-                                <p><?= get_field('carburant'); ?></p>
-                            </div>
-                        </div>
-                    <?php } ?>
-
                     <?php if (!empty(get_field('vitesse'))) { ?>
                         <div class="row">
                             <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/gear-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Boîte de vitesse</h3>
                                 <p><?= get_field('vitesse'); ?></p>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <?php if (!empty(get_field('nombre_de_portes'))) { ?>
+                        <div class="row">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/car-door-picto.png" ?>" alt="">
+                            <div class="details">
+                                <h3>Nombre de portes</h3>
+                                <p><?= get_field('nombre_de_portes'); ?></p>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <?php if (!empty(get_field('nombre_de_places'))) { ?>
+                        <div class="row">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/people-picto.png" ?>" alt="">
+                            <div class="details">
+                                <h3>Nombre de places</h3>
+                                <p><?= get_field('nombre_de_places'); ?></p>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <?php if (!empty(get_field('puissance_fiscale'))) { ?>
+                        <div class="row">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/motor-picto.png" ?>" alt="">
+                            <div class="details">
+                                <h3>Puissance fiscale</h3>
+                                <p><?= get_field('puissance_fiscale'); ?> Cv</p>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <?php if (!empty(get_field('permis'))) { ?>
+                        <div class="row">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/driving-licence-picto.png" ?>" alt="">
+                            <div class="details">
+                                <h3>Permis</h3>
+                                <p><?= get_field('permis'); ?></p>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <?php if (!empty(get_field('carburant'))) { ?>
+                        <div class="row">
+                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/fuel-picto.png" ?>" alt="">
+                            <div class="details">
+                                <h3>Carburant</h3>
+                                <p><?= get_field('carburant'); ?></p>
                             </div>
                         </div>
                     <?php } ?>
