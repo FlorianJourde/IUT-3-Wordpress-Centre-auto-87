@@ -11,4 +11,4 @@
 
 **Centre auto 87** : une ressource interactive dédiée à l'exploration de WordPress dans le cadre de travaux dirigés. Découverte des fonctionnalités et des capacités de WordPress à travers des ressources pédagogiques conçues pour l'apprentissage pratique.
 
-[![Preview site](https://img.shields.io/badge/Site%20web--e1e3f0?style=for-the-badge&logo=InternetExplorer&logoColor=white)](https://centreauto87.fr)
+[![Preview site](https://img.shields.io/badge/Site%20web--c90b27?style=for-the-badge&logo=InternetExplorer&logoColor=white)](https://centreauto87.fr)
