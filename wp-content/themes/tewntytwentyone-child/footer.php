@@ -28,16 +28,16 @@
                 </a>
             </div>
             <div class="right-website-infos">
-                <p><img class="picto" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/location-picto.png'; ?>" alt="Email pictogramme">
+                <p><img class="picto" src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/pictos/location-picto.png'; ?>" alt="Email pictogramme">
                     <a href="https://maps.app.goo.gl/QmA71HxH1XmVj5jW8" target="_blank">28 Route de Poitiers, 87270 Couzeix</a>
                 </p>
                 <p>
-                    <img class="picto" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/email-picto.png'; ?>" alt="Téléphone pictogramme">
+                    <img class="picto" src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/pictos/email-picto.png'; ?>" alt="Téléphone pictogramme">
                     <a href="mailto:contact@centreauto87.fr" target="_blank">
                         contact@centreauto87.fr
                     </a>
                 </p>
-                <p><img class="picto" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/phone-picto.png'; ?>" alt="Email pictogramme"><span><a href="tel:+33625326065">06 25 32 60 65</a> • <a href="tel:+33645450198">06 45 45 01 98</a></span></p>
+                <p><img class="picto" src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/pictos/phone-picto.png'; ?>" alt="Email pictogramme"><span><a href="tel:+33625326065">06 25 32 60 65</a> • <a href="tel:+33645450198">06 45 45 01 98</a></span></p>
             </div>
         </div>
     </div>

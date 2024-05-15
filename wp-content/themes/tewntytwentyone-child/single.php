@@ -36,7 +36,7 @@ get_header();
                             if (get_the_post_thumbnail_url(get_the_ID())) {
                                 $thumbnail = get_the_post_thumbnail_url(get_the_ID());
                             } else {
-                                $thumbnail = get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/logo/centre-auto-87-thumbnail.png';
+                                $thumbnail = get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/logo/centre-auto-87-thumbnail.png';
                             }
                 ?>
 
@@ -76,11 +76,11 @@ get_header();
 
                     <?php if (get_field('marque') != 'Non-renseigné') { ?>
 
-                        <img class="brand icon" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . strtolower($brand) . '-automobile-logo.png'; ?>" alt="<?= get_field('marque') ?> automobile logo">
+                        <img class="brand icon" src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/brands/' . strtolower($brand) . '-automobile-logo.png'; ?>" alt="<?= get_field('marque') ?> automobile logo">
 
                     <?php } else { ?>
 
-                        <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="">
+                        <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="">
 
                     <?php } ?>
 
@@ -92,7 +92,7 @@ get_header();
 
                 <?php if (get_field('modele')) { ?>
                     <div class="row">
-                        <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/barcode-picto.png" ?>" alt="">
+                        <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/barcode-picto.png" ?>" alt="">
                         <div class="details">
                             <h3>Modèle</h3>
                             <p><?= get_field('modele'); ?></p>
@@ -102,7 +102,7 @@ get_header();
 
                 <?php if (get_field('prix')) { ?>
                     <div class="row">
-                        <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/euro-picto.png" ?>" alt="">
+                        <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/euro-picto.png" ?>" alt="">
                         <div class="details">
                             <h3>Prix</h3>
                             <p><?= number_format(get_field('prix'), 0,".", " "); ?> €</p>
@@ -112,7 +112,7 @@ get_header();
 
                 <?php if (get_the_date()) { ?>
                     <div class="row">
-                        <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
+                        <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
                         <div class="details">
                             <h3>Date de l'annonce</h3>
                             <?= get_the_date(); ?>
@@ -139,9 +139,9 @@ get_header();
 
                     <div class="row">
                         <?php if (get_field('marque') != 'Non-renseigné') { ?>
-                            <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/brands/' . strtolower($brand) . '-automobile-logo.png'; ?>" alt="<?= get_field('marque') ?> automobile logo">
+                            <img src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/brands/' . strtolower($brand) . '-automobile-logo.png'; ?>" alt="<?= get_field('marque') ?> automobile logo">
                         <?php } else { ?>
-                        <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="Pictogramme bouclier">
+                        <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/shield-picto.png" ?>" alt="Pictogramme bouclier">
                         <?php } ?>
 
                         <div class="details">
@@ -152,7 +152,7 @@ get_header();
 
                     <?php if (!empty(get_field('modele'))) { ?>
                         <div class="row">
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/barcode-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/barcode-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Modèle</h3>
                                 <p><?= get_field('modele'); ?></p>
@@ -162,7 +162,7 @@ get_header();
 
                     <?php if (!empty(get_field('kilometres'))) { ?>
                         <div class="row">
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/speed-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/speed-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Kilomètres</h3>
                                 <p><?= number_format(get_field('kilometres'), 0,".", " "); ?> km</p>
@@ -172,7 +172,7 @@ get_header();
 
                     <?php if (!empty(get_field('mise_en_circulation'))) { ?>
                         <div class="row">
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/date-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Mise en circulation</h3>
                                 <p><?= substr(get_field('mise_en_circulation'), strrpos(get_field('mise_en_circulation'), '/') + 1); ?></p>
@@ -182,7 +182,7 @@ get_header();
 
                     <?php if (!empty(get_field('type'))) { ?>
                         <div class="row">
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/car-model-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/car-model-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Type</h3>
                                 <p><?= get_field('type'); ?></p>
@@ -192,7 +192,7 @@ get_header();
 
                     <?php if (!empty(get_field('vitesse'))) { ?>
                         <div class="row">
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/gear-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/gear-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Boîte de vitesse</h3>
                                 <p><?= get_field('vitesse'); ?></p>
@@ -202,7 +202,7 @@ get_header();
 
                     <?php if (!empty(get_field('nombre_de_portes'))) { ?>
                         <div class="row">
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/car-door-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/car-door-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Nombre de portes</h3>
                                 <p><?= get_field('nombre_de_portes'); ?></p>
@@ -212,7 +212,7 @@ get_header();
 
                     <?php if (!empty(get_field('nombre_de_places'))) { ?>
                         <div class="row">
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/people-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/people-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Nombre de places</h3>
                                 <p><?= get_field('nombre_de_places'); ?></p>
@@ -222,7 +222,7 @@ get_header();
 
                     <?php if (!empty(get_field('puissance_fiscale'))) { ?>
                         <div class="row">
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/motor-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/motor-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Puissance fiscale</h3>
                                 <p><?= get_field('puissance_fiscale'); ?> Cv</p>
@@ -232,7 +232,7 @@ get_header();
 
                     <?php if (!empty(get_field('permis'))) { ?>
                         <div class="row">
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/driving-licence-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/driving-licence-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Permis</h3>
                                 <p><?= get_field('permis'); ?></p>
@@ -242,7 +242,7 @@ get_header();
 
                     <?php if (!empty(get_field('carburant'))) { ?>
                         <div class="row">
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/fuel-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/fuel-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Carburant</h3>
                                 <p><?= get_field('carburant'); ?></p>
@@ -252,7 +252,7 @@ get_header();
 
                     <?php if ( get_field('couleur') != 'Non renseigné') { ?>
                         <div class="row">
-                            <img src="<?= get_home_url() . "/wp-content/themes/tewntytwentyone-child/assets/images/pictos/color-palette-picto.png" ?>" alt="">
+                            <img src="<?= get_home_url() . "/wp-content/themes/twentytwentyone-child/assets/images/pictos/color-palette-picto.png" ?>" alt="">
                             <div class="details">
                                 <h3>Couleur</h3>
 
@@ -315,7 +315,7 @@ get_header();
 </section>
 
 <div class="road-separator">
-    <img class="car-picto appear-on-scroll" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/background/car-left.svg'; ?>" alt="Pictogramme voiture">
+    <img class="car-picto appear-on-scroll" src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/background/car-left.svg'; ?>" alt="Pictogramme voiture">
 </div>
 
 <section class="cars-section">

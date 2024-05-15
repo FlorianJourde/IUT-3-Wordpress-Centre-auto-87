@@ -18,7 +18,7 @@ get_header();
             </div>
             <div class="right-section">
                 <div class="image-decoration">
-                    <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-keys.jpg'; ?>" alt="Voiture avec clés">
+                    <img src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/photo/car-keys.jpg'; ?>" alt="Voiture avec clés">
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@ get_header();
             </div>
             <div class="right-section image-decoration">
                 <div class="image-decoration">
-                    <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-architechture.jpg'; ?>" alt="Car driving decoration">
+                    <img src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/photo/car-architechture.jpg'; ?>" alt="Car driving decoration">
                 </div>
             </div>
         </div>

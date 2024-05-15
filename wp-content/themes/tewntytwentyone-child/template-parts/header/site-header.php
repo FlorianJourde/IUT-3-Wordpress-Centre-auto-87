@@ -16,13 +16,13 @@ $wrapper_classes .= has_nav_menu( 'primary' ) ? ' has-menu' : '';
 <section class="upper-header">
     <div class="wrapper">
         <p>
-                <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/email-picto.png'; ?>" alt="Téléphone pictogramme">
+                <img src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/pictos/email-picto.png'; ?>" alt="Téléphone pictogramme">
             <a href="mailto:contact@centreauto87.fr" target="_blanks">
                 contact@centreauto87.fr
             </a>
         </p>
         <p>
-            <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/phone-picto.png'; ?>" alt="Email pictogramme"><a href="tel:+33625326065">06 25 32 60 65</a> • <a href="tel:+33645450198">06 45 45 01 98</a>
+            <img src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/pictos/phone-picto.png'; ?>" alt="Email pictogramme"><a href="tel:+33625326065">06 25 32 60 65</a> • <a href="tel:+33645450198">06 45 45 01 98</a>
         </p>
     </div>
 </section>

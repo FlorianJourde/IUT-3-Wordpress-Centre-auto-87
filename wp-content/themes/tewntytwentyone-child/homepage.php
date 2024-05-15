@@ -18,7 +18,7 @@ Template Name: Accueil
             </div>
             <div class="right-section">
                 <div class="image-decoration">
-                    <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/photo/car-drive.jpg'; ?>" alt="Conduite de voiture avec volant">
+                    <img src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/photo/car-drive.jpg'; ?>" alt="Conduite de voiture avec volant">
                 </div>
             </div>
         </div>
@@ -29,20 +29,20 @@ Template Name: Accueil
     <div class="wrapper">
         <div class="box">
             <div class="number-details">
-                <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/experience-picto-white.png'; ?>" alt="Pictogramme années d'expérience">
+                <img src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/pictos/experience-picto-white.png'; ?>" alt="Pictogramme années d'expérience">
 
                 <h3>+<?= get_field('annees_dexperiences'); ?></h3>
                 <p>années d'expérience</p>
             </div>
             <div class="number-details">
-                <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/key-car-picto-white.png'; ?>" alt="Pictogramme ventes par semaine">
+                <img src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/pictos/key-car-picto-white.png'; ?>" alt="Pictogramme ventes par semaine">
 
                 <h3>+<?= get_field('ventes_par_semaine'); ?></h3>
                 <p>ventes par semaines</p>
             </div>
             <div class="number-details">
 
-                <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/car-model-picto-white.png'; ?>" alt="Pictogramme voitures exposées">
+                <img src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/pictos/car-model-picto-white.png'; ?>" alt="Pictogramme voitures exposées">
                 <h3>+<?= get_field('voitures_exposees'); ?></h3>
                 <p>voitures exposées</p>
             </div>
@@ -51,7 +51,7 @@ Template Name: Accueil
 </section>
 
 <div class="road-separator">
-        <img class="car-picto appear-on-scroll" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/background/car-left.svg'; ?>" alt="Pictogramme voiture">
+        <img class="car-picto appear-on-scroll" src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/background/car-left.svg'; ?>" alt="Pictogramme voiture">
 </div>
 
 <section class="cars-section">
@@ -67,7 +67,7 @@ Template Name: Accueil
 <section class="partner-section">
     <div class="wrapper">
         <div class="left-area">
-            <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/logo/limoges-csp-logo.png'; ?>" alt="Stade CSP Limoges">
+            <img src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/logo/limoges-csp-logo.png'; ?>" alt="Stade CSP Limoges">
 
         </div>
         <div class="right-area">
@@ -93,7 +93,7 @@ Template Name: Accueil
 </section>
 
 <div class="road-separator">
-        <img class="car-picto right appear-on-scroll" src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/background/car-right.svg'; ?>" alt="Pictogramme voiture">
+        <img class="car-picto right appear-on-scroll" src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/background/car-right.svg'; ?>" alt="Pictogramme voiture">
 </div>
 
 <?php if (count(get_field('recommandations')) >= 2) { ?>
@@ -108,7 +108,7 @@ Template Name: Accueil
 
                     <div class="swiper-slide testimonial">
                         <div class="profile-picture">
-                            <img src="<?= get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/pictos/person-picto-white.png'; ?>" alt="Recommandation">
+                            <img src="<?= get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/pictos/person-picto-white.png'; ?>" alt="Recommandation">
                         </div>
                         <div class="comment">
                             <?= $recommandation['description']; ?>

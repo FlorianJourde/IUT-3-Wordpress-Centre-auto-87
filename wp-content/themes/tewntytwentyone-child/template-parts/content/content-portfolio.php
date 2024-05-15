@@ -30,7 +30,7 @@ if ( $query->have_posts() ) :
                 $grow = true;
                 $description = "Vignette de la voiture";
             } else {
-                $thumbnail = get_home_url() . '/wp-content/themes/tewntytwentyone-child/assets/images/logo/centre-auto-87-thumbnail.png';
+                $thumbnail = get_home_url() . '/wp-content/themes/twentytwentyone-child/assets/images/logo/centre-auto-87-thumbnail.png';
                 $grow = false;
                 $description = "Miniature de voiture par défaut";
             }
