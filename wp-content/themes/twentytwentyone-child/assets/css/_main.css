@@ -21,7 +21,7 @@ section  {
 
 .banner-image {
   background-size: cover;
-  /*background-attachment: fixed;*/
+  background-attachment: fixed;
   position: absolute;
   left: 0;
   top: 0;
@@ -65,7 +65,7 @@ section  {
   width: 100%;
   height: 100%;
   background-size: 1500px;
-  background-position: top -180px right -350px;
+  background-position: top -60px right -350px;
   background-repeat: no-repeat;
   mix-blend-mode: screen;
   z-index: 1;
@@ -274,7 +274,7 @@ margin-top: 30px;
   position: relative;
   z-index: 1;
   background-image: url("../images/photo/carpark-4.jpg");
-  /*background-attachment: fixed;*/
+  background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

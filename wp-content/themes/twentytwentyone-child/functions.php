@@ -5,6 +5,11 @@ function custom_styles() {
     wp_enqueue_style('main-style', get_stylesheet_directory_uri() . '/style.css', [],'1.0.0');
 }
 
+add_action('admin_init', 'custom_editor_styles');
+function custom_editor_styles() {
+    add_editor_style('admin-style.css');
+}
+
 add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 function custom_scripts() {
     wp_enqueue_script('appear-on-scroll', get_stylesheet_directory_uri() . '/assets/js/_appear-on-scroll.js');
@@ -18,8 +23,8 @@ function support_mime_types($mimes) {
     return $mimes;
 }
 
-add_action( 'init', 'custom_post_type', 0 );
-function custom_post_type() {
+add_action( 'init', 'custom_post_type_voitures', 0 );
+function custom_post_type_voitures() {
     $labels = array(
         'name'                => _x( 'Voitures', 'Post Type General Name'),
         'singular_name'       => _x( 'Voiture', 'Post Type Singular Name'),

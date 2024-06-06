@@ -71,7 +71,7 @@
 
   .banner.homepage::before {
     background-size: 1200px;
-    background-position: top -120px right -350px;
+    background-position: top -50px right -350px;
   }
 
   .contact-form-section .left-area {
@@ -253,6 +253,11 @@
   .upper-header p:first-child {
     display: none;
   }
+  
+  .action-section, .partner-section,
+  .banner-image { 
+      background-attachment: unset;
+  }
 
   .banner.homepage {
     padding-top: 200px;
@@ -261,7 +266,7 @@
 
   .banner.homepage::before {
     background-size: 800px;
-    background-position: top -90px right -200px;
+    background-position: top -30px right -200px;
   }
 
   .website-logo {
@@ -402,7 +407,7 @@
 
 @media (max-width: 450px) {
     .banner.homepage::before {
-      background-position: top -80px right -250px;
+      background-position: top -30px right -250px;
     }
 
   footer .legals-links .menu .menu-item {

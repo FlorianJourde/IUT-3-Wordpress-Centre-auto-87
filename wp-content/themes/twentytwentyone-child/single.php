@@ -18,7 +18,7 @@ get_header();
         <div class="single-article">
 
             <div class="left-area">
-
+                
                 <?php if (get_field('images')) { ?>
                     <div class="swiper single">
                         <div class="swiper-wrapper">
