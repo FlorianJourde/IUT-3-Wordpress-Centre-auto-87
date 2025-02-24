@@ -52,5 +52,8 @@ wp-config.php
 
 # Akkeba
 /wp-content/plugins/akeebabackupwp/app/backups/
+/wp-content/plugins/akeebabackupwp/app/backups/*
+/wp-content/plugins/akeebabackupwp/
+/wp-content/plugins/akeebabackupwp/*
 
 /backups
