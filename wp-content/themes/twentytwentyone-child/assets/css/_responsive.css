@@ -1,0 +1,436 @@
+@media (max-width: 1200px) {
+  .menu-wrapper {
+    gap: 0 20px;
+    display: grid;
+    grid-template-areas:
+      'a b'
+      'c c';
+    grid-template-columns: 1fr auto;
+  }
+
+  #menu-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .menu-container {
+    background-color: var(--clr-light-grey);
+    max-height: 0;
+    overflow: hidden;
+    transition: var(--tr-primary);
+    padding: 0 10px;
+    margin-top: 0;
+  }
+
+  .menu-container.show {
+    margin-top: 20px;
+    padding: 10px;
+    max-height: 200px;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: flex;
+  }
+
+  .box.offset-top .wrapper {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+
+  .image-decoration-section .page {
+    gap: 100px;
+  }
+
+  .image-decoration img {
+    max-width: 400px;
+  }
+
+  .action-section .left-area {
+    max-width: 400px;
+  }
+
+  .partner-section {
+    gap: 100px;
+  }
+
+  .cars-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cars-section:not(.archive) .cars-card:nth-child(3) {
+    display: none;
+  }
+
+  .testimonials-section {
+    background-size: 400px, 400px;
+  }
+
+  .banner.homepage::before {
+    background-size: 1200px;
+    background-position: top -50px right -350px;
+  }
+
+  .contact-form-section .left-area {
+    min-width: 300px;
+  }
+
+  .single-container .right-area {
+    top: 145px;
+  }
+
+  .single-article {
+    grid-template-columns: minmax(0, 1fr) 350px;
+    gap: 50px;
+  }
+
+  .swiper.single {
+    height: 400px;
+  }
+}
+
+@media (max-width: 992px) {
+  #menu-header li.current-menu-item a,
+  #menu-header .menu-item a:hover
+  {
+    color: var(--clr-grey);
+  }
+
+  .image-decoration img {
+  }
+
+  .image-decoration-section .page,
+  .image-decoration-section.image-decoration-left .page
+  {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .action-section, .partner-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .partner-section {
+    gap: 50px;
+  }
+
+  .partner-section .right-area {
+    align-items: center;
+    text-align: center;
+  }
+
+  .partner-section img {
+    max-width: 150px;
+    border: 5px solid var(--clr-white);
+  }
+
+  .action-section .left-area {
+    max-width: unset;
+  }
+
+  .numbers-section .box {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .swiper.testimonials .swiper-slide {
+    margin-right: 20px;
+    margin-left: 20px;
+    max-width: unset;
+  }
+
+  .swiper .swiper-button-next, .swiper .swiper-button-prev {
+  }
+
+  .swiper.testimonials .swiper-button-next {
+    right: 0;
+    left: unset;
+  }
+
+  .swiper.testimonials .swiper-button-prev {
+    left: 0;
+    right: unset;
+  }
+
+  footer .legals-links .menu {
+    gap: 10px 20px;
+  }
+
+  .contact-info-section .contact-infos {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact-form-section .form-wrapper {
+    flex-direction: column;
+  }
+
+  .contact-form-section .left-area {
+    min-width: unset;
+    min-height: 300px;
+  }
+
+  .single-article {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .single-container .right-area {
+    position: unset;
+    top: unset;
+  }
+
+  .box .wrapper > .single-article {
+    /*padding-bottom: unset;*/
+  }
+
+  .archive.cars-section {
+    background-size: 600px;
+  }
+}
+
+@media (max-width: 768px) {
+  * {
+    word-break: break-word;
+  }
+
+  .box.offset-top .wrapper {
+  padding-right: 20px;
+  padding-left: 20px;
+  }
+
+  .wrapper {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  section {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+
+  .title-decoration::before {
+    width: 100px;
+  }
+
+  .image-decoration::before {
+    top: 10px;
+    left: 10px;
+  }
+
+  .image-decoration-section.image-decoration-left .image-decoration::before {
+    left: unset;
+    right: 10px;
+  }
+
+  .website-title {
+    color: var(--clr-red);
+  }
+
+  header {
+  }
+      
+    .upper-header p, 
+    .upper-header a {
+      font-size: var(--fs-body);
+    }
+
+  .menu-container.show {
+    margin-top: 20px;
+  }
+
+  footer .legals-links {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .upper-header {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .upper-header p:first-child {
+    display: none;
+  }
+  
+  .action-section, .partner-section,
+  .banner-image { 
+      background-attachment: unset;
+  }
+
+  .banner.homepage {
+    padding-top: 200px;
+    padding-bottom: 100px;
+  }
+
+  .banner.homepage::before {
+    background-size: 800px;
+    background-position: top -30px right -200px;
+  }
+
+  .website-logo {
+    max-height: 30px;
+  }
+
+  .website-infos {
+    gap: 20px;
+  }
+
+  .website-baseline {
+    display: none;
+  }
+
+  .road-separator {
+    background-size: 1000px;
+  }
+
+  .car-picto {
+    left: 50%;
+  }
+
+  .car-picto.right {
+    right: 50%;
+  }
+
+  .car-picto {
+    width: 125px;
+    bottom: 8px;
+  }
+
+  .image-decoration img {
+    width: 100%;
+  }
+
+  .numbers-section .box {
+    padding: 50px;
+    gap: 50px;
+  }
+
+  .cars-cards {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .cars-section:not(.archive) .cars-card:nth-child(3) {
+    display: flex;
+  }
+
+  .brands-section {
+    gap: 50px;
+  }
+
+  .brands-section .brands {
+    gap: 30px;
+  }
+
+  .brands-section .brands .brand {
+    max-height: 35px;
+    max-width: 50px;
+  }
+
+  .action-section {
+    gap: 50px;
+  }
+
+  .swiper.testimonials {
+    padding: 0 0 80px 0;
+  }
+
+  .swiper .swiper-button-next, .swiper .swiper-button-prev {
+    height: 50px;
+    width: 50px;
+  }
+
+    .swiper.single .swiper-button-next {
+        left: 50px;
+    }
+
+  .swiper.testimonials .swiper-button-next {
+    right: 50px;
+    left: unset;
+    top: unset;
+    bottom: 0;
+  }
+
+  .swiper.testimonials .swiper-button-prev {
+    left: 50px;
+    right: unset;
+    top: unset;
+    bottom: 0;
+  }
+
+  .testimonials-section {
+    background-size: 200px, 200px;
+    background-position: top 100px left 10%, bottom 50px right 10%;
+  }
+
+  .cars-card img {
+    height: 250px;
+  }
+
+  .cars-card-content {
+    margin-top: 250px;
+  }
+
+  .contact-info-section .contact-infos {
+    gap: 20px;
+  }
+
+  .contact-form-section .left-area {
+    min-height: 250px;
+  }
+
+  .contact-form-section .right-area {
+    padding: 50px;
+  }
+
+  .text-with-button .brand {
+    width: 70px;
+    height: 40px;
+  }
+
+  .text-with-button {
+    gap: 20px;
+  }
+
+  .single-description {
+    padding: 30px;
+    background-size: 300px;
+    background-position: top -50px right -50px;
+  }
+
+  .archive.cars-section {
+    background-size: 500px;
+  }
+}
+
+@media (max-width: 450px) {
+    .banner.homepage::before {
+      background-position: top -30px right -250px;
+    }
+
+  footer .legals-links .menu .menu-item {
+    width: 100%;
+  }
+
+  .contact-form-section .right-area {
+    padding: 30px;
+  }
+
+  .upper-header {
+    justify-content: center;
+  }
+
+  .swiper.single {
+    height: 300px;
+  }
+
+  footer .right-website-infos p {
+    /*flex-grow: 1;*/
+  }
+
+  footer .right-website-infos {
+    gap: 10px 50px;
+  }
+}

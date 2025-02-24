@@ -1,0 +1,186 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--clr-red);
+  color: var(--clr-white);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar {
+  background-color: var(--clr-very-light-grey);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--clr-black);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, p {
+  font-family: var(--ff-secondary);
+  font-size: var(--fs-body);
+  line-height: unset;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .button-primary, .button-secondary, .button-tertiary {
+  font-family: var(--ff-primary);
+  line-height: 1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+h1, .h1 {
+  font-size: var(--fs-very-big-title);
+}
+
+h2, .h2 {
+  font-size: var(--fs-big-title);
+}
+
+h3, .h3 {
+  font-size: var(--fs-title);
+}
+
+h4, .h4, h5, .h5, h6, .h6 {
+  font-size: var(--fs-small-title);
+}
+
+a {
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  letter-spacing: 0.05em;
+}
+
+ul, ol {
+  font-family: var(--ff-primary);
+}
+
+ul {
+  list-style-type: none;
+}
+
+.wrapper {
+  width: 100%;
+  padding-left: 50px;
+  padding-right: 50px;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  display: inherit;
+  justify-content: inherit;
+  align-items: inherit;
+  flex-direction: inherit;
+  flex-wrap: inherit;
+  gap: inherit;
+  z-index: inherit;
+}
+
+.wrapper-wide {
+}
+
+.wrapper-small {
+  max-width: 1000px;
+}
+
+.box {
+  padding-top: unset;
+  padding-bottom: 100px;
+}
+
+.box.offset-top .wrapper   {
+  /*padding: 80px;*/
+  /*margin-top: -120px;*/
+  background-color: var(--clr-white);
+  position: relative;
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-top: -120px;
+    /*position: unset;*/
+}
+
+
+.box.offset-top .wrapper {
+  padding-bottom: 100px;
+}
+
+.box.offset-top {
+  padding-bottom: unset;
+}
+
+a:focus {
+  background: var(--clr-white) !important;
+  /*background: unset !important;*/
+    color: var(--clr-black) !important;
+    /*color: unset !important;*/
+  /*outline: unset !important;*/
+  outline: 2px dotted black !important;
+  outline-offset: 2px;
+  text-decoration: unset !important;
+  transition: unset !important;
+}
+
+a:focus img {
+  outline: unset !important;
+}
+
+.site-header, .site-main, .widget-area, .site-footer {
+   padding-top: unset;
+   padding-bottom: unset;
+   margin-left: unset;
+   margin-right: unset;
+}
+.site-main > * {
+  margin-top: unset;
+  margin-bottom: unset;
+}
+
+.title-decoration {
+  position: relative;
+  z-index: 0;
+}
+
+.title-decoration::before {
+  content: "";
+  position: absolute;
+  background-size: contain;
+  width: 150px;
+  aspect-ratio: 1/1;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  opacity: .05;
+  background-image: url("../images/pictos/steering-wheel.png");
+  z-index: -1;
+  transform-origin: center;
+  animation: 8s rotate infinite;
+  animation-delay: 2s;
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0);
+  } 20% {
+      transform: translate(-50%, -50%) rotate(-360deg) ;
+  } 100% {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}

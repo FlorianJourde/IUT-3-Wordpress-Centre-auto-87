@@ -1,0 +1,159 @@
+
+.cars-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 50px;
+}
+
+.cars-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: var(--clr-very-light-grey);
+  overflow: hidden;
+}
+
+.archive.cars-section {
+  background-color: unset;
+  padding-top: 80px;
+  background-image: url("../images/background/centre-auto-87-logo-background.png");
+  background-position: right -100px bottom 50px;
+  background-size: 50vw;
+  background-repeat: no-repeat;
+}
+
+.cars-section .cars-card {
+  background-color: var(--clr-white);
+}
+
+.cars-card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  position: absolute;
+  transition: 1.5s;
+  filter: saturate(.5);
+}
+
+.cars-card::before {
+  content: "";
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  opacity: 0.25;
+}
+
+.cars-card.grow:hover img {
+  transform: scale(1.05);
+  filter: saturate(1);
+}
+
+.cars-card-content {
+  margin-top: 300px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  color: var(--clr-white);
+  background-color: var(--clr-black);
+  z-index: 1;
+  transition: var(--tr-primary);
+}
+
+.cars-card-title {
+  background-color: var(--clr-red);
+  padding: 25px;
+  margin-top: -25px;
+  margin-left: -25px;
+  margin-right: -25px;
+}
+
+.cars-card:hover .tags {
+transform: translateY(-120px);
+}
+
+
+.cars-card .tags {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  align-items: flex-start;
+  max-width: calc(100% - 50px);
+  flex-wrap: wrap;
+  z-index: 1;
+  transition: var(--tr-primary);
+}
+
+.cars-card .tag {
+  padding: 6px 12px;
+  font-size: var(--fs-accent);
+  background-color: var(--clr-red);
+  color: var(--clr-white);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.cars-card .tag.black {
+  background-color: var(--clr-black);
+  font-weight: 600;
+}
+
+.cars-card-content .description {
+  flex-grow: 1;
+}
+
+.cars-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+}
+
+#content .cars-card:hover .button-red.button-primary {
+  background-color: var(--clr-white);
+  color: var(--clr-red);
+}
+
+.pagination, .comments-pagination {
+  border: unset;
+  padding-top: unset;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.buttons-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.box.offset-top.brands-section .brands {
+  gap: 30px;
+}
+
+.box.offset-top.brands-section .wrapper {
+  padding-bottom: unset;
+}
+
+.text-with-button {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px 50px;
+  justify-content: space-between;
+}
+
+.text-with-button .brand {
+  width: 200px;
+  height: 100px;
+  object-fit: contain;
+
+}

@@ -1,0 +1,96 @@
+#content .button-primary, #content .button-secondary, #content .button-tertiary, .pagination .page-numbers, .contact-form-section .wpforms-submit-container .wpforms-submit {
+  display: inline-flex;
+  padding: 10px 20px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--clr-transparent);
+  font-family: var(--ff-primary);
+  text-transform: uppercase;
+  line-height: 1;
+  border-radius: unset;
+  transition: var(--tr-primary);
+}
+
+#content .button-red.button-primary:hover, .contact-form-section #wpforms-120 .wpforms-submit:hover {
+  transform: translate(5px, -5px);
+  background-color: var(--clr-white);
+  color: var(--clr-red);
+  box-shadow: -5px 5px 0 var(--clr-red);
+}
+
+.pagination .page-numbers.prev:hover, .pagination .page-numbers.next:hover {
+  transform: translate(5px, -5px);
+  background-color: var(--clr-white);
+  color: var(--clr-black);
+  box-shadow: -5px 5px 0 var(--clr-black);
+}
+
+#content .button-primary.button-big {
+  padding: 20px 30px;
+  font-size: var(--fs-title);
+}
+
+#content .button-primary.button-small {
+  padding: 6px 12px;
+  font-size: var(--fs-accent);
+}
+
+#content .button-red.button-primary, .pagination .page-numbers.prev, .pagination .page-numbers.next,  .pagination .page-numbers.current, .contact-form-section #wpforms-120 .wpforms-submit {
+  border-color: var(--clr-transparent);
+  color: var(--clr-white);
+  background-color: var(--clr-red);
+}
+
+#content .button-orange.button-primary {
+  border-color: var(--clr-transparent);
+  color: var(--clr-white);
+  background-color: var(--clr-orange);
+}
+
+#content .button-orange.button-primary:hover {
+  transform: translate(5px, -5px);
+  background-color: var(--clr-white);
+  color: var(--clr-orange);
+  box-shadow: -5px 5px 0 var(--clr-orange);
+}
+
+#content .button-green.button-primary {
+  border-color: var(--clr-transparent);
+  color: var(--clr-white);
+  background-color: var(--clr-green);
+}
+
+#content .button-green.button-primary:hover {
+  transform: translate(5px, -5px);
+  background-color: var(--clr-white);
+  color: var(--clr-green);
+  box-shadow: -5px 5px 0 var(--clr-green);
+}
+
+.pagination .page-numbers.prev, .pagination .page-numbers.next,  .pagination .page-numbers.current {
+  background-color: var(--clr-black);
+}
+
+#content .button-red.button-secondary {
+  background-color: var(--clr-transparent);
+  border-color: var(--clr-red);
+  color: var(--clr-red);
+}
+
+.page-numbers:not(.dots):hover {
+  border-color: 2px solid var(--clr-black);
+}
+
+#content .button-red.button-tertiary {
+  color: var(--clr-red);
+  background-color: var(--clr-transparent);
+  border-color: var(--clr-transparent);
+}
+
+.pagination .page-numbers {
+
+}
+
+.pagination .page-numbers {
+
+}

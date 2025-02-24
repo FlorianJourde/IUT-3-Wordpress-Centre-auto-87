@@ -1,0 +1,45 @@
+:root {
+  --clr-white: #ffffff;
+  --clr-black: #000000;
+  --clr-very-dark-grey: #151515;
+  --clr-dark-grey: #4e4e4e;
+  --clr-dark-yellow: #6a4a00;
+  --clr-yellow: #d28d00;
+  --clr-dark-red: #740511;
+  --clr-red: #c90b27;
+  --clr-orange: #ec5a13;
+  --clr-dark-green: #005e39;
+  --clr-green: #008952;
+  --clr-very-light-red: #ffc4c8;
+  --clr-transparent: #00000000;
+  --clr-light-grey: hsl(0, 0%, 90%);
+  --clr-very-light-grey: hsl(0, 0%, 95%);
+  --clr-grey: hsl(0, 0%, 50%);
+  --fs-very-big-title: 80px;
+  --fs-big-title: 40px;
+  --fs-title: 24px;
+  --fs-small-title: 18px;
+  --fs-body: 16px;
+  --fs-accent: 12px;
+  --ff-primary: "Gabarito", Arial, sans-serif;
+  /*--ff-secondary: Roboto, sans-serif;*/
+  --ff-secondary: "Outfit", Roboto, sans-serif;
+  /*--ff-secondary: "Manrope", Roboto, sans-serif;*/
+  /*--ff-secondary: "Onest", Roboto, sans-serif;*/
+  /*--bs-primary: 0 5px 10px 0 rgba(0,0,0,.05);*/
+  /*--bs-primary: 0 10px 50px 0 rgba(0,0,0,.1);*/
+  --bs-primary: 0 10px 30px 0 rgba(0,0,0,.05);
+  --bs-secondary: 0 10px 30px 0 rgba(0,0,0,.05);
+  --tr-primary: .4s cubic-bezier(.645,.045,.355,1);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --fs-very-big-title: 50px;
+    --fs-big-title: 26px;
+    --fs-title: 20px;
+    --fs-small-title: 16px;
+    --fs-body: 14px;
+    --fs-accent: 10px;
+  }
+}

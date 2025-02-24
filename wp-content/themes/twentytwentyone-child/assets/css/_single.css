@@ -1,0 +1,168 @@
+
+.single-container {
+  gap: 50px;
+}
+
+.single-article {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 50px;
+  align-items: flex-start;
+}
+
+.box .wrapper > .single-article {
+    /*padding-bottom: 100px;*/
+}
+
+.single-container .left-area {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 50px;
+  width: 100%;
+}
+
+
+.single-container .left-area .description {
+  flex-direction: column;
+  gap: 30px;
+  display: flex;
+}
+
+.single-container .right-area {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+  padding: 30px;
+  gap: 30px;
+  width: 100%;
+  position: sticky;
+  top: 140px;
+  transition: top .4s;
+}
+
+
+.single-container .right-area.header-hidden {
+    top: 50px;
+}
+
+.single-container .right-area .row {
+  display: flex;
+  gap: 20px;
+}
+
+.single-container .right-area .row.seller {
+  background-color: var(--clr-red);
+  padding: 30px;
+  margin-left: -30px;
+  margin-right: -30px;
+  margin-bottom: -30px;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--clr-white);
+  transition: var(--tr-primary);
+}
+
+.single-container .right-area .row.seller:first-child {
+  margin-top: -30px;
+}
+
+.single-container .right-area .row.seller:hover {
+  background-color: var(--clr-dark-red);
+}
+
+.single-container .right-area .row.seller img {
+  height: 50px;
+  width: 70px;
+}
+
+.single-container .right-area .details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.single-container .right-area img {
+  filter: invert(1);
+  height: 25px;
+  width: 25px;
+  object-fit: contain;
+}
+
+.single-container .right-area img.brand {
+    filter: invert(1) hue-rotate(180deg);
+  /*filter: saturate(0) brightness(5);*/
+    /*filter: unset;*/
+    /*background-color: var(--clr-white);*/
+    /*padding: 5px;*/
+    /*border-radius: 50%;*/
+}
+
+.single-image img {
+  max-height: 500px;
+  width: 100%;
+  object-fit: contain;
+  background-color: var(--clr-very-light-grey);
+}
+
+.single-description {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  background-color: var(--clr-very-light-grey);
+  padding: 50px;
+  border-left: 3px solid var(--clr-red);
+  background-size: 400px;
+  background-position: top -100px right -50px;
+  background-repeat: no-repeat;
+  background-image: url("../images/background/gear-background.png");
+}
+
+.single-description .content > * {
+  padding: 20px 30px;
+  display: flex;
+  gap: 30px;
+}
+
+.single-description .content > *:nth-child(odd) {
+  background-color: var(--clr-white);
+}
+
+.single-description .row {
+  align-items: center;
+}
+
+.single-description .row .details {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.single-description .row .details .color-preview {
+  width: 15px;
+  display: inline-block;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  background-color: var(--clr-grey);
+  margin-right: 15px;
+  border: 2px solid var(--clr-white);
+  margin-bottom: -1px;
+}
+
+.single-description .row img {
+  height: 35px;
+  width: 35px;
+  object-fit: contain;
+}
+
+.single-container-images {
+  background-color: var(--clr-black);
+}
+
+.cars-section {
+  background-color: var(--clr-very-light-grey);
+  flex-direction: column;
+  display: flex;
+  gap: 80px;
+}

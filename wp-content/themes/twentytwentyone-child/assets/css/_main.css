@@ -1,0 +1,408 @@
+body {
+  background-color: var(--clr-white);
+}
+
+section  {
+  padding-top: 150px;
+  padding-bottom: 150px;
+}
+
+.banner {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+  position: relative;
+  /*z-index: -1;*/
+  z-index: 0;
+  text-shadow: 0 10px 50px var(--clr-black);
+}
+
+.banner-image {
+  background-size: cover;
+  background-attachment: fixed;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  filter: saturate(0.5);
+}
+
+.banner-single {
+  overflow-y: hidden;
+}
+
+.banner-single .banner-image {
+  /*filter: saturate(0.5) blur(20px);*/
+  filter: saturate(0.5) blur(5px);
+}
+
+.banner::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--clr-black);
+  opacity: .5;
+}
+
+.banner .wrapper {
+  z-index: 1;
+}
+
+.banner.homepage {
+  padding-top: 300px;
+  padding-bottom: 150px;
+  background-position: bottom;
+}
+
+.banner.wide {
+  padding-bottom: 250px;
+}
+
+.banner.homepage::before {
+  content: '';
+  background-image: url("../images/background/car-headlights.png");
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 1500px;
+  background-position: top -60px right -350px;
+  background-repeat: no-repeat;
+  mix-blend-mode: screen;
+  z-index: 1;
+  animation: 6s linear light infinite;
+  animation-delay: 2s;
+  opacity: 0;
+}
+
+@keyframes light {
+  0% {
+    opacity: 0
+  }
+  1%
+  {
+    opacity: .5;
+  }
+  2%
+  {
+    opacity: 0;
+  }
+  4%
+  {
+    opacity: .5;
+  }
+  5%
+  {
+    opacity: 0;
+  }
+  6%
+  {
+    opacity: 1;
+  }
+  70%
+  {
+    opacity: 1;
+  }
+  71%
+  {
+    opacity: .5;
+  }
+  72%
+  {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.banner-single h1 {
+  font-size: var(--fs-big-title);
+}
+
+.image-decoration-section .page
+{
+  display: flex;
+  gap: 150px;
+}
+
+.image-decoration-section.image-decoration-left .page {
+  flex-direction: row-reverse;
+}
+
+.image-decoration-section+.image-decoration-section {
+  padding-top: unset;
+}
+
+.image-decoration-section .left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.image-decoration-section .right-section {
+}
+
+
+.image-decoration-section .left-section p:first-of-type {
+  font-weight: 500;
+}
+
+.image-decoration-section .left-section h2 {
+  font-size: var(--fs-big-title);
+  color: var(--clr-red);
+  margin-bottom: 30px;
+}
+.image-decoration-section .left-section a {
+margin-top: 30px;
+}
+
+.image-decoration {
+  position: relative;
+}
+
+.image-decoration::before {
+  content: "";
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  width: 100%;
+  height: 100%;
+  background-color: var(--clr-red);
+}
+
+.image-decoration-section.image-decoration-left .image-decoration::before {
+  left: unset;
+  right: 30px;
+}
+
+.image-decoration img {
+  position: relative;
+  height: 100%;
+  max-width: 500px;
+  object-fit: cover;
+}
+
+.image-decoration-section.leboncoin-section  .left-section h2 {
+    color:  var(--clr-orange);
+}
+
+.image-decoration-section.leboncoin-section .image-decoration::before {
+  background-color: var(--clr-orange);
+}
+
+/*#content .image-decoration-section.leboncoin-section .button-red.button-primary {*/
+/*    background-color: var(--clr-orange);*/
+/*}*/
+
+.numbers-section {
+  padding-top: unset;
+}
+
+.numbers-section .box {
+  padding: 80px;
+  background-color: var(--clr-black);
+  gap: 80px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  background-image: url("../images/background/centre-auto-87-logo-background-white.png");
+  background-position: left -50px bottom -50px;
+  background-size: 800px;
+  background-repeat: no-repeat;
+}
+
+.numbers-section .number-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.numbers-section .number-details img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 20px;
+}
+
+.numbers-section .number-details h3 {
+  color: var(--clr-white);
+  font-size: var(--fs-big-title);
+}
+
+.numbers-section .number-details p {
+  color: var(--clr-light-grey);
+  font-family: var(--ff-primary);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+
+.brands-section {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.brands-section .brands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.brands-section .brands .brand {
+  max-height: 60px;
+  max-width: 100px;
+  object-fit: contain;
+  filter: saturate(0);
+  opacity: .5;
+  transition: var(--tr-primary);
+}
+
+.brands-section .brands .brand:hover {
+  opacity: 1;
+  filter: saturate(1);
+}
+
+.testimonials-section {
+  background-color: var(--clr-very-light-grey);
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  align-items: center;
+  background-image: url("../images/background/guillemets-top-picto.png"), url("../images/background/guillemets-bottom-picto.png");
+  background-position: top 100px left 20%, bottom 100px right 20%;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 500px, 500px;
+}
+
+.action-section, .partner-section {
+  display: flex;
+  gap: 150px;
+  position: relative;
+  z-index: 1;
+  background-image: url("../images/photo/carpark-4.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: space-between;
+}
+
+.action-section::after, .partner-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--clr-black);
+  opacity: .75;
+}
+
+.partner-section {
+  background-image: url("../images/photo/limoges-csp-stadium.jpg");
+}
+
+.partner-section img {
+  max-width: 250px;
+  object-fit: contain;
+  border: 10px solid var(--clr-white);
+  border-radius: 50%;
+}
+
+.partner-section .right-area {
+  align-items: flex-start;
+}
+
+.action-section .wrapper > *, .partner-section .wrapper > * {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 550px;
+}
+
+.partner-section .wrapper > * {
+  max-width: unset;
+}
+
+.action-section .right-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.partner-section .right-area {
+  /*align-items: center;*/
+}
+
+.action-section h2, .action-section p, .partner-section h2, .partner-section p {
+  color: var(--clr-white);
+}
+
+.partner-section h2 {
+    line-height: initial;
+}
+
+.partner-section h2 span {
+    font-size: var(--fs-very-big-title);
+}
+
+.action-section .button-primary {
+  display: inline-block;
+}
+
+.road-separator {
+  height: 50px;
+  min-height: 75px;
+  background-image: url("../images/background/road.svg");
+  background-position: bottom;
+  background-repeat: repeat-x;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.car-picto {
+  width: 180px;
+  object-fit: contain;
+  position: absolute;
+  left: 60%;
+  bottom: 10px;
+  transform: translateX(-100vw);
+  transition: 3s cubic-bezier(.645,.045,.355,1);
+}
+
+.car-picto.right {
+  transform: translateX(100vw);
+  right: 60%;
+  left: unset;
+}
+
+.car-picto.show {
+  transform: translateX(0);
+}
+
+.page-section h2 {
+  margin-bottom: 50px;
+  font-size: var(--fs-very-big-title);
+  color: var(--clr-red);
+}
+
+.error404 main p {
+  margin-bottom: unset;
+  font-size: var(--fs-small-title);
+}

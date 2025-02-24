@@ -1,0 +1,22 @@
+/*
+Theme Name: Centre auto 87
+Theme URI: https://wordpress.org/themes/twentytwentythree
+Author: Florian Jourde
+Author URI: https://florianjourde.com
+Description: Un thème sur-mesure développé pour Centre auto 87.
+Template: twentytwentyone
+Version: 1.0.0
+*/
+
+@import "assets/css/_root.css";
+@import "assets/css/_reset.css";
+@import "assets/css/_buttons.css";
+@import "assets/css/_contact.css";
+@import "assets/css/_archive.css";
+@import "assets/css/_legals.css";
+@import "assets/css/_single.css";
+@import "assets/css/_slider.css";
+@import "assets/css/_header.css";
+@import "assets/css/_main.css";
+@import "assets/css/_footer.css";
+@import "assets/css/_responsive.css";
