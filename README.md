@@ -5,7 +5,7 @@
 ## ![Informations](https://img.shields.io/badge/Informations-383d42?style=for-the-badge)
 
 **Date** : Mai 2025  
-**Session** : MMI 1 2024/2025  
+**Session** : MMI 1  
 **Intervenant** : Florian Jourde  
 **Contact** : [jourdeflorian@gmail.com](www.jourdeflorian@gmail.com)  
 
