@@ -1,11 +1,11 @@
-![Centre auto 87 banner](/wp-content/themes/twentytwentyone-child/assets/images/centre-auto-87.jpg)
+![Centre auto 87 banner](/wp-content/themes/twentytwentyone-child/assets/images/iut-wordpress-banner-website.png)
 
 ![WordPress Badge](https://img.shields.io/badge/Wordpress-21759B?style=flat-square&logo=wordpress) ![PHP Badge](https://img.shields.io/badge/PHP-777BB4?style=flat-square&logo=php&logoColor=white) ![CSS Badge](https://img.shields.io/badge/CSS-1572B6?style=flat-square&logo=css3&logoColor=white) ![JavaScript Badge](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 
 ## ![Informations](https://img.shields.io/badge/Informations-383d42?style=for-the-badge)
 
-**Date** : Mai 2024  
-**Session** : MMI 1 2023/2024  
+**Date** : Mai 2025  
+**Session** : MMI 1 2024/2025  
 **Intervenant** : Florian Jourde  
 **Contact** : [jourdeflorian@gmail.com](www.jourdeflorian@gmail.com)  
 
